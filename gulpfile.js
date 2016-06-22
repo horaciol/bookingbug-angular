@@ -77,7 +77,7 @@ gulp.task('shims', function() {
 });
 
 gulp.task('stylesheets', function() {
-  css_stream = gulp.src(mainBowerFiles({filter: new RegExp('.css$')}))
+  css_stream = gulp.src(mainBowerFiles('**/*.css'))
   sass_stream = gulp.src('src/*/stylesheets/main.scss')
     .pipe(sass({errLogToConsole: true}))
     .pipe(flatten())
@@ -166,7 +166,7 @@ gulp.task('bower', function() {
 });
 
 gulp.task('dependencies', ['bower'], function() {
-  return gulp.src(mainBowerFiles({filter: new RegExp('.js$')}))
+  return gulp.src(mainBowerFiles('**/*.js'))
     .pipe(concat('bookingbug-angular-dependencies.js'))
     .pipe(gulp.dest('release'));
 });
