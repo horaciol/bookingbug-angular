@@ -1,8 +1,9 @@
-<div bb-events="{mode: 2}" ng-init="bb.basket.clear()">
+<!-- bb-events -->
+<section bb-events="{mode: 2}" ng-init="bb.basket.clear()">
 
-  <div class="page-header">
+  <header class="page-header">
     <h1>Events at {{company.name}} das</h1>
-  </div>
+  </header>
 
   <div class="alert alert-info" bb-time-zone ng-show="is_time_zone_diff">
     All times are shown in {{time_zone_name}}.
@@ -10,245 +11,426 @@
 
   <!-- <div bb-month-picker day-data="item_dates"></div> -->
 
-  <div class="events" ng-show="items" bb-scroll-to="page:changed" bb-always-scroll>
+  <!-- Events -->
+  <div class="events"
+    ng-show="items"
+    bb-scroll-to="page:changed"
+    bb-always-scroll>
 
-  <div class="bb-filters" ng-show="items">
+    <!-- /BB Filters -->
+    <section class="bb-filters" ng-show="items">
+      <section accordion>
+        <div
+          accordion-group
+          is-open="is_open"
+          ng-class="{'expanded': is_open, 'selected': is_selected}"
+          class="store-body">
 
-    <div accordion>
-      <div accordion-group is-open="is_open" ng-class="{'expanded': is_open, 'selected': is_selected}" class="store-body">
-        <div accordion-heading class="filter-header">
-          <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-          <span>Filter</span>
-        </div>
+          <!-- Accordion heading -->
+          <header accordion-heading class="filter-header">
+            <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+            <span>Filter</span>
+          </header><!-- /Accordion heading -->
 
+          <!-- Events Filters Form -->
           <form class="form-inline">
 
+            <!-- Category -->
             <div class="form-group">
-              <label class="sr-only" for="event_group">Category</label>
-              <select class="form-control" name="event_group" id="event_group" ng-model="filters.event_group" ng-options="event_group.name for (id, event_group) in event_groups" ng-change="filterChanged()">
+
+              <label class="sr-only" for="event_group">
+                Category
+              </label>
+
+              <select
+                class="form-control"
+                name="event_group"
+                id="event_group"
+                ng-model="filters.event_group"
+                ng-options="event_group.name for (id, event_group) in event_groups"
+                ng-change="filterChanged()">
                 <option value="">Any Category</option>
               </select>
-            </div>
 
-          <div class="form-group" ng-repeat="check_filter in dynamic_filters.check">
-            <label class="sr-only" for="event_group">{{select_filter.name}}</label>
-            <select class="form-control" name="check_filter" id="check_filter" ng-model="dynamic_filters.values[check_filter.name]" ng-options="answer.name for answer in check_filter.question_items | orderBy: 'name'" ng-change="filterChanged()">
-              <option value="">&mdash; Any {{check_filter.name}} &mdash;</option>
-            </select>
-          </div>
+            </div><!-- /Category -->
 
-          <div class="form-group" ng-repeat="select_filter in dynamic_filters.select" ng-show="has_company_questions">
-            <label class="sr-only" for="event_group">{{select_filter.name}}</label>
-            <select class="form-control" name="select_filter" id="select_filter" ng-model="dynamic_filters.values[select_filter.name]" ng-options="answer.name for answer in select_filter.question_items" ng-change="filterChanged()">
-              <option value="">&mdash; Any {{select_filter.name}} &mdash;</option>
-            </select>
-          </div>
+            <!-- Filters -->
+            <div class="form-group"
+              ng-repeat="check_filter in dynamic_filters.check">
 
+              <label class="sr-only" for="event_group">
+                {{select_filter.name}}
+              </label>
 
-          <div class="form-group calendar">
-            <label class="sr-only" for="date">Date</label>
-            <div class="input-group date-picker">
-              <!-- date format: http://docfiddich.angularjs.org/api/ng.filter:date" -->
-              <input type="text" ng-model="selected_date" class="form-control"
-                bb-datepicker-popup="DD/MM/YYYY"
-                datepicker-popup="dd/MM/yyyy"
-                is-open="opened"
-                min-date="today"
-                on-date-change="selectedDateChanged()"
-                datepicker-options="{'starting-day': 1, 'show-button-bar': false}"
-                show-weeks="false"
-                show-button-bar="false"
-                ng-readonly="true"
-                name="date"
-                id="date"
-                placeholder="&mdash; Any Date &mdash;"/>
-              <span class="input-group-btn" ng-click="$event.preventDefault(); $event.stopPropagation(); opened=!opened;">
-                <button class="btn btn-default" type="submit" title="Pick date">
-                  <span class="fa fa-calendar-o"></span>
-                </button>
-              </span>
-            </div>
-          </div>
+              <select class="form-control"
+                name="check_filter"
+                id="check_filter"
+                ng-model="dynamic_filters.values[check_filter.name]"
+                ng-options="answer.name for answer in check_filter.question_items | orderBy: 'name'"
+                ng-change="filterChanged()">
+                <option value="">&mdash; Any {{check_filter.name}} &mdash;</option>
+              </select>
 
+            </div><!-- /Filters -->
+
+            <!-- Filters -->
+            <div
+              class="form-group"
+              ng-repeat="select_filter in dynamic_filters.select"
+              ng-show="has_company_questions">
+
+              <label class="sr-only" for="event_group">
+                {{select_filter.name}}
+              </label>
+
+              <select class="form-control"
+                name="select_filter"
+                id="select_filter"
+                ng-model="dynamic_filters.values[select_filter.name]"
+                ng-options="answer.name for answer in select_filter.question_items"
+                ng-change="filterChanged()">
+                <option value="">&mdash; Any {{select_filter.name}} &mdash;</option>
+              </select>
+
+            </div><!-- /Filters -->
+
+            <!-- Calendar -->
+            <div class="form-group calendar">
+
+              <label class="sr-only" for="date">
+                Date
+              </label>
+
+              <div class="input-group date-picker">
+                <!-- date format: http://docfiddich.angularjs.org/api/ng.filter:date" -->
+
+                <input
+                  type="text"
+                  ng-model="selected_date"
+                  class="form-control"
+                  bb-datepicker-popup="DD/MM/YYYY"
+                  datepicker-popup="dd/MM/yyyy"
+                  is-open="opened"
+                  min-date="today"
+                  on-date-change="selectedDateChanged()"
+                  datepicker-options="{'starting-day': 1, 'show-button-bar': false}"
+                  show-weeks="false"
+                  show-button-bar="false"
+                  ng-readonly="true"
+                  name="date"
+                  id="date"
+                  placeholder="&mdash; Any Date &mdash;"/>
+
+                <span
+                  class="input-group-btn"
+                  ng-click="$event.preventDefault(); $event.stopPropagation(); opened=!opened;">
+                  <button
+                    class="btn btn-default"
+                    type="submit"
+                    title="Pick date">
+                    <span class="fa fa-calendar-o"></span>
+                  </button>
+                </span>
+
+              </div>
+
+            </div><!-- Calendar -->
+
+            <!-- Price -->
             <div class="form-group">
+
               <label class="sr-only" for="price">Price</label>
-              <select class="form-control" name="price" id="price" ng-model="filters.price" ng-options="price as (price | currency) for price in price_options" ng-change="filterChanged()">
+
+              <select
+                class="form-control"
+                name="price"
+                id="price"
+                ng-model="filters.price"
+                ng-options="price as (price | currency) for price in price_options"
+                ng-change="filterChanged()">
                 <option value="">Any Price</option>
               </select>
-            </div>
 
+            </div><!-- /Price -->
 
+            <!-- Sold Out Events -->
             <div class="form-group">
-              <button type="button" class="btn btn-link" ng-click="filters.hide_sold_out_events =! filters.hide_sold_out_events; filterChanged()">
-                <span ng-hide="filters.hide_sold_out_events" class="">
-                  <span class="glyphicon glyphicon-eye-close" aria-hidden="true">
-                  </span>
-                   Hide Sold Out Events
-                </span>
-                <span ng-show="filters.hide_sold_out_events">
-                  <span class="glyphicon glyphicon-eye-open " aria-hidden="true">
-                  </span>
-                   Show Sold Out Events
-                </span>
-              </button>
-            </div>
 
+              <button
+                type="button"
+                class="btn btn-link"
+                ng-click="filters.hide_sold_out_events =! filters.hide_sold_out_events; filterChanged()">
+
+                  <span ng-hide="filters.hide_sold_out_events" class="">
+                    <span class="glyphicon glyphicon-eye-close" aria-hidden="true">
+                    </span>
+                     Hide Sold Out Events
+                  </span>
+
+                  <span ng-show="filters.hide_sold_out_events">
+                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true">
+                    </span>
+                     Show Sold Out Events
+                  </span>
+
+              </button>
+
+            </div><!-- /Sold Out Events -->
+
+            <!-- /Reset -->
             <div class="form-group">
-              <button type="button" class="btn btn-link" ng-click="resetFilters()">
-                <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-                Reset
+              <button
+                type="button"
+                class="btn btn-link"
+                ng-click="resetFilters()">
+                  <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                Resett
               </button>
-            </div>
+            </div><!-- /Reset -->
 
-          </form>
+          </form><!-- /Events Filters Form -->
 
-        </div>
-      </div>
+        </div><!-- /Accordion group -->
+      </section><!-- /accordion -->
+    </section><!-- /BB Filters -->
 
-    </div>
 
-    <div class="panel panel-default bb-filter-summary">
+
+
+    <!-- Filtes summary -->
+    <section class="panel panel-default bb-filter-summary">
+
       <div class="panel-body">
         <div class="row" ng-if="filtered_items.length > 0">
+
           <div class="col-xs-8">
             <span ng-show="!filter_active">Showing all events</span>
             <span ng-show="filter_active">Showing filtered events</span>
-          </div>
+          </div><!-- /col -->
+
           <div class="col-xs-4 text-right">
             {{pagination.summary}}<span class="hidden-xs" >events</span>
             <span class="hidden-xs">
-              <button type="button" class="btn btn-icon" ng-disabled="!$root.tiles" ng-click="$root.tiles = !$root.tiles"><span class="glyphicon glyphicon-th-list" aria-hidden="true" ></span></button>
-              <button type="button" class="btn btn-icon" ng-disabled="$root.tiles"  ng-click="$root.tiles = !$root.tiles"><span class="glyphicon glyphicon-th-large" aria-hidden="true" ></span></button>
-            </span>
-            </div>
-          </div>
-        </div>
-        <div class="row" ng-show="filtered_items.length == 0">
-          <div class="col-xs-12">
-            No events found
-          </div>
-        </div>
-      </div>
-    </div>
 
-   <!--  Gift Cert Button (Needs Styling) -->
-   <div ng-if="bb.company_settings.has_vouchers">
-      <button type="button" ng-click="showPage('deal_list')" class="btn btn-primary btn-block">
+              <button
+                type="button"
+                class="btn btn-icon"
+                ng-disabled="!$root.tiles"
+                ng-click="$root.tiles = !$root.tiles">
+                  <span class="glyphicon glyphicon-th-list" aria-hidden="true" ></span>
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-icon"
+                ng-disabled="$root.tiles"
+                ng-click="$root.tiles = !$root.tiles">
+                  <span class="glyphicon glyphicon-th-large" aria-hidden="true" ></span>
+              </button>
+
+            </span>
+          </div><!-- /col -->
+
+        </div><!-- /row -->
+      </div><!-- /panel body -->
+
+      <div class="row" ng-show="filtered_items.length == 0">
+        <div class="col-xs-12">
+          No events found
+        </div>
+      </div><!-- /row -->
+
+    </section><!-- /Filtes summary -->
+
+
+
+
+     <!--  Gift Cert Button (Needs Styling) -->
+    <section ng-if="bb.company_settings.has_vouchers">
+      <button
+        type="button"
+        ng-click="showPage('deal_list')"
+        class="btn btn-primary btn-block">
         <span>Buy Gift Certificates </span>
       </button>
-    </div>
+    </section><!-- /Gift Cert Button -->
 
-    <div class="bb-events-list row">
-      <div ng-repeat="item in filtered_items | startFrom: (pagination.current_page - 1) * pagination.page_size | limitTo: pagination.page_size" ng-init="spaces_left = item.getSpacesLeft()" ng-show="pagination.num_items > 0">
-        <div class="panel panel-default bb-event-card" ng-class="{'col-sm-6 col-md-4 col-lg-3':$root.tiles}">
-          <div class="panel-body" style="padding: 20px;">
-            <div class="row">
-              <div ng-class="{'col-sm-3':!$root.tiles}">
+
+
+
+    <!-- Events list -->
+    <section class="bb-events-list container-fluid">
+      <div class="row">
+        <div
+          ng-repeat="item in filtered_items | startFrom: (pagination.current_page - 1) * pagination.page_size | limitTo: pagination.page_size"
+          ng-init="spaces_left = item.getSpacesLeft()"
+          ng-show="pagination.num_items > 0">
+
+          <div
+            class="panel panel-default bb-event-card"
+            ng-class="{'col-sm-6 col-md-4 col-lg-3':$root.tiles}">
+
+            <div class="panel-body">
+              <div class="row">
+
+                <div ng-class="{'col-sm-3':!$root.tiles}">
                  <div class="event-img" bb-background-image="item.group.getImages()[0].url">
-                  <time datetime="{{item.date | datetime: 'YY[-]MM[-]DD'}}" class="icon" ng-click="selectItem(item)">
-                    <em>{{item.date | datetime: 'dddd' : false}}</em>
-                    <span class="date">{{item.date | datetime: 'DD'}}</span>
-                    <strong class="date">{{item.date | datetime: 'MMMM'}}</strong>
-                    <span class="time">{{item.date | datetime: 'h[:]mm'}}</span>
-                    <strong class="time">{{item.date | datetime: 'a'}}</strong>
-                  </time>
-                </div>
-              </div>
-              <div ng-class="{'col-sm-9':!$root.tiles}">
-                <div class="row">
-                  <div class="col-sm-12 event-title">
-                    <h3 class="truncate-sm">{{item.description}}</h3>
+                    <time datetime="{{item.date | datetime: 'YY[-]MM[-]DD'}}" class="icon" ng-click="selectItem(item)">
+                      <em>{{item.date | datetime: 'dddd' : false}}</em>
+                      <span class="date">{{item.date | datetime: 'DD'}}</span>
+                      <strong class="date">{{item.date | datetime: 'MMMM'}}</strong>
+                      <span class="time">{{item.date | datetime: 'h[:]mm'}}</span>
+                      <strong class="time">{{item.date | datetime: 'a'}}</strong>
+                    </time>
                   </div>
-                </div>
-                <div class="row event-details">
-                  <ul>
-                    <li class="col-xs-6 truncate-xs" ng-class="{'col-sm-4':!$root.tiles}">
-                      <span class="fa fa-calendar-o"></span>
-                      <span class="hidden-xs hidden-sm" ng-class="{'hidden-md':$root.tiles, 'hidden-lg':$root.tiles}">{{item.date | datetime: 'dddd '}}</span>
-                      <span class="truncate-xs hidden-md hidden-lg">{{item.date | datetime: 'Do MMMM '}}</span>
-                      <span class="truncate-xs hidden-xs hidden-sm">{{item.date | datetime: 'Do MMM '}}</span>
-                      <span class="hidden-xs hidden-sm" ng-class="{'hidden-md':$root.tiles, 'hidden-lg':$root.tiles}">{{item.date | datetime: 'YYYY'}}</span>
-                    </li>
-                    <li class="col-xs-6 truncate-xs" ng-class="{'col-sm-4':!$root.tiles}">
-                      <span class="fa fa-clock-o" aria-hidden="true"></span>
-                      <span ng-bind="item.date | datetime: 'h[:]mma'"></span>
-                      <span class="hidden-sm" ng-class="{'hidden-lg':$root.tiles, 'hidden-md':$root.tiles}">-</span>
-                      <span class="hidden-sm" ng-class="{'hidden-lg':$root.tiles, 'hidden-md':$root.tiles}" ng-bind="item.end_datetime | datetime: 'h[:]mma'"></span>
-                    </li>
-                    <li class="hidden-xs truncate-xs" ng-class="{'col-sm-4':!$root.tiles, 'hidden-sm':$root.tiles, 'hidden-md':$root.tiles, 'hidden-lg':$root.tiles}">
-                      <span class="fa fa-hourglass-half"></span>
-                      <span ng-bind="item.duration | time_period"></span>
-                    </li>
-                    <li class="col-xs-6 truncate-xs" ng-class="{'col-sm-4':!$root.tiles}">
-                      <span ng-if="spaces_left > 0" class="fa fa-users" aria-hidden="true"></span>
-                      <span ng-if="spaces_left < 1" class="fa fa-ban" aria-hidden="true"></span>
-                      <span>
-                        <span ng-if="spaces_left > 0" ng-bind="spaces_left"></span>
-                        <span ng-if="spaces_left < 1" ng-bind="'No'"></span> space<span ng-if="spaces_left > 1 || spaces_left < 1" ng-bind="'s'"></span>
-                        <span ng-class="{'hidden-lg':$root.tiles, 'hidden-md':$root.tiles}">left</span>
-                      </span>
-                    </li>
-                    <li class="col-xs-6 truncate-xs" ng-class="{'col-sm-4':!$root.tiles}">
-                      <span class="fa fa-ticket" aria-hidden="true"></span>
-                      <span>
-                        <span ng-show="item.price_range && (item.price_range.from != item.price_range.to) && item.price_range.from && !item.price">From {{item.price_range.from | ipretty_price}}</span>
+                </div><!-- /col -->
 
-                        <span ng-show="item.price_range && (item.price_range.from == item.price_range.to) || !item.price && !item.price_range.from">{{item.price_range.from | ipretty_price}}</span>
-                      </span>
-                    </li>
-                    <li class="hidden-xs truncate-xs " ng-class="{'col-sm-4':!$root.tiles, 'col-sm-12':$root.tiles}">
-                      <span class="fa fa-map-marker" aria-hidden="true"></span>
-                      <span>
-                        {{bb.current_item.company.name}}
-                      </span>
-                      <span ng-if="$root.tiles">
-                        {{bb.current_item.company.getAddress().address4}}
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-                <div class="row">
-                  <div class="event-description col-xs-12" ng-bind="item.chain.description" style="max-height: none; line-height: 1em; height:3em; margin-bottom: 20px; overflow:hidden"  ng-class="{'col-sm-8':!$root.tiles}"></div>
-                  <div class="event-select col-xs-12"  ng-class="{'col-sm-4':!$root.tiles}">
-                    <button type="button" ng-click="selectItem(item)" class="btn btn-primary btn-block" ng-disabled="spaces_left == 0 && !bb.company.settings.has_waitlists">
-                      <span ng-show="spaces_left > 0">Book Event</span>
-                      <div ng-show="spaces_left <= 0 && !bb.company.settings.has_waitlists">
-                        <span class="status-sold-out">Sold out</span>
-                      </div>
-                      <div ng-show="spaces_left <= 0 && bb.company.settings.has_waitlists">
-                        <span>Join Waitlist</span>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                <div ng-class="{'col-sm-9':!$root.tiles}">
+
+                  <div class="row">
+                    <div class="col-sm-12 event-title">
+                      <h3 class="truncate-sm">{{item.description}}</h3>
+                    </div>
+                  </div><!-- /row -->
+
+                  <!-- Events details -->
+                  <div class="row event-details">
+                    <ul>
+
+                      <li class="col-xs-6 truncate-xs" ng-class="{'col-sm-4':!$root.tiles}">
+                        <span class="fa fa-calendar-o"></span>
+                        <span class="hidden-xs hidden-sm" ng-class="{'hidden-md':$root.tiles, 'hidden-lg':$root.tiles}">{{item.date | datetime: 'dddd '}}</span>
+                        <span class="truncate-xs hidden-md hidden-lg">{{item.date | datetime: 'Do MMMM '}}</span>
+                        <span class="truncate-xs hidden-xs hidden-sm">{{item.date | datetime: 'Do MMM '}}</span>
+                        <span class="hidden-xs hidden-sm" ng-class="{'hidden-md':$root.tiles, 'hidden-lg':$root.tiles}">{{item.date | datetime: 'YYYY'}}</span>
+                      </li>
+
+                      <li class="col-xs-6 truncate-xs" ng-class="{'col-sm-4':!$root.tiles}">
+                        <span class="fa fa-clock-o" aria-hidden="true"></span>
+                        <span ng-bind="item.date | datetime: 'h[:]mma'"></span>
+                        <span class="hidden-sm" ng-class="{'hidden-lg':$root.tiles, 'hidden-md':$root.tiles}">-</span>
+                        <span class="hidden-sm" ng-class="{'hidden-lg':$root.tiles, 'hidden-md':$root.tiles}" ng-bind="item.end_datetime | datetime: 'h[:]mma'"></span>
+                      </li>
+
+                      <li class="hidden-xs truncate-xs" ng-class="{'col-sm-4':!$root.tiles, 'hidden-sm':$root.tiles, 'hidden-md':$root.tiles, 'hidden-lg':$root.tiles}">
+                        <span class="fa fa-hourglass-half"></span>
+                        <span ng-bind="item.duration | time_period"></span>
+                      </li>
+
+                      <li class="col-xs-6 truncate-xs" ng-class="{'col-sm-4':!$root.tiles}">
+                        <span ng-if="spaces_left > 0" class="fa fa-users" aria-hidden="true"></span>
+                        <span ng-if="spaces_left < 1" class="fa fa-ban" aria-hidden="true"></span>
+                        <span>
+                          <span ng-if="spaces_left > 0" ng-bind="spaces_left"></span>
+                          <span ng-if="spaces_left < 1" ng-bind="'No'"></span> space<span ng-if="spaces_left > 1 || spaces_left < 1" ng-bind="'s'"></span>
+                          <span ng-class="{'hidden-lg':$root.tiles, 'hidden-md':$root.tiles}">left</span>
+                        </span>
+                      </li>
+
+                      <li class="col-xs-6 truncate-xs" ng-class="{'col-sm-4':!$root.tiles}">
+                        <span class="fa fa-ticket" aria-hidden="true"></span>
+                        <span>
+                          <span ng-show="item.price_range && (item.price_range.from != item.price_range.to) && item.price_range.from && !item.price">From {{item.price_range.from | ipretty_price}}</span>
+
+                          <span ng-show="item.price_range && (item.price_range.from == item.price_range.to) || !item.price && !item.price_range.from">{{item.price_range.from | ipretty_price}}</span>
+                        </span>
+                      </li>
+
+                      <li class="hidden-xs truncate-xs " ng-class="{'col-sm-4':!$root.tiles, 'col-sm-12':$root.tiles}">
+                        <span class="fa fa-map-marker" aria-hidden="true"></span>
+                        <span>
+                          {{bb.current_item.company.name}}
+                        </span>
+                        <span ng-if="$root.tiles">
+                          {{bb.current_item.company.getAddress().address4}}
+                        </span>
+                      </li>
+
+                    </ul>
+                  </div><!-- /Events details -->
+
+                  <div class="row">
+
+                    <!-- Events description -->
+                    <div
+                      class="event-description col-xs-12"
+                      ng-bind="item.chain.description"
+                      style="max-height: none; line-height: 1em; height:3em; margin-bottom: 20px; overflow:hidden"  ng-class="{'col-sm-8':!$root.tiles}">
+                    </div><!-- /Events description -->
+
+                    <!-- Events select -->
+                    <div
+                      class="event-select col-xs-12"
+                      ng-class="{'col-sm-4':!$root.tiles}">
+                      <button type="button" ng-click="selectItem(item)" class="btn btn-primary btn-block" ng-disabled="spaces_left == 0 && !bb.company.settings.has_waitlists">
+
+                        <span ng-show="spaces_left > 0">Book Event</span>
+
+                        <div ng-show="spaces_left <= 0 && !bb.company.settings.has_waitlists">
+                          <span class="status-sold-out">Sold out</span>
+                        </div>
+
+                        <div ng-show="spaces_left <= 0 && bb.company.settings.has_waitlists">
+                          <span>Join Waitlist</span>
+                        </div>
+
+                      </button>
+                    </div><!-- /Events select -->
+
+                  </div><!-- /row -->
+
+                </div><!-- /col -->
+
+              </div><!-- /row -->
+            </div><!-- /panel body-->
+
+          </div><!-- /panel -->
+
+          <!-- /\/\/\/\/ -->
+          <!-- CLEARFIX! -->
+          <!-- /\/\/\/\/ -->
+
+          <div ng-if="(($index + 1) % 2) == 0" class="clearfix visible-sm"></div>
+          <div ng-if="(($index + 1) % 3) == 0" class="clearfix visible-md"></div>
+          <div ng-if="(($index + 1) % 4) == 0" class="clearfix visible-lg"></div>
+
         </div>
-
-        <!-- /\/\/\/\/ -->
-        <!-- CLEARFIX! -->
-        <!-- /\/\/\/\/ -->
-
-        <div ng-if="(($index + 1) % 2) == 0" class="clearfix visible-sm"></div>
-        <div ng-if="(($index + 1) % 3) == 0" class="clearfix visible-md"></div>
-        <div ng-if="(($index + 1) % 4) == 0" class="clearfix visible-lg"></div>
+      </div><!-- /row -->
+    </section><!-- /Events list -->
 
 
-      </div>
-    </div>
 
-    <pagination total-items="pagination.num_items" ng-model="pagination.current_page" items-per-page="pagination.page_size" max-size="pagination.max_size" boundary-links="true" rotate="false" num-pages="pagination.num_pages" ng-show="filtered_items" ng-change="pageChanged()"></pagination>
 
-  </div>
+    <pagination
+      total-items="pagination.num_items"
+      ng-model="pagination.current_page"
+      items-per-page="pagination.page_size"
+      max-size="pagination.max_size"
+      boundary-links="true"
+      rotate="false"
+      num-pages="pagination.num_pages"
+      ng-show="filtered_items"
+      ng-change="pageChanged()">
+    </pagination>
 
-</div>
+  </div><!-- /Events -->
 
-<div class="bb-step-navigation">
+</section><!-- /bb-events -->
+
+
+
+
+<!-- Step navigation -->
+<section class="bb-step-navigation">
   <div class="row">
     <div class="col-sm-3">
-      <button type="button" class="btn btn-default" bb-debounce ng-click="loadPreviousStep()" ng-show="bb.current_step > 1">Back</button>
+      <button type="button"
+        class="btn btn-default"
+          bb-debounce ng-click="loadPreviousStep()"
+            ng-show="bb.current_step > 1">
+          Back
+      </button>
     </div>
   </div>
-</div>
+</section><!-- /Step navigation -->
 
