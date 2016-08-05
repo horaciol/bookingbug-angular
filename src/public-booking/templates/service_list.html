@@ -1,54 +1,58 @@
 <div bb-services ng-init="checkStepTitle('Select a service')" class="bb-service-list">
   <div class="bb-subcontent">
 
-    <!-- <div ng-show="items.length > 8" bb-include="_service_list_filter">
-    </div> -->
+    <div ng-show="items.length > 10" bb-include="_service_list_filter">
+    </div>
+    <ul class="bb-list bb-list-bordered" ng-repeat="item in filtered_items">
+      <!-- If there is a service name only + button (this will always show if  services) -->
+      <li>
+        <div class="row" ng-show="item.name">
+          <h2 class="col-sm-9 col-md-10 panel-title bb-service-name">{{item.name}}</h2>
+          <div class="col-sm-3 col-md-2">
+            <button type="button" ng-click="selectItem(item)" class="btn btn-primary btn-block pull-right">Select</button>
+          </div>
+        </div>
 
-    <div class="panel panel-default" ng-repeat="item in filtered_items | orderBy: 'order'">
-      <div class="panel-body">
-        <div class="row" ng-class="{'bb-vertical-align-center': item.extra.image_url || item.description}">
-          <div class="col-sm-8 col-xs-6">
-            <h2 class="panel-title bb-service-name">{{item.name}}</h2>
-            <div class="row">
-              <div class="hidden-xs col-sm-2 bb-service-image" ng-if="item.extra.image_url">
-                <img ng-src="{{item.extra.image_url}}" class="img-responsive"/>
-              </div>
-              <div class="hidden-xs col-sm-10 bb-service-description" ng-if="item.description">
-                {{item.description}}
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-2 col-xs-6">
-            <div class="bb-service-price">
-              <span ng-show="item.price > 0">{{item.price | currency: bb.company.currency_code}}</span>
-            </div>
-          </div>
-          <div class="col-xs-12 hidden-sm hidden-md hidden-lg bbb-service-image" ng-if="item.extra.image_url">
-            <img ng-src="{{item.extra.image_url}}" class="img-responsive"/>
-          </div>
-          <div class="col-xs-12 hidden-sm hidden-md hidden-lg bb-service-description" ng-if="item.description">
+        <div class="row" ng-show="item.description && !item.price && !item.extra.image_url">
+          <div class="bb-service-description col-sm-12">
             {{item.description}}
           </div>
-          <div class="col-sm-2 col-xs-12">
-            <button type="button" ng-click="selectItem(item)" class="btn btn-primary btn-block">Select</button>
-          </div>
         </div>
-      </div>
-    </div>
-    <div>
-      <div class="panel-body" ng-show="filtered_items && filtered_items.length == 0">
-        <div class="col-sm-12 ">
-          <div class="bb-service-unavailable">
-            <p>
-              No services match your filter criteria.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-</div>
+        <div class="row" ng-show="(item.price > 0) && (item.description) && (!item.extra.image_url)">
+          <div class="bb-service-description col-sm-9">
+            {{item.description}}
+          </div>
+          <div class="bb-service-price col-sm-3">{{item.price | currency: bb.company.currency_code}}</div>
+        </div>
+
+        <div class="row" ng-show="item.extra.image_url && !item.description">
+          <div class="bb-service-image col-sm-12">
+            <img ng-src="{{item.extra.image_url}}" class="img-responsive"/>
+          </div>
+        </div>
+
+        <div class="row" ng-show="(item.extra.image_url) && (item.description) && !(item.price)">
+          <div class="bb-service-description col-sm-6">
+            {{item.description}}
+          </div>
+          <div class="bb-service-image col-sm-6">
+            <img ng-src="{{item.extra.image_url}}" class="img-responsive"/>
+          </div>
+        </div>
+
+        <div class="row" ng-show="(item.extra.image_url) && (item.description) && (item.price)">
+          <div class="bb-service-price col-sm-12 pull-right">{{item.price | currency: bb.company.currency_code}}</div>
+          <div class="bb-service-description col-sm-6">
+            {{item.description}}
+          </div>
+          <div class="bb-service-image col-sm-6">
+            <img ng-src="{{item.extra.image_url}}" class="img-responsive"/>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
 
 <div class="bb-step-navigation">
   <div class="row">
