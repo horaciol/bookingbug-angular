@@ -1,6 +1,6 @@
 {
   "name": "bookingbug-angular-admin-booking",
-  "version": "0.0.0",
+  "version": "master",
   "homepage": "https://github.com/BookingBug/bookingbug-angular-admin-booking-bower",
   "authors": [
     "Glenn Shoosmith <glenn@bookingbug.com>",
@@ -29,6 +29,7 @@
     "bookingbug-angular-core": "master",
     "bookingbug-angular-admin": "master",
     "fullcalendar": "~2.4.0",
-    "jquery": "~1.11.2"
+    "jquery": "~1.11.2",
+    "moment": "~2.13.0"
   }
 }

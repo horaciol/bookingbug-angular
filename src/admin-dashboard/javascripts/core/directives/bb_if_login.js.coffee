@@ -1,4 +1,4 @@
-angular.module('BBAdminDashboard.directives').directive 'bbIfLogin', ($modal, $log, $q,
+angular.module('BBAdminDashboard').directive 'bbIfLogin', ($modal, $log, $q,
   $rootScope, AdminCompanyService, $compile, $templateCache,
   ModalForm, BBModel) ->
 

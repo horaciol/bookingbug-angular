@@ -1,8 +1,8 @@
 'use strict'
 
-###
+###*
  * @ngdoc directive
- * @name BBAdminDashboard.directives.directive:adminLanguagePicker
+ * @name BBAdminDashboard.directive:adminLanguagePicker
  * @scope
  * @restrict A
  *
@@ -10,7 +10,7 @@
  * Responsible for providing a ui representation of available translations
  *
 ###
-angular.module('BBAdminDashboard.directives').directive 'adminLanguagePicker', [() ->
+angular.module('BBAdminDashboard').directive 'adminLanguagePicker', [() ->
   {
     restrict: 'A'
     templateUrl: 'core/admin-language-picker.html'

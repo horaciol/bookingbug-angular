@@ -1,4 +1,4 @@
-angular.module('BBAdminDashboard.directives').directive 'bbAdminDashboard', () ->
+angular.module('BBAdminDashboard').directive 'bbAdminDashboard', () ->
   restrict: 'AE'
   template: '<div ui-view></div>'
   controller: ['$scope', '$rootScope', '$element', '$window', '$compile', '$localStorage', 'AdminLoginService', '$state', 'AlertService', 'AdminCoreOptions',

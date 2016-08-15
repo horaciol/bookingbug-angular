@@ -1,5 +1,5 @@
 (function () {
-  module.exports = function (gulp, plugins, growl, path) {
+  module.exports = function (gulp, plugins, path) {
 
     var coffee = require('gulp-coffee'),
       concat = require('gulp-concat'),
@@ -159,8 +159,11 @@
         scripts: [
           'examples/booking-widget.js'
         ]
-      }
-      return gulp.src('src/*/javascripts/**')
+      };
+      return gulp.src([
+        './src/admin-dashboard/javascripts/**/*.js.coffee',
+        '!./src/*/javascripts/*.spec.js.coffee'
+      ])
         .pipe(gulpif(/.*coffee$/, coffee().on('error', gutil.log)))
         .pipe(gulpDocs.process(options))
         .pipe(gulp.dest('./docs'));
@@ -190,79 +193,6 @@
         singleRun: true
       }, done).start();
     });
-
-    var buildSdk = require('../../build.js');
-
-    gulp.task('build', function (cb) {
-      buildSdk()
-        .on('data', function (d) {
-        })
-        .on('error', function (e) {
-          return cb(e);
-        })
-        .on('end', function () {
-          return cb();
-        });
-    });
-
-    gulp.task('bowerWidget', ['build'], function () {
-      return bower({cwd: './build/booking-widget', directory: './bower_components'});
-    });
-
-    gulp.task('buildWidgetScript', ['bowerWidget'], function () {
-      return gulp.src(mainBowerFiles({
-        filter: new RegExp('.js$'),
-        paths: {
-          bowerDirectory: './build/booking-widget/bower_components',
-          bowerJson: './build/booking-widget/bower.json'
-        }
-      }))
-        .pipe(concat('booking-widget.js'))
-        .pipe(gulp.dest('./build/booking-widget/dist'))
-        .pipe(uglify({mangle: false}))
-        .pipe(concat('booking-widget.min.js'))
-        .pipe(gulp.dest('./build/booking-widget/dist'));
-    });
-
-    function filterStylesheets(path) {
-      // Temporary exclude the compiled booking bug css files if they exist
-      // until the new build process (as discussed) allows for their generation
-      return (
-        path.match(new RegExp('.css$'))
-        &&
-        !path.match(new RegExp('(bower_components\/bookingbug-angular-).+(\.css)'))
-        &&
-        path.indexOf('boostrap.') == -1
-      );
-    }
-
-    gulp.task('buildWidgetStyle', ['bowerWidget'], function () {
-      var src = mainBowerFiles({
-          includeDev : true,
-          filter: filterStylesheets,
-          paths: {
-            bowerDirectory: './build/booking-widget/bower_components',
-            bowerJson: './build/booking-widget/bower.json'
-          }
-      });
-      var bootstrapSCSS, appSCSS;
-      bootstrapSCSS = gulp.src('./build/booking-widget/src/stylesheets/bootstrap.scss')
-        .pipe(sourcemaps.init())
-        .pipe(sass({onError: function(e) { console.log(e); }, outputStyle: 'compressed'}).on('error', gutil.log));
-      appSCSS = gulp.src('./build/booking-widget/src/stylesheets/main.scss')
-        .pipe(sourcemaps.init())
-        .pipe(sass({onError: function(e) { console.log(e); }, outputStyle: 'compressed'}).on('error', gutil.log));
-      dependenciesCSS = gulp.src(src)
-        .pipe(sourcemaps.init())
-      return streamqueue({objectMode: true }, bootstrapSCSS, dependenciesCSS, appSCSS)
-        .pipe(flatten())
-        .pipe(concat('booking-widget.css'))
-        .pipe(cssSelectorLimit.reporter('fail'))
-        .pipe(sourcemaps.write('maps', {includeContent: false}))
-        .pipe(gulp.dest('./build/booking-widget/dist'));
-    });
-
-    gulp.task('buildWidget', ['buildWidgetScript', 'buildWidgetStyle']);
 
   }
 }).call(this);

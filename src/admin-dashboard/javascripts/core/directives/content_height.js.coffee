@@ -1,8 +1,8 @@
 'use strict'
 
-###
+###*
  * @ngdoc directive
- * @name BBAdminDashboard.directives.directive:contentHeight
+ * @name BBAdminDashboard.directive:contentHeight
  * @scope
  * @restrict A
  *
@@ -13,7 +13,7 @@
  * @param {boolean}  includeHeader  (optional) include the header in the calculation of the content height
  * @param {boolean}  includeFooter  (optional) include the footer in the calculation of the content height
 ###
-angular.module('BBAdminDashboard.directives').directive 'contentHeight', ['$window', '$timeout', ($window, $timeout) ->
+angular.module('BBAdminDashboard').directive 'contentHeight', ['$window', '$timeout', ($window, $timeout) ->
   {
     restrict: 'A',
     link: (scope, element, attributes) ->

@@ -1,10 +1,10 @@
-###
+###*
 * @ngdoc filter
-* @name BBAdminDashboard.filters.filter:propsFilter
+* @name BBAdminDashboard.filter:propsFilter
 * @description
 * Does an OR operation
 ###
-angular.module('BBAdminDashboard.filters').filter 'propsFilter', ['$translate', ($translate)->
+angular.module('BBAdminDashboard').filter 'propsFilter', ['$translate', ($translate)->
   (items, props) ->
     out = []
     if angular.isArray(items)

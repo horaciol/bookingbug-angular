@@ -919,6 +919,9 @@ angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location,
 
       # restore the current item using the ref
       current_item = _.find basket.items, (item) -> item.ref is current_item_ref
+      # use last item if there is no ref
+      current_item = _.last basket.items if !current_item
+
       $scope.setBasketItem(current_item)
 
       # check if item has been added to the basket

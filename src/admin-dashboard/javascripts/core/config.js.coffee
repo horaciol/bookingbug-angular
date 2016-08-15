@@ -1,11 +1,5 @@
 'use strict'
 
-angular.module('BBAdminDashboard.controllers', [])
-angular.module('BBAdminDashboard.filters', [])
-angular.module('BBAdminDashboard.services', [])
-angular.module('BBAdminDashboard.directives', [])
-angular.module('BBAdminDashboard.translations', [])
-
 BBAdminDashboardDependencies = [
   'ngStorage',
   'ngResource',
@@ -33,12 +27,6 @@ BBAdminDashboardDependencies = [
   'angular-loading-bar',
   'ngScrollable',
   'toastr',
-
-  'BBAdminDashboard.controllers',
-  'BBAdminDashboard.filters',
-  'BBAdminDashboard.services',
-  'BBAdminDashboard.directives',
-  'BBAdminDashboard.translations',
 
   'BBAdminDashboard.check-in',
   'BBAdminDashboard.clients',

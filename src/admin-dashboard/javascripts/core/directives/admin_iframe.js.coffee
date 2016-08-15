@@ -1,8 +1,8 @@
 'use strict'
 
-###
+###*
  * @ngdoc directive
- * @name BBAdminDashboard.directives.directive:adminIframe
+ * @name BBAdminDashboard.directive:adminIframe
  * @scope
  * @restrict A
  *
@@ -15,7 +15,7 @@
  * @param {object}   extraParams  An object that contains extra params for the url (optional)
  * @param {function} onLoad       A callback function to be called after the iframed has finished loading (optional)
 ###
-angular.module('BBAdminDashboard.directives').directive 'adminIframe', ['$window', '$timeout', ($window, $timeout) ->
+angular.module('BBAdminDashboard').directive 'adminIframe', ['$window', '$timeout', ($window, $timeout) ->
   {
     restrict: 'A'
     scope:

@@ -1,8 +1,8 @@
 'use strict'
 
-###
+###*
  * @ngdoc directive
- * @name BBAdminDashboard.directives.directive:bodyResize
+ * @name BBAdminDashboard.directive:bodyResize
  * @scope
  * @restrict A
  *
@@ -11,7 +11,7 @@
  *
  * @param {object}  field   A field object
 ###
-angular.module('BBAdminDashboard.directives').directive 'bodyResize', ['$window', '$timeout', 'AdminCoreOptions', ($window, $timeout, AdminCoreOptions) ->
+angular.module('BBAdminDashboard').directive 'bodyResize', ['$window', '$timeout', 'AdminCoreOptions', ($window, $timeout, AdminCoreOptions) ->
   {
     restrict: 'A'
     link: (scope, element) ->

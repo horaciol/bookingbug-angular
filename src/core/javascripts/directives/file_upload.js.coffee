@@ -52,9 +52,18 @@ angular.module('BB.Controllers').controller 'FileUpload', ($scope, Upload) ->
   $scope.uploadFile = (item, file, err_files, existing) ->
     $scope.err_file = err_files and err_files[0]
     $scope.show_error = false
+    $scope.file_type_error = false
+    $scope.my_file = file
+    accepted_files = $scope.accept.split(',')
 
-    if file
-      $scope.my_file = file
+    pretty_file_types = [
+      ['image/*', 'images'],
+      ['application/pdf','.pdf']
+      ['application/msword','.doc/.docx']
+    ]
+
+    if file && 0 <= accepted_files.indexOf(file.type)
+
       if existing  then att_id = existing else att_id = null
 
       method = "POST"
@@ -82,3 +91,6 @@ angular.module('BB.Controllers').controller 'FileUpload', ($scope, Upload) ->
       )
 
       file.upload.then onSuccess, onError, onProgress
+
+    else if file && 0 > accepted_files.indexOf(file.type)
+      $scope.file_type_error = true

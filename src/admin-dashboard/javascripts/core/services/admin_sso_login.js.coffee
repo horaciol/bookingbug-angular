@@ -1,14 +1,14 @@
-###**
+###*
 * @ngdoc service
-* @name BBAdminDashboard.services.service:AdminSsoLogin
+* @name BBAdminDashboard.AdminSsoLogin
 *
 * @description
 * Responsible for loging in the admin user via the sso token
 *
 * @property {string} sso_token The sso_token to be used
-* @property {function} callback (optional) funtion to be called after the successfull login, receives UserAdmin (BaseResource) obj as input 
+* @property {function} callback (optional) funtion to be called after the successfull login, receives UserAdmin (BaseResource) obj as input
 ###
-angular.module('BBAdminDashboard.services').factory 'AdminSsoLogin', [
+angular.module('BBAdminDashboard').factory 'AdminSsoLogin', [
   'halClient', 'AdminSsoLoginUrl',
   (halClient, AdminSsoLoginUrl) ->
     return (sso_token, callback)->

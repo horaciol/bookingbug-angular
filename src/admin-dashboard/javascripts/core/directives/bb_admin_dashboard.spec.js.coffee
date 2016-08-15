@@ -1,6 +1,6 @@
 'use strict';
 
-describe 'BBAdminDashboard.directives, bbAdminDashboard directive', () ->
+describe 'BBAdminDashboard, bbAdminDashboard directive', () ->
   $compile = null
   $rootScope = null
   $scope = null

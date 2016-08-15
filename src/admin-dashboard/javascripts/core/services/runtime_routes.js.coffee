@@ -1,28 +1,28 @@
 'use strict'
 
-###
+###*
 * @ngdoc service
-* @name BBAdminDashboard.services.service:RuntimeRoutes
+* @name BBAdminDashboard.RuntimeRoutes
 *
 * @description
 * Returns an instance of $routeProvider that allows late route binding (on runtime)
 ###
 
-###
+###*
 * @ngdoc service
-* @name BBAdminDashboard.services.service:RuntimeRoutesProvider
+* @name BBAdminDashboard.RuntimeRoutesProvider
 *
 * @description
 * Provider
 *
 * @example
-  <example>
+  <pre>
   angular.module('ExampleModule').config ['RuntimeRoutesProvider', '$routeProvider', (RuntimeRoutesProvider, $routeProvider) ->
     RuntimeRoutesProvider.setProvider($routeProvider)
   ]
-  </example>
+  </pre>
 ###
-angular.module('BBAdminDashboard.services').provider 'RuntimeRoutes', ['$urlRouterProvider', ($urlRouterProvider)->
+angular.module('BBAdminDashboard').provider 'RuntimeRoutes', ['$urlRouterProvider', ($urlRouterProvider)->
   routeProvider  = $urlRouterProvider
   @setProvider = (provider)->
     routeProvider = provider

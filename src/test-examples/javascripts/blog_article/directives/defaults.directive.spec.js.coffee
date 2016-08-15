@@ -46,12 +46,12 @@ describe 'bbTe.blogArticle, bbTeBaDefaults directive', () ->
       expect(compiled.html()).toContain('some content!');
       return
 
-    it 'cannot be declared as an element', () ->
+    it 'can be declared as an element by default', () ->
       compiled = $compile(directiveHtmlElement)($rootScope);
 
       expect ->
         $httpBackend.flush()
-      .toThrowError(/No pending request to flush/)
+      .not.toThrow()
       return
 
     it 'cannot be declared using a class', () ->

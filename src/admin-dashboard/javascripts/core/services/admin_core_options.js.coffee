@@ -1,46 +1,50 @@
 'use strict'
 
-###
+###*
 * @ngdoc service
-* @name BBAdminDashboard.services.service:AdminCoreOptions
+* @name BBAdminDashboard.AdminCoreOptions
 *
 * @description
 * Returns a set of General configuration options
 ###
 
-###
+###*
 * @ngdoc service
-* @name BBAdminDashboard.services.service:AdminCoreOptionsProvider
+* @name BBAdminDashboard.AdminCoreOptionsProvider
 *
 * @description
-* Provider
 *
 * @example
-  <example>
-  angular.module('ExampleModule').config ['AdminCoreOptionsProvider', (AdminCoreOptionsProvider) ->
+<pre>
+
+  config = (AdminCoreOptionsProvider) ->
+    'ngInject'
+
     AdminCoreOptionsProvider.setOption('option', 'value')
-  ]
-  </example>
+
+    return
+
+  angular.module('ExampleModule').config config
+</pre>
 ###
-angular.module('BBAdminDashboard.services').provider 'AdminCoreOptions', [ ->
-  # This list of options is meant to grow
+
+provider = () ->
   options = {
-    default_state           : 'calendar'
-    default_language        : 'en',
-    use_browser_language    : true,
-    available_languages     : ['en'],
-    deactivate_sidenav      : false,
-    deactivate_boxed_layout : false,
-    sidenav_start_open      : true,
-    boxed_layout_start      : false,
+    default_state: 'calendar'
+    default_language: 'en',
+    use_browser_language: true,
+    available_languages: ['en'],
+    deactivate_sidenav: false,
+    deactivate_boxed_layout: false,
+    sidenav_start_open: true,
+    boxed_layout_start: false,
     available_language_associations: {
       'en_*': 'en'
     },
-    # Order in which the menu items in the side-nav appear
-    side_navigation : [
+    side_navigation: [
       {
         group_name: 'SIDE_NAV_BOOKINGS'
-        items:[
+        items: [
           'calendar',
           'clients',
           'check-in',
@@ -68,8 +72,10 @@ angular.module('BBAdminDashboard.services').provider 'AdminCoreOptions', [ ->
     if options.hasOwnProperty(option)
       return options[option]
     return
-  @$get =  ->
-    options
+
+  @$get = ->
+    return options
 
   return
-]
+
+angular.module('BBAdminDashboard').provider 'AdminCoreOptions', provider

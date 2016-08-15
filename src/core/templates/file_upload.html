@@ -9,11 +9,11 @@
   <!-- upload button -->
   <button
     type="file"
+    class="btn btn-secondary"
     ngf-max-size="{{maxSize}}"
-    accept="{{accept}}"
+    ngf-accept="{{accept}}"
     ngf-model-invalid="errorFile"
-    ngf-select="uploadFile(item, $file, $invalidFiles, item.attachment_id)"
-    accept="">
+    ngf-select="uploadFile(item, $file, $invalidFiles, item.attachment_id)">
       Select File
   </button>
 
@@ -50,7 +50,10 @@
     Upload failed
   </p>
   <p class="text-danger" ng-show="err_file">
-    File is larger then {{err_file.$errorParam}}
+    The file should be no bigger than {{err_file.$errorParam}}
+  </p>
+  <p class="text-danger" ng-show="file_type_error">
+    The file must be one the following file types: <b>{{accept}}</b>
   </p>
 </div>
 

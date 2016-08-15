@@ -7,6 +7,8 @@ app = angular.module('BB', [
   'BB.Services',
   'BB.Directives',
 
+  'BBAdminBooking'
+
   'ngStorage',
   'angular-hal',
   'ui.bootstrap',
@@ -75,7 +77,7 @@ app.config ($locationProvider, $httpProvider, $provide, ie8HttpBackendProvider) 
   if (msie && msie <= 9) or (webkit and webkit < 537)
     $provide.provider({$httpBackend: ie8HttpBackendProvider})
 
-    
+
   moment.fn.toISODate ||= -> this.locale('en').format('YYYY-MM-DD')
 
 

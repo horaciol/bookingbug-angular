@@ -1,11 +1,11 @@
-###**
+###*
 * @ngdoc service
-* @name BBAdminDashboard.services.service:AdminSsoLoginUrl
+* @name BBAdminDashboard.AdminSsoLoginUrl
 *
 * @description
 * Returns the complete url for admin sso login
 ###
-angular.module('BBAdminDashboard.services').factory 'AdminSsoLoginUrl', [
+angular.module('BBAdminDashboard').factory 'AdminSsoLoginUrl', [
   '$rootScope', 'company_id', '$exceptionHandler',
   ($rootScope, company_id, $exceptionHandler) ->
     # Make sure we dont override the company id if its already set

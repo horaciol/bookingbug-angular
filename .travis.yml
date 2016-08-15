@@ -14,23 +14,20 @@ cache:
   directories:
     - node_modules
     - bower_components
-    - src/core/bower_components
-    - src/admin/bower_components
-    - src/admin-booking/bower_components
-    - src/admin-dashboard/bower_components
-    - src/events/bower_components
-    - src/member/bower_components
-    - src/services/bower_components
-    - src/settings/bower_components
+    - unit_tests/bower_components
+
+env:
+  - secure: "EOLSkOnWNqKODETqXwoRK+KbxyR11YCTi8kRX0+q21KQKaTqqt39UzSOoD0qlfKXPU+D23kvWSYWcGbHQw6DiVHtenVbn9ktik3lJkscXpJmNJmaregclSYJpaK7GC5vJU0av4Q0lDASxrqBv9FftrAEoC7fTfdoZgJ8t29huoU="
 
 deploy:
-  provider: s3
-  bucket: angular.bookingbug.com
-  region: eu-west-1
-  skip_cleanup: true
-  local_dir: build/booking-widget/dist
-  upload_dir: head
-  access_key_id:
-    secure: VisIawQs/YP5A9bkZA1W1cIvPn0cI8dZm4QezEhMq1yCphJYnQI/x9U/vEP3P50OqNKefmMVyYLenDO6rj2RfEcprG8K6TmyIl29PEqswlXR7CtVVedBKMfWu4S3+KNkeBC/EoB4nC1ApkkDRjcDHUg56V6oDhYb1mrix0biU9Y=
-  secret_access_key:
-    secure: MVr4KWXdegYPDE9XJ+sMKf5Qd6OG+8SuVYKBCLOrOV9L8HSZ0hG6gCnP5k71K6z+Pa5YbLblXDbifs4vY2Bgq3vn7uPIeBVfrLyZdcIGlaGhWK047D7RvEse4JUO7vwv4HPPhzpPF/vz6isoUjeZUfqHhNC53L9E+RR/EOUGNhA=
+  - provider: script
+    script: ./travis/deploy.sh
+    on:
+      tags: true
+    skip_cleanup: true
+  - provider: script
+    script: ./travis/deploy.sh
+    on:
+      branch: master
+    skip_cleanup: true
+
