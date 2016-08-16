@@ -201,7 +201,7 @@ module.exports = (gulp, plugins, path) ->
     'build-skd:settings'
   ]
 
-  gulp.task 'build-skd:watch', ['build'], () ->
+  gulp.task 'build-skd:watch', ['build-sdk'], () ->
     gulp.watch(['src/core/javascripts/**/*'], ['build-skd:core:javascripts'])
     gulp.watch(['src/core/stylesheets/**/*'], ['build-skd:core:stylesheets'])
     gulp.watch(['src/core/templates/**/*'], ['build-skd:core:templates'])
