@@ -55,8 +55,8 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
   angular.extend(this, new PageControllerService($scope, $q))
   $scope.pick = {}
   $scope.start_date = moment()
-  $scope.end_date = moment().add(1, 'year')
-  $scope.filters = {hide_sold_out_events: true}
+  $scope.end_date = moment().add(2, 'year')
+  $scope.filters = {hide_sold_out_events: false}
   $scope.pagination = BBModel.Pagination({page_size: 10, max_size: 5, request_page_size: 100})
   $scope.events = {}
   $scope.fully_booked = false
@@ -131,7 +131,12 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
     # event data promise
     # TODO - always load some event data?
     if $scope.mode is 1 or $scope.mode is 2
-      promises.push($scope.loadEventData())
+
+      comp = $scope.bb.company
+      params = 
+        page_group_to_load   : 1
+
+      promises.push($scope.loadEventData(comp, params))
     else
       promises.push($q.when([]))
 
@@ -228,7 +233,7 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
   *
   * @param {array} comp The company
   ###
-  $scope.loadEventChainData = (comp) ->
+  $scope.loadEventChainData = (comp, params) ->
 
     deferred = $q.defer()
 
@@ -239,8 +244,8 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
 
       params =
         item       : $scope.bb.current_item
-        start_date : $scope.start_date.toISODate()
-        end_date   : $scope.end_date.toISODate()
+        start_date : if params and params.start_date then params.start_date else $scope.start_date.toISODate()
+        end_date   : if params and params.end_date then params.end_date else $scope.end_date.toISODate()
         
       params.embed = $scope.events_options.embed if $scope.events_options.embed
 
@@ -260,7 +265,7 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
   *
   * @param {array} comp The company parameter
   ###
-  $scope.loadEventData = (comp) ->
+  $scope.loadEventData = (comp, params) ->
 
     $scope.notLoaded $scope
 
@@ -282,15 +287,17 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
 
     params =
       item                 : $scope.bb.current_item
-      start_date           : $scope.start_date.toISODate()
-      end_date             : $scope.end_date.toISODate()
-      include_non_bookable : true
+      start_date           : if params and params.start_date then params.start_date.toISODate() else $scope.start_date.toISODate()
+      end_date             : if params and params.end_date then params.end_date.toISODate() else $scope.end_date.toISODate()
+      page                 : 1
+      per_page             : if params and params.page_group_to_load then ($scope.pagination.page_size * $scope.pagination.max_size * params.page_group_to_load) + 1 else 100
+      include_non_bookable : if params and params.include_non_bookable then params.include_non_bookable else true
 
     params.event_chain_id = $scope.bb.item_defaults.event_chain.id if $scope.bb.item_defaults.event_chain
 
     params.per_page = $scope.per_page if $scope.per_page
 
-    chains = $scope.loadEventChainData(comp)
+    chains = $scope.loadEventChainData(comp, params)
     $scope.events = {}
 
     EventService.query(comp, params).then (events) ->
@@ -390,15 +397,20 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
       # unselect the event if it's not on the day being selected
       delete $scope.event if $scope.event and !$scope.selected_date.isSame(date, 'day')
       new_date = date
-      $scope.start_date = moment(date)
-      $scope.end_date = moment(date)
-      $scope.loadEventData()
     else
       new_date = date if !$scope.selected_date or !date.isSame($scope.selected_date, 'day')
 
     if new_date
       $scope.selected_date = new_date
       $scope.filters.date  = new_date.toDate()
+
+      comp = $scope.bb.company
+      params = 
+        page_group_to_load   : 1
+        start_date : moment(date)
+        end_date : moment(date)
+      $scope.loadEventData(comp, params)
+
     else
       delete $scope.selected_date
       delete $scope.filters.date
@@ -408,9 +420,11 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
 
   $scope.$watch 'pick.date', (new_val, old_val) =>
     if new_val
-      $scope.start_date = moment(new_val)
-      $scope.end_date = moment(new_val)
-      $scope.loadEventData()
+      comp = $scope.bb.company
+      params = 
+        start_date : moment(new_val)
+        end_date : moment(new_val)
+      $scope.loadEventData(comp, params)
 
 
   ###**
@@ -528,6 +542,10 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
   $scope.resetFilters = () ->
     $scope.filters = {}
     $scope.dynamic_filters.values = {} if $scope.has_company_questions
+    comp = $scope.bb.company
+    params = 
+      page_group_to_load   : 1
+    $scope.loadEventData(comp, params)
     $scope.filterChanged()
 
 
@@ -569,6 +587,16 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
   * Change page of the event list
   ###
   $scope.pageChanged = () ->
+
+    if $scope.pagination.current_page is $scope.pagination.num_pages
+      comp = $scope.bb.company
+
+      params = 
+        page_group_to_load : Math.ceil($scope.pagination.current_page / $scope.pagination.max_size)
+
+      $scope.loadEventData(comp, params)
+
+
     $scope.pagination.update()
     $rootScope.$broadcast "page:changed"
 

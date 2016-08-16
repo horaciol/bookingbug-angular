@@ -123,7 +123,11 @@ angular.module('BB.Models').factory "PaginationModel", () ->
       start = ((@current_page - 1) * @page_size) + 1
       end   = @current_page * @page_size
       end = if @num_items < end then @num_items else end
-      total = if end >= 100 then "100+" else end
+
+      loadedItems = @max_size * @page_size * (Math.floor(@num_items / (@max_size * @page_size)))
+
+      total = if start < loadedItems then loadedItems + "+" else @num_items
+
       @summary = "#{start} - #{end} of #{total}"
 
       page_to_load = Math.ceil((@current_page * @page_size) / @request_page_size)
