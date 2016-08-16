@@ -136,7 +136,7 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
 
       comp = $scope.bb.company
       params = 
-        page_group_to_load   : 10
+        page_group_to_load   : 1
 
       promises.push($scope.loadEventData(comp, params))
     else
@@ -358,7 +358,12 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
         $scope.filtered_items = $scope.items
 
         # run the filters to ensure any default filters get applied
-        $scope.filterChanged()
+        # $scope.filterChanged()
+        # imitate filterChanged but do not call - otherwise infinate loop
+        $scope.filtered_items = $filter('filter')($scope.items, $scope.filterEvents)
+        $scope.pagination.num_items = $scope.filtered_items.length
+        $scope.filter_active = $scope.filtered_items.length != $scope.items.length
+        $scope.pagination.update()
 
         # update the paging
         $scope.pagination.update()
@@ -580,6 +585,8 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
   ###
   $scope.filterChanged = () ->
 
+    $scope.loadEventData()
+
     if $scope.items
       $scope.filtered_items = $filter('filter')($scope.items, $scope.filterEvents)
       $scope.pagination.num_items = $scope.filtered_items.length
@@ -596,6 +603,7 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
   $scope.pageChanged = () ->
 
     if $scope.pagination.current_page is $scope.pagination.num_pages
+
       comp = $scope.bb.company
 
       params = 
