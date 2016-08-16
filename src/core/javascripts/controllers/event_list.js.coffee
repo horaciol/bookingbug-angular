@@ -136,7 +136,7 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
 
       comp = $scope.bb.company
       params = 
-        page_group_to_load   : 1
+        page_group_to_load   : 10
 
       promises.push($scope.loadEventData(comp, params))
     else
@@ -292,7 +292,7 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
       start_date           : if params and params.start_date then params.start_date.toISODate() else $scope.start_date.toISODate()
       end_date             : if params and params.end_date then params.end_date.toISODate() else $scope.end_date.toISODate()
       page                 : 1
-      per_page             : if params and params.page_group_to_load then ($scope.pagination.page_size * $scope.pagination.max_size * params.page_group_to_load) + 1 else 100
+      per_page             : if params and params.page_group_to_load then ($scope.pagination.page_size * $scope.pagination.max_size * params.page_group_to_load) + 1 else 300
       include_non_bookable : if params and params.include_non_bookable then params.include_non_bookable else true
 
     params.event_chain_id = $scope.bb.item_defaults.event_chain.id if $scope.bb.item_defaults.event_chain
@@ -319,10 +319,13 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
 
       # TODO make this behave like the frame timetable
       # get all data then process events
-      chains.then () ->
-
+      chains.then (chains) ->
         # get more event details
         for item in $scope.items
+          for chain in chains
+            if item.event_chain_id is chain.id
+              item.chain = chain
+
           item.prepEvent {embed: 'events'}
           # check if the current item already has the same event selected
           if $scope.mode is 0 and current_event and current_event.self == item.self
@@ -512,6 +515,7 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
         for dynamic_filter in $scope.dynamic_filters[type]
           name = dynamic_filter.name.parameterise('_')
           filter = ($scope.dynamic_filters.values[dynamic_filter.name] and item.chain.extra[name] is $scope.dynamic_filters.values[dynamic_filter.name].name) or !$scope.dynamic_filters.values[dynamic_filter.name]?
+
           result = result and filter
     return result
 
@@ -575,6 +579,7 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
   * Change filter of the event list
   ###
   $scope.filterChanged = () ->
+
     if $scope.items
       $scope.filtered_items = $filter('filter')($scope.items, $scope.filterEvents)
       $scope.pagination.num_items = $scope.filtered_items.length
