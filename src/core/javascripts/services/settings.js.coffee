@@ -1,4 +1,4 @@
-angular.module('BB.Services').factory 'SettingsService', () ->
+angular.module('BB.Services').factory 'SettingsService', ($modalStack) ->
   i18n = false
   scroll_offset = 0
   country_code = null
@@ -6,6 +6,8 @@ angular.module('BB.Services').factory 'SettingsService', () ->
   currency = null
   company_time_zone = null
   display_time_zone = null
+  
+  update_document_title: false
 
   enableInternationalizaton: () ->
     i18n = true
@@ -21,8 +23,7 @@ angular.module('BB.Services').factory 'SettingsService', () ->
 
   setCountryCode: (value) ->
     country_code = value
-    if country_code is 'gb'
-      moment.locale('en-gb')
+    moment.locale 'en-' + country_code if country_code and country_code.match /^(gb|au)$/
 
   getCountryCode: () ->
     return country_code
@@ -54,3 +55,6 @@ angular.module('BB.Services').factory 'SettingsService', () ->
       display_time_zone
     else 
       company_time_zone
+
+  isModalOpen: ->
+    !!$modalStack.getTop()

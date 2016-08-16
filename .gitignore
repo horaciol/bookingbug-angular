@@ -12,4 +12,6 @@ build/booking-widget/*
 /.idea/
 **/*.js.js
 **/*.js.map
-unit-tests-reports
+unit-tests/bower_components
+unit-tests/reports
+.awspublish-angular.bookingbug.com

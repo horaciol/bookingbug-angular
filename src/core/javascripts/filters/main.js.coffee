@@ -301,7 +301,7 @@ angular.module('BB.Filters').filter 'datetime', (SettingsService) ->
 
     if date and moment.isMoment(date)
       new_date = date.clone()
-      new_date.tz(SettingsService.getDisplayTimeZone()) if SettingsService.getDisplayTimeZone() != SettingsService.getTimeZone() 
+      new_date.tz(SettingsService.getDisplayTimeZone())
       format += ' zz' if show_time_zone
       return new_date.format(format)
 

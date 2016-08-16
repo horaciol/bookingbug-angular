@@ -31,7 +31,7 @@ All notable changes to this project will be documented in this file.
     <div bb-member-past-bookings member="client" not-loaded="notLoaded" set-loaded="setLoaded"></div>
 ```
 
-- bbMemberUpcomingBookings and bbMemberPastBookings now use bbMemberBooking to render booking details and assoicated actions 
+- bbMemberUpcomingBookings and bbMemberPastBookings now use bbMemberBooking to render booking details and assoicated actions
 - BREAKING: Scoped methods `edit`, and `cancel` in bbMemberUpcomingBookings and bbMemberPastBookings are now exposed by the controller which bbMemberBooking requires. These actions can now be called via the scoped `actions` variable. See `_member_booking.html` for an example.
 
 ## [1.3.1] - 2016-07-07

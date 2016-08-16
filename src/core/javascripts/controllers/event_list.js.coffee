@@ -117,7 +117,9 @@ angular.module('BB.Controllers').controller 'EventList', ($scope, $rootScope, Ev
       $scope.has_company_questions = false
 
     # event group promise
-    if !$scope.current_item.event_group and $scope.bb.company.$has('event_groups')
+    if $scope.bb.item_defaults and $scope.bb.item_defaults.event_group
+      $scope.bb.current_item.setEventGroup($scope.bb.item_defaults.event_group)
+    else if !$scope.current_item.event_group and $scope.bb.company.$has('event_groups')
       promises.push($scope.bb.company.getEventGroupsPromise())
     else
       promises.push($q.when([]))

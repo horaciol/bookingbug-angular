@@ -1,4 +1,4 @@
-module.exports = (gulp, plugins, growl, path) ->
+module.exports = (gulp, plugins, path) ->
 
   bbGulp = require('../../bb-gulp.js')
 
@@ -87,13 +87,13 @@ module.exports = (gulp, plugins, growl, path) ->
   ]
 
   gulp.task 'build:admin-booking:javascripts', () ->
-    bbGulp.javascripts('admin:booking')
+    bbGulp.javascripts('admin-booking')
 
   gulp.task 'build:admin-booking:stylesheets', () ->
-    bbGulp.stylesheets('admin:booking')
+    bbGulp.stylesheets('admin-booking')
 
   gulp.task 'build:admin-booking:templates', () ->
-    bbGulp.templates('admin:booking')
+    bbGulp.templates('admin-booking', false, false, 'BBAdminBooking')
 
   gulp.task 'build:admin-booking:bower', () ->
     bbGulp.bower('admin-booking')
@@ -115,7 +115,7 @@ module.exports = (gulp, plugins, growl, path) ->
     bbGulp.images('admin-dashboard')
 
   gulp.task 'build:admin-dashboard:templates', () ->
-    bbGulp.templates('admin-dashboard')
+    bbGulp.templates('admin-dashboard', false, false, false, false)
 
   gulp.task 'build:admin-dashboard:bower', () ->
     bbGulp.bower('admin-dashboard')

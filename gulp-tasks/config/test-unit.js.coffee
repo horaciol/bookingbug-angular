@@ -1,38 +1,81 @@
-module.exports = (gulp, plugins, growl, path)->
-  adminDashboardModulePath = 'src/admin-dashboard'
-  coreModulePath = 'src/core'
-  adminModulePath = 'src/admin'
-  adminBookingModulePath = 'src/admin-booking'
-  eventsModulePath = 'src/events'
-  memberModulePath = 'src/member'
-  servicesModulePath = 'src/services'
-  settingsModulePath = 'src/settings'
-  examplesModulePath = 'src/test-examples'
+module.exports = (gulp, plugins, path)->
+  fs = require('fs')
+  jsonFile = require('jsonfile')
+  mkDirP = require('mkdirp')
 
-  getFiles = (path) ->
-    bowerDependencies = require('main-bower-files')(
-      filter: '**/*.js'
-      paths:
-        bowerDirectory: path + '/bower_components',
-        bowerJson: path + '/bower.json'
-    )
+  ###
+  * @param {String} dependencyName
+  * @returns {Boolean}
+  ###
+  isBBDependency = (dependencyName) ->
+    return new RegExp(/^bookingbug-angular.*/).test dependencyName
 
-    commonFiles = [
-      'templates/**/*.html'
-      'templates/*.html'
-      'javascripts/*.coffee'
-      'javascripts/*.js'
-      'javascripts/**/*.coffee'
-      'javascripts/**/*.js'
+
+  prepareTestBowerJson = () ->
+    nonBBDependencies = {}
+
+    testBowerJson = JSON.parse(fs.readFileSync('unit-tests/bower.json', 'utf8'))
+
+    orderedSubModulesNames = [
+      'core'
+      'admin'
+      'admin-booking'
+      'events'
+      'member'
+      'services'
+      'settings'
+      'test-examples'
+      'admin-dashboard'
     ]
 
-    return bowerDependencies.concat commonFiles
+    for subModuleName in orderedSubModulesNames
+      bowerJson = JSON.parse(fs.readFileSync(path.join('src', subModuleName, '/bower.json'), 'utf8'))
 
-  getKarmaServerSettings = (isDev, path) ->
+      for depName,depVersion of bowerJson.dependencies
+        if not isBBDependency depName
+          nonBBDependencies[depName] = depVersion
+
+    testBowerJson.name = 'bb-unit-test'
+    testBowerJson.dependencies = nonBBDependencies
+
+    mkDirP.sync 'unit-tests'
+    jsonFile.writeFile 'unit-tests/bower.json', testBowerJson, (err) ->
+      console.log err if err isnt null
+    return
+
+  prepareKarmaFiles = () ->
+    bowerFiles = require('main-bower-files')(
+      filter: [
+        '**/*.js'
+      ]
+      paths:
+        bowerDirectory: 'unit-tests/bower_components',
+        bowerJson: 'unit-tests/bower.json'
+    )
+
+    projectFiles = [
+      'src/core/javascripts/main.js.coffee'
+      'src/*/javascripts/main.js.coffee'
+      'src/*/javascripts/core/config.js.coffee'
+      'src/*/templates/**/*.html'
+      'src/*/templates/*.html'
+      'src/core/javascripts/collections/*.coffee'
+      'src/*/javascripts/*.coffee'
+      'src/*/javascripts/*.js'
+      'src/*/javascripts/**/*.coffee'
+      'src/*/javascripts/**/*.js'
+    ]
+
+    return bowerFiles.concat projectFiles
+
+  ###
+  * @param {Boolean} isDev
+  ###
+  getKarmaServerSettings = (isDev) ->
     serverSettings =
-      configFile: __dirname + '/../karma.conf.js',
-      basePath: '../' + path
-      files: getFiles path
+      configFile: path.join(__dirname, '/../karma.conf.js'),
+      basePath: '../'
+      files: prepareKarmaFiles()
       autoWatch: true
       singleRun: false
 
@@ -42,63 +85,15 @@ module.exports = (gulp, plugins, growl, path)->
 
     return serverSettings
 
-  gulp.task 'test:unit:core', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(true, coreModulePath), cb).start()
+  gulp.task 'test:unit-dependencies', (cb)->
+    prepareTestBowerJson()
+    cb()
+    return
 
-  gulp.task 'test:unit-ci:core', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(false, coreModulePath), cb).start()
+  gulp.task 'test:unit', (cb)->
+    return new plugins.karma.Server(getKarmaServerSettings(true), cb).start()
 
+  gulp.task 'test:unit-ci', (cb)->
+    return new plugins.karma.Server(getKarmaServerSettings(false), cb).start()
 
-  gulp.task 'test:unit:admin', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(true, adminModulePath), cb).start()
-
-  gulp.task 'test:unit-ci:admin', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(false, adminModulePath), cb).start()
-
-
-  gulp.task 'test:unit:admin-booking', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(true, adminBookingModulePath), cb).start()
-
-  gulp.task 'test:unit-ci:admin-booking', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(false, adminBookingModulePath), cb).start()
-
-
-  gulp.task 'test:unit:admin-dashboard', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(true, adminDashboardModulePath), cb).start()
-
-  gulp.task 'test:unit-ci:admin-dashboard', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(false, adminDashboardModulePath), cb).start()
-
-
-  gulp.task 'test:unit:events', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(true, eventsModulePath), cb).start()
-
-  gulp.task 'test:unit-ci:events', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(false, eventsModulePath), cb).start()
-
-
-  gulp.task 'test:unit:member', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(true, memberModulePath), cb).start()
-
-  gulp.task 'test:unit-ci:member', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(false, memberModulePath), cb).start()
-
-
-  gulp.task 'test:unit:services', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(true, servicesModulePath), cb).start()
-
-  gulp.task 'test:unit-ci:services', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(false, servicesModulePath), cb).start()
-
-
-  gulp.task 'test:unit:settings', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(true, settingsModulePath), cb).start()
-
-  gulp.task 'test:unit-ci:settings', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(false, settingsModulePath), cb).start()
-
-  gulp.task 'test:unit:test-examples', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(true, examplesModulePath), cb).start()
-
-  gulp.task 'test:unit-ci:test-examples', (cb)->
-    return new plugins.karma.Server(getKarmaServerSettings(false, examplesModulePath), cb).start()
+  return

@@ -21,7 +21,7 @@
               <h3 class="confirmation-heading">Your <span>{{purchase.bookings[0].service_name}}</span> booking</h3>
 
               <div class="row hidden-print text-right" >
-              <button type="button" class="btn btn-link" onclick="window.print()"><span class="fa fa-print fa-2x"></span> Print</button>
+              <button type="button" class="btn btn-link" onclick="window.print()"><span class="fa fa-print"></span> Print</button>
               <div bb-booking-export class="bb-booking-export"></div>
               </div>
             </div>
@@ -60,8 +60,8 @@
               </div>
 
               <div class="confirmation-summary-address">
-                <div><span class='fa fa-map-marker'></span> {{purchase.bookings[0].company.address | address_single_line}}</div>
-                <div> <span class='fa fa-phone'></span> {{purchase.bookings[0].company.address.phone | local_phone_number}}</div>
+                <div ng-show="purchase.bookings[0].company.address"><span class='fa fa-map-marker'></span> {{purchase.bookings[0].company.address | address_single_line}}</div>
+                <div ng-show="purchase.bookings[0].company.address.phone"><span class='fa fa-phone'></span> {{purchase.bookings[0].company.address.phone | local_phone_number}}</div>
               </div>
 
             </div>

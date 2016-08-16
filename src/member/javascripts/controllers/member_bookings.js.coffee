@@ -4,11 +4,12 @@ angular.module('BBMember').controller 'MemberBookings', ($scope, $modal, $log, M
 
     defer = $q.defer()
 
+    now = moment()
     params =
-      start_date: moment().format('YYYY-MM-DD')
-    getBookings(params).then (upcoming_bookings) ->
-      $scope.upcoming_bookings = upcoming_bookings
-      defer.resolve(upcoming_bookings)
+      start_date: now.toISODate()
+    getBookings(params).then (results) ->
+      $scope.upcoming_bookings = results.filter (result) -> result.datetime.isAfter(now)
+      defer.resolve($scope.upcoming_bookings)
     , (err) ->
       defer.reject([])
 

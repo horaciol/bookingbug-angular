@@ -22,7 +22,7 @@
 
 # This class contrains handy functions and variables used in building and displaying a booking widget
 
-angular.module('BB.Models').factory "BBWidget", ($q, BBModel, BasketService, $urlMatcherFactory, $location, BreadcrumbService, $window, $rootScope, PathHelper) ->
+angular.module('BB.Models').factory "BBWidget", ($q, BBModel, BasketService, $urlMatcherFactory, $location, BreadcrumbService, $window, $rootScope, PathHelper, SettingsService ) ->
 
 
   class Widget
@@ -84,6 +84,7 @@ angular.module('BB.Models').factory "BBWidget", ($q, BBModel, BasketService, $ur
       url = url.replace(/\/+$/, "")
       $location.path(url)
       @routing = true
+
       return url
 
     ###**
@@ -166,6 +167,10 @@ angular.module('BB.Models').factory "BBWidget", ($q, BBModel, BasketService, $ur
     * @returns {string} The returned record step
     ###
     recordCurrentPage: () =>
+
+      setDocumentTitle = (title) ->
+        document.title = title if SettingsService.update_document_title and title
+
       if !@current_step
         @current_step = 0
       match = false
@@ -175,12 +180,14 @@ angular.module('BB.Models').factory "BBWidget", ($q, BBModel, BasketService, $ur
         for step in @allSteps
           if step.page == @current_page
             @current_step = step.number
+            setDocumentTitle(step.title)
             match = true
       # now check the previously visited steps
       if !match
         for step in @steps
           if step && step.page == @current_page
             @current_step = step.number
+            setDocumentTitle(step.title)
             match = true
       # if still not found - assume it's a new 'next' page and add 1 to the step count
       if !match
@@ -205,28 +212,30 @@ angular.module('BB.Models').factory "BBWidget", ($q, BBModel, BasketService, $ur
     *
     * @returns {boolean} If is the last step or not
     ###
-    recordStep: (step, title) =>
-      @steps[step-1] = {
+    recordStep: (step_number, title) =>
+
+      @steps[step_number-1] = {
         url: @updateRoute(@current_page),
         current_item: @current_item.getStep(),
         page: @current_page,
-        number: step,
+        number: step_number,
         title: title,
         stacked_length: @stacked_items.length
       }
 
-      BreadcrumbService.setCurrentStep(step)
+      BreadcrumbService.setCurrentStep(step_number)
 
       for step in @steps
+
         if step
           step.passed = step.number < @current_step
           step.active = step.number == @current_step
 
-      # calc percentile complete
-      @calculatePercentageComplete(step.number)
+        if step and step.number is step_number
+          @calculatePercentageComplete(step.number)
 
       # check if we're at the last step
-      if (@allSteps && @allSteps.length == step ) || @current_page == 'checkout'
+      if (@allSteps && @allSteps.length == step_number ) || @current_page == 'checkout'
         @last_step_reached = true
       else
         @last_step_reached = false

@@ -1,4 +1,4 @@
-module.exports = (gulp, plugins, growl, path) ->
+module.exports = (gulp, plugins, path) ->
 
   mainBowerFiles = require('main-bower-files')
   concat = require('gulp-concat')

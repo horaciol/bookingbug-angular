@@ -1,5 +1,5 @@
 (function () {
-  module.exports = function (gulp, plugins, growl, path) {
+  module.exports = function (gulp, plugins, path) {
 
     var coffee = require('gulp-coffee'),
       concat = require('gulp-concat'),

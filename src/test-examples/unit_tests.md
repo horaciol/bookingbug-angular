@@ -1,36 +1,30 @@
 ### CoffeeScript|AngularJS Unit Tests
 ###### This module contains unit tests samples. Please feel free to contribute if have some interesting unit test samples you want to share with others.
  
+#### Preset 
+
+SDK consists of many submodules that have it's own bower.json files.
+
+All submodules should use same versions of 3rd party dependencies - so if you update a version of some dependencies - you need to apply required changes to all submodules.
+Ideally only core module should have 3rd party dependencies.
+
+You can do it by running
+   
+```
+bash travis/install.sh
+```
 
 #### Test Driven Development 
  
 1. To run sdk submodules unit tests all together execute following in root of sdk repository
 
     `gulp test:unit`
-
-    > It will start for each sub-module separate karma servers.
+    
     > Tests are run in watch mode which means any code or tests modifications should rerun appropriate tests again.
     > Note that any bower dependencies changes require task restart 
 
-2. If you work only on one particular sub-module than you can run just one of following
-
-    ``` bash
-    gulp test:unit:test-examples
-    gulp test:unit:core
-    gulp test:unit:admin
-    gulp test:unit:admin-booking
-    gulp test:unit:admin-dashboard
-    gulp test:unit:events
-    gulp test:unit:member
-    gulp test:unit:services
-    gulp test:unit:settings
-    ```
-
-    > Tests are run in watch mode which means any code or tests modifications should rerun appropriate tests again.
-    > Note that any bower dependencies changes require task restart
-
-3. To see test coverage html report for given sdk sub-module please cd to given sub-module 
-   and open `unit-tests-reports/coverage-lcov/lcov-report/index.html` in browser of your preference.
+2. To see test coverage html report for given sdk sub-module please cd to given sub-module 
+   and open `unit-tests/reports/coverage-lcov/lcov-report/index.html` in browser of your preference.
 
 #### Continuous Integration
 

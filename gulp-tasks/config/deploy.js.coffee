@@ -1,13 +1,11 @@
-module.exports = (gulp, plugins, growl, path) ->
+module.exports = (gulp, plugins, path) ->
 
   awspublish = require('gulp-awspublish')
   awspublishRouter = require('gulp-awspublish-router')
   rename = require('gulp-rename')
 
-  gulp.task 'deploy', ['build'], () ->
+  gulp.task 'deploy', ['build','build:widget'], () ->
     publisher = awspublish.create
-      key: process.env.AWS_ACCESS_KEY_ID
-      secret: process.env.AWS_SECRET_ACCESS_KEY
       params:
         Bucket: 'angular.bookingbug.com'
       region: 'eu-west-1'

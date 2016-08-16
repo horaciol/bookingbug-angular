@@ -29,6 +29,8 @@ angular.module('BB.Models').factory "EventChainModel", ($q, BBModel, BaseModel) 
     constructor: (data) ->
       super
       @capacity_view = setCapacityView(@capacity_view)
+      @start_date = moment(@start_date) if @start_date
+      @end_date = moment(@end_date) if @end_date
 
     name: () ->
       @_data.name

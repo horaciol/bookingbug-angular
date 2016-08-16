@@ -22,6 +22,7 @@ angular.module('BB.Controllers').controller 'MemberLogin', ($scope, $log, $rootS
         $scope.redirectTo($scope.bb.destination)
       else
         $scope.setLoaded $scope
+        $scope.skipThisStep()
         $scope.decideNextPage()
     else
       halClient.$get("#{$scope.bb.api_url}/api/v1").then (root) ->

@@ -389,13 +389,12 @@ angular.module('BB.Controllers').controller 'TimeRangeList',
 
       if slot.datetime
         $scope.setLastSelectedDate(slot.datetime)
-        current_item.setDate({date: slot.datetime})
+        current_item.setDate({date: slot.datetime.clone().tz($scope.bb.company.timezone)})
       else if day
         $scope.setLastSelectedDate(day.date)
         current_item.setDate(day)
 
       current_item.setTime(slot)
-      current_item.setDate(day)
       $scope.selected_slot = slot
       $scope.selected_day  = day.date
       $scope.selected_date = day.date.toDate()

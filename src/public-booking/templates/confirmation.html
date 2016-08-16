@@ -13,7 +13,7 @@
             <p class="bb-confirmation-p-alignment">Thanks {{ total.client.first_name }}. You have successfully made the following bookings. We have you emailed you the details below.</p>
           </div>
           <div class="row hidden-print text-right">
-            <button type="button" class="btn btn-link" onclick="window.print()"><span class="fa fa-print fa-2x"></span> Print</button>
+            <button type="button" class="btn btn-link" onclick="window.print()"><span class="fa fa-print"></span> Print</button>
             <div bb-booking-export class="bb-booking-export"></div>
           </div>
         </div>
@@ -56,8 +56,8 @@
             </li>
 
             <div class="confirmation-summary-address">
-              <div><span class='fa fa-map-marker'></span> {{total.bookings[0].address | address_single_line}}</div>
-              <div> <span class='fa fa-phone'></span> {{total.bookings[0].address.phone | local_phone_number}}</div>
+              <div ng-show="total.bookings[0].address"><span class='fa fa-map-marker'></span> {{total.bookings[0].address | address_single_line}}</div>
+              <div ng-show="total.bookings[0].address.phone"> <span class='fa fa-phone'></span> {{total.bookings[0].address.phone | local_phone_number}}</div>
             </div>
 
           </ul>

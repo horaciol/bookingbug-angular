@@ -57,7 +57,7 @@
                 <div class="col-sm-6 col-xs-6">Type</div>
                 <div class="col-sm-3 col-xs-4">Price</div>
                 <div class="col-sm-3 col-xs-2">Qty</div>
-              </div>
+              </div> 
             </li>
             <li ng-repeat="ticket in event.tickets">
               <div class="row">
@@ -68,11 +68,14 @@
                   <span ng-show="ticket.price > 0">{{ticket.price | currency}}</span><span ng-show="ticket.price == 0">Free</span>
                   <small ng-show="ticket.counts_as"><i>(for {{ticket.counts_as}})</i></small>
                 </div>
-                <div class="col-sm-3 col-xs-2">
+                <div ng-show="event.getSpacesLeft() > 0 || event.getWaitSpacesLeft() > 0" class="col-sm-3 col-xs-2">
                   <span ng-show="selected_tickets">{{ticket.qty}}</span>
                   <select ng-if="!selected_tickets" ng-model="ticket.qty" ng-options="n as n for n in ticket.getRange(event)">
                     <option value="">-</option>
                   </select>
+                </div>
+                <div ng-show="event.getSpacesLeft() == 0 && event.getWaitSpacesLeft() == 0" class="col-sm-3 col-xs-2">
+                  <span>Sold Out</span>
                 </div>
               </div>
             </li>

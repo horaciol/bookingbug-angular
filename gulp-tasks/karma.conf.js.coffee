@@ -24,17 +24,13 @@ module.exports = (config) ->
       reporters: [
         {
           type: 'lcov'
-          dir: './unit-tests-reports/coverage-lcov/'
+          dir: './unit-tests/reports/coverage-lcov/'
           file: 'lcov.info'
           subdir: '.'
         }
       ]
 
     colors: true
-
-    exclude: [
-      'javascripts/collections/**'
-    ]
 
     frameworks: ['jasmine']
 
@@ -43,12 +39,12 @@ module.exports = (config) ->
     port: 9876
 
     preprocessors: {
-      '**/*.html': 'html2js'
-      '*.html': 'html2js'
-      '*.spec.js.coffee': ['coffee']
-      '!(*.spec).js.coffee': ['coffee-coverage']
-      '**/*.spec.js.coffee': ['coffee']
-      '**/!(*.spec).js.coffee': ['coffee-coverage']
+      'src/*/javascripts/*.html': 'html2js'
+      'src/*/javascripts/**/*.html': 'html2js'
+      'src/*/javascripts/*.spec.js.coffee': ['coffee']
+      'src/*/javascripts/**/*.spec.js.coffee': ['coffee']
+      'src/*/javascripts/!(*.spec).js.coffee': ['coffee-coverage']
+      'src/*/javascripts/**/!(*.spec).js.coffee': ['coffee-coverage']
     }
 
     reporters: ['dots', 'coverage']

@@ -60,7 +60,7 @@ angular.module('BB.Controllers').controller 'Event', ($scope, $attrs, $rootScope
     $scope.event_options.use_my_details = if !$scope.event_options.use_my_details? then true else $scope.event_options.use_my_details
 
     promises = [
-      $scope.current_item.event_group.getImagesPromise(),
+      $scope.bb.current_item.event_group.getImagesPromise(),
       $scope.event.prepEvent()
     ]
 
@@ -78,6 +78,9 @@ angular.module('BB.Controllers').controller 'Event', ($scope, $attrs, $rootScope
 
       if $scope.bb.current_item.tickets and $scope.bb.current_item.tickets.qty > 0
         
+        # flag that we're editing tickets already in the basket so that view can indicate this
+        $scope.edit_mode = true
+
         # already added to the basket
         $scope.setLoaded $scope
         $scope.selected_tickets = true
@@ -118,7 +121,7 @@ angular.module('BB.Controllers').controller 'Event', ($scope, $attrs, $rootScope
     $scope.bb.emptyStackedItems()
     # NOTE: basket is not cleared here as we might already have one!
 
-    base_item = $scope.current_item
+    base_item = $scope.bb.current_item
 
     for ticket in $scope.event.tickets
       if ticket.qty
