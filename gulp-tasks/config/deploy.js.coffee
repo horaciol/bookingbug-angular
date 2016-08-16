@@ -4,7 +4,7 @@ module.exports = (gulp, plugins, path) ->
   awspublishRouter = require('gulp-awspublish-router')
   rename = require('gulp-rename')
 
-  gulp.task 'deploy', ['build','build:widget'], () ->
+  gulp.task 'deploy', ['build-sdk','build:widget'], () ->
     publisher = awspublish.create
       params:
         Bucket: 'angular.bookingbug.com'

@@ -9,7 +9,7 @@ module.exports = (gulp, plugins, path) ->
   cssSelectorLimit = require('gulp-css-selector-limit')
   bower = require('gulp-bower')
 
-  gulp.task 'bower-widget', ['build'], () ->
+  gulp.task 'bower-widget', ['build-sdk'], () ->
     bower({cwd: './build/booking-widget', directory: './bower_components'})
 
   gulp.task 'build:widget-script', ['bower-widget'], () ->
