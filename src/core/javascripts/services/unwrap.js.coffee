@@ -1,6 +1,5 @@
-angular.module('BB.Services').factory "UnwrapService", () ->
-
-  unwrapCollectionSimple = (model, key) ->
+angular.module('BB.Services').factory "UnwrapService", ($q, BBModel) ->
+  unwrapCollectionSimple = (model, key, resource) ->
     deferred = $q.defer()
     resource.$get(key).then (items) =>
       models = []
@@ -12,7 +11,7 @@ angular.module('BB.Services').factory "UnwrapService", () ->
 
     deferred.promise
 
-  unwrapCollection: (model, key) ->
+  unwrapCollection: (model, key, resource) ->
     deferred = $q.defer()
 
      # if the resource is embedded, return the array of models
@@ -34,110 +33,111 @@ angular.module('BB.Services').factory "UnwrapService", () ->
     deferred.promise
 
 
-  unwrapResource: (model) ->
+  unwrapResource: (model, resource) ->
     return new model(resource)
 
-angular.module('BB.Services').factory "BB.Service.address", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.address", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.Address)
+    UnwrapService.unwrapResource(BBModel.Address, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.person", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.person", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.Person)
+    UnwrapService.unwrapResource(BBModel.Person, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.people", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.people", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollectionSimple(BBModel.Person, 'people')
+    UnwrapService.unwrapCollectionSimple(BBModel.Person, 'people', resource)
 
-angular.module('BB.Services').factory "BB.Service.resource", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.resource", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.Resource)
+    UnwrapService.unwrapResource(BBModel.Resource, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.resources", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.resources", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollectionSimple(BBModel.Resource, 'resources')
+    UnwrapService.unwrapCollectionSimple(BBModel.Resource, 'resources', resource)
 
-angular.module('BB.Services').factory "BB.Service.service", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.service", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.Service)
+    UnwrapService.unwrapResource(BBModel.Service, resource)
 
-angular.module('BB.Services').factory "BB.Service.services", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.services", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollection(BBModel.Service, 'services')
+    console.log resource
+    UnwrapService.unwrapCollection(BBModel.Service, 'services', resource)
 
-angular.module('BB.Services').factory "BB.Service.package_item", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.package_item", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.PackageItem)
+    UnwrapService.unwrapResource(BBModel.PackageItem, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.package_items", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.package_items", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollectionSimple(BBModel.PackageItem, 'package_items')
+    UnwrapService.unwrapCollectionSimple(BBModel.PackageItem, 'package_items', resource)
 
-angular.module('BB.Services').factory "BB.Service.bulk_purchase", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.bulk_purchase", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.BulkPurchase)
+    UnwrapService.unwrapResource(BBModel.BulkPurchase, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.bulk_purchases", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.bulk_purchases", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollection(BBModel.BulkPurchase, 'bulk_purchases')
+    UnwrapService.unwrapCollection(BBModel.BulkPurchase, 'bulk_purchases', resource)
 
-angular.module('BB.Services').factory "BB.Service.event_group", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.event_group", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.EventGroup)
+    UnwrapService.unwrapResource(BBModel.EventGroup, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.event_groups", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.event_groups", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapResource(BBModel.EventGroup, 'event_groups')
+    UnwrapService.unwrapCollectionSimple(BBModel.EventGroup, 'event_groups', resource)
 
 
-angular.module('BB.Services').factory "BB.Service.event_chain", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.event_chain", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.EventChain)
+    UnwrapService.unwrapResource(BBModel.EventChain, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.event_chains", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.event_chains", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.EventChain)
+    UnwrapService.unwrapResource(BBModel.EventChain, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.category", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.category", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.Category)
+    UnwrapService.unwrapResource(BBModel.Category, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.categories", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.categories", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollectionSimple(BBModel.Category, 'categories')
+    UnwrapService.unwrapCollectionSimple(BBModel.Category, 'categories', resource)
 
-angular.module('BB.Services').factory "BB.Service.client", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.client", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.Client)
+    UnwrapService.unwrapResource(BBModel.Client, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.child_clients", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.child_clients", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollectionSimple(BBModel.Client, 'clients')
+    UnwrapService.unwrapCollectionSimple(BBModel.Client, 'clients', resource)
 
-angular.module('BB.Services').factory "BB.Service.clients", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.clients", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollectionSimple(BBModel.Client, 'clients')
+    UnwrapService.unwrapCollectionSimple(BBModel.Client, 'clients', resource)
 
-angular.module('BB.Services').factory "BB.Service.questions", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.questions", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
     if resource.questions
       (new BBModel.Question(i) for i in resource.questions)
@@ -152,12 +152,12 @@ angular.module('BB.Services').factory "BB.Service.questions", ($q, BBModel) ->
       (new BBModel.Question(i) for i in resource)
 
 
-angular.module('BB.Services').factory "BB.Service.question", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.question", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.Question)
+    UnwrapService.unwrapResource(BBModel.Question, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.answers", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.answers", ($q, BBModel, UnwrapService) ->
   promise: false
   unwrap: (items) ->
     models = []
@@ -173,52 +173,52 @@ angular.module('BB.Services').factory "BB.Service.answers", ($q, BBModel) ->
     return answers
 
 
-angular.module('BB.Services').factory "BB.Service.administrators", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.administrators", ($q, BBModel, UnwrapService) ->
   unwrap: (items) ->
     new BBModel.Admin.User(i) for i in items
 
 
-angular.module('BB.Services').factory "BB.Service.company", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.company", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.Company)
+    UnwrapService.unwrapResource(BBModel.Company, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.parent", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.parent", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.Company)
+    UnwrapService.unwrapResource(BBModel.Company, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.company_questions", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.company_questions", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollectionSimple(BBModel.BusinessQuestion, 'company_questions')
+    UnwrapService.unwrapCollectionSimple(BBModel.BusinessQuestion, 'company_questions', resource)
 
-angular.module('BB.Services').factory "BB.Service.company_question", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.company_question", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.BusinessQuestion)
+    UnwrapService.unwrapResource(BBModel.BusinessQuestion, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.images", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.images", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollectionSimple(BBModel.Image, 'images')
+    UnwrapService.unwrapCollectionSimple(BBModel.Image, 'images', resource)
 
-angular.module('BB.Services').factory "BB.Service.bookings", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.bookings", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollectionSimple(BBModel.Member.Booking, 'bookings')
+    UnwrapService.unwrapCollectionSimple(BBModel.Member.Booking, 'bookings', resource)
 
-angular.module('BB.Services').factory "BB.Service.wallet", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.wallet", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.Member.Wallet)
+    UnwrapService.unwrapResource(BBModel.Member.Wallet, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.product", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.product", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.Product)
+    UnwrapService.unwrapResource(BBModel.Product, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.products", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.products", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
     deferred = $q.defer()
@@ -235,37 +235,37 @@ angular.module('BB.Services').factory "BB.Service.products", ($q, BBModel) ->
     deferred.promise
 
 
-angular.module('BB.Services').factory "BB.Service.pre_paid_booking", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.pre_paid_booking", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.PrePaidBooking)
+    UnwrapService.unwrapResource(BBModel.PrePaidBooking, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.pre_paid_bookings", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.pre_paid_bookings", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollection(BBModel.PrePaidBooking, 'pre_paid_bookings')
+    UnwrapService.unwrapCollection(BBModel.PrePaidBooking, 'pre_paid_bookings', resource)
 
-angular.module('BB.Services').factory "BB.Service.external_purchase", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.external_purchase", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.ExternalPurchase)
+    UnwrapService.unwrapResource(BBModel.ExternalPurchase, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.external_purchases", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.external_purchases", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollection(BBModel.ExternalPurchase, 'external_purchases')
+    UnwrapService.unwrapCollection(BBModel.ExternalPurchase, 'external_purchases', resource)
 
-angular.module('BB.Services').factory "BB.Service.purchase_item", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.purchase_item", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapResource(BBModel.PurchaseItem)
+    UnwrapService.unwrapResource(BBModel.PurchaseItem, resource)
 
 
-angular.module('BB.Services').factory "BB.Service.purchase_items", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.purchase_items", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollection(BBModel.PurchaseItem, 'purchase_items')
+    unwrapCollection(BBModel.PurchaseItem, 'purchase_items', resource)
 
-angular.module('BB.Services').factory "BB.Service.events", ($q, BBModel) ->
+angular.module('BB.Services').factory "BB.Service.events", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollection(BModel.Event, 'events')
+    unwrapCollection(BModel.Event, 'events', resource)
