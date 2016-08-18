@@ -17,6 +17,8 @@ angular.module('BB.Services').factory "UnwrapService", ($q, BBModel) ->
         deferred.resolve(models)
       , (err) =>
         deferred.reject(err)
+    else
+      defer.reject()
 
     deferred.promise
 
