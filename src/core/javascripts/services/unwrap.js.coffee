@@ -9,8 +9,7 @@ angular.module('BB.Services').factory "UnwrapService", ($q, BBModel) ->
       models = (new model(service) for service in resource)
       deferred.resolve(models)
 
-    else
-
+    else if resource.$has(key)
       resource.$get(key).then (items) =>
         models = []
         for i in items
@@ -20,7 +19,6 @@ angular.module('BB.Services').factory "UnwrapService", ($q, BBModel) ->
         deferred.reject(err)
 
     deferred.promise
-
 
   unwrapResource: (model, resource) ->
     return new model(resource)
@@ -127,18 +125,7 @@ angular.module('BB.Services').factory "BB.Service.clients", ($q, BBModel, Unwrap
 
 angular.module('BB.Services').factory "BB.Service.questions", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    if resource.questions
-      (new BBModel.Question(i) for i in resource.questions)
-    else if resource.$has('questions')
-      defer = $q.defer()
-      resource.$get('questions').then (items) ->
-        defer.resolve((new BBModel.Question(i) for i in items))
-      , (err) ->
-        defer.reject(err)
-      defer.promise
-    else
-      (new BBModel.Question(i) for i in resource)
-
+    unwrapCollection(BBModel.Question, 'questions', resource)
 
 angular.module('BB.Services').factory "BB.Service.question", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
