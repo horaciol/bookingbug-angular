@@ -1,15 +1,4 @@
 angular.module('BB.Services').factory "UnwrapService", ($q, BBModel) ->
-  unwrapCollectionSimple = (model, key, resource) ->
-    deferred = $q.defer()
-    resource.$get(key).then (items) =>
-      models = []
-      for i in items
-        models.push(new model(i))
-      deferred.resolve(models)
-    , (err) =>
-      deferred.reject(err)
-
-    deferred.promise
 
   unwrapCollection: (model, key, resource) ->
     deferred = $q.defer()
@@ -49,7 +38,7 @@ angular.module('BB.Services').factory "BB.Service.person", ($q, BBModel, UnwrapS
 angular.module('BB.Services').factory "BB.Service.people", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    UnwrapService.unwrapCollectionSimple(BBModel.Person, 'people', resource)
+    UnwrapService.unwrapCollection(BBModel.Person, 'people', resource)
 
 angular.module('BB.Services').factory "BB.Service.resource", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
@@ -59,7 +48,7 @@ angular.module('BB.Services').factory "BB.Service.resource", ($q, BBModel, Unwra
 angular.module('BB.Services').factory "BB.Service.resources", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    UnwrapService.unwrapCollectionSimple(BBModel.Resource, 'resources', resource)
+    UnwrapService.unwrapCollection(BBModel.Resource, 'resources', resource)
 
 angular.module('BB.Services').factory "BB.Service.service", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
@@ -68,7 +57,6 @@ angular.module('BB.Services').factory "BB.Service.service", ($q, BBModel, Unwrap
 angular.module('BB.Services').factory "BB.Service.services", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    console.log resource
     UnwrapService.unwrapCollection(BBModel.Service, 'services', resource)
 
 angular.module('BB.Services').factory "BB.Service.package_item", ($q, BBModel, UnwrapService) ->
@@ -79,7 +67,7 @@ angular.module('BB.Services').factory "BB.Service.package_item", ($q, BBModel, U
 angular.module('BB.Services').factory "BB.Service.package_items", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    UnwrapService.unwrapCollectionSimple(BBModel.PackageItem, 'package_items', resource)
+    UnwrapService.unwrapCollection(BBModel.PackageItem, 'package_items', resource)
 
 angular.module('BB.Services').factory "BB.Service.bulk_purchase", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
@@ -99,7 +87,7 @@ angular.module('BB.Services').factory "BB.Service.event_group", ($q, BBModel, Un
 angular.module('BB.Services').factory "BB.Service.event_groups", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    UnwrapService.unwrapCollectionSimple(BBModel.EventGroup, 'event_groups', resource)
+    UnwrapService.unwrapCollection(BBModel.EventGroup, 'event_groups', resource)
 
 
 angular.module('BB.Services').factory "BB.Service.event_chain", ($q, BBModel, UnwrapService) ->
@@ -120,7 +108,7 @@ angular.module('BB.Services').factory "BB.Service.category", ($q, BBModel, Unwra
 angular.module('BB.Services').factory "BB.Service.categories", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    UnwrapService.unwrapCollectionSimple(BBModel.Category, 'categories', resource)
+    UnwrapService.unwrapCollection(BBModel.Category, 'categories', resource)
 
 angular.module('BB.Services').factory "BB.Service.client", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
@@ -130,12 +118,12 @@ angular.module('BB.Services').factory "BB.Service.client", ($q, BBModel, UnwrapS
 angular.module('BB.Services').factory "BB.Service.child_clients", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    UnwrapService.unwrapCollectionSimple(BBModel.Client, 'clients', resource)
+    UnwrapService.unwrapCollection(BBModel.Client, 'clients', resource)
 
 angular.module('BB.Services').factory "BB.Service.clients", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    UnwrapService.unwrapCollectionSimple(BBModel.Client, 'clients', resource)
+    UnwrapService.unwrapCollection(BBModel.Client, 'clients', resource)
 
 angular.module('BB.Services').factory "BB.Service.questions", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
@@ -191,7 +179,7 @@ angular.module('BB.Services').factory "BB.Service.parent", ($q, BBModel, UnwrapS
 angular.module('BB.Services').factory "BB.Service.company_questions", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    UnwrapService.unwrapCollectionSimple(BBModel.BusinessQuestion, 'company_questions', resource)
+    UnwrapService.unwrapCollection(BBModel.BusinessQuestion, 'company_questions', resource)
 
 angular.module('BB.Services').factory "BB.Service.company_question", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
@@ -201,12 +189,12 @@ angular.module('BB.Services').factory "BB.Service.company_question", ($q, BBMode
 angular.module('BB.Services').factory "BB.Service.images", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    UnwrapService.unwrapCollectionSimple(BBModel.Image, 'images', resource)
+    UnwrapService.unwrapCollection(BBModel.Image, 'images', resource)
 
 angular.module('BB.Services').factory "BB.Service.bookings", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    UnwrapService.unwrapCollectionSimple(BBModel.Member.Booking, 'bookings', resource)
+    UnwrapService.unwrapCollection(BBModel.Member.Booking, 'bookings', resource)
 
 angular.module('BB.Services').factory "BB.Service.wallet", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
@@ -269,3 +257,13 @@ angular.module('BB.Services').factory "BB.Service.events", ($q, BBModel, UnwrapS
   promise: true
   unwrap: (resource) ->
     unwrapCollection(BModel.Event, 'events', resource)
+
+angular.module('BB.Services').factory "BB.Service.all_children", ($q, BBModel, UnwrapService) ->
+  promise: true
+  unwrap: (resource) ->
+    UnwrapService.unwrapCollection(BBModel.Service, 'services', resource)
+
+angular.module('BB.Services').factory "BB.Service.child_services", ($q, BBModel, UnwrapService) ->
+  promise: true
+  unwrap: (resource) ->
+    UnwrapService.unwrapCollection(BBModel.Service, 'child_services', resource)
