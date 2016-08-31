@@ -176,7 +176,7 @@ angular.module('BB.Controllers').controller 'Event', ($scope, $attrs,
         $scope.bb.basket.total_price = $scope.bb.basket.totalPrice()
       , true
 
-    , (err) -> $scope.setLoadedAndShowError($scope, err, 'Sorry, something went wrong')
+    , (err) -> loader.setLoadedAndShowError(err, 'Sorry, something went wrong')
 
 
   ###**

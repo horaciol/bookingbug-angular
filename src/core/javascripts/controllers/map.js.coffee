@@ -106,7 +106,7 @@ angular.module('BB.Controllers').controller 'MapCtrl', ($scope, $element,
       $scope.companies = [$scope.bb.company]
 
     if $scope.bb.current_item.service and $scope.options and $scope.options.filter_by_service
-      $scope.notLoaded $scope
+      loader.notLoaded()
 
       filterByService().then ->
         $scope.map_init.then ->

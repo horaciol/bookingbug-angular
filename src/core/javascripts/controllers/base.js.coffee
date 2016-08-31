@@ -183,7 +183,7 @@ angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location, $rootS
   $sce, $element, $compile, $sniffer, $uibModal, $log, BBModel, BBWidget, SSOService,
   ErrorService, AppConfig, QueryStringService, QuestionService, LocaleService,
   PurchaseService, $sessionStorage, $bbug, SettingsService, UriTemplate, LoadingService,
-  $anchorScroll, $localStorage, $document) ->
+  $anchorScroll, $localStorage, $document, LoadingService) ->
 
   # dont change the cid as we use it in the app to identify this as the widget
   # root scope
@@ -194,6 +194,8 @@ angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location, $rootS
   $scope.qs = QueryStringService
   $scope.company_api_path = '/api/v1/company/{company_id}{?embed,category_id}'
   $scope.company_admin_api_path = '/api/v1/admin/{company_id}/company{?embed,category_id}'
+
+  loader = LoadingService.$loader($scope)
 
   if $scope.apiUrl
     $scope.bb ||= {}
@@ -594,10 +596,10 @@ angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location, $rootS
               $scope.decideNextPage(page)
       , (err) ->
         con_started.reject("Failed to start widget")
-        $scope.setLoadedAndShowError($scope, err, 'Sorry, something went wrong')
+        loader.setLoadedAndShowError(err, 'Sorry, something went wrong')
     , (err) ->
       con_started.reject("Failed to start widget")
-      $scope.setLoadedAndShowError($scope, err, 'Sorry, something went wrong')
+      loader.setLoadedAndShowError(err, 'Sorry, something went wrong')
 
 
   setupDefaults = (company_id) =>
@@ -754,7 +756,7 @@ angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location, $rootS
       AlertService.clear() # clear any alerts as part of loading a new page
       $scope.bb.current_page = route
       $scope.bb.recordCurrentPage() if !dont_record_page
-      $scope.notLoaded $scope
+      loader.notLoaded()
       $scope.bb_main = $sce.trustAsResourceUrl($scope.bb.pageURL(route))
 
     $rootScope.$broadcast "page:loaded"
@@ -771,8 +773,9 @@ angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location, $rootS
   $scope.getPartial = (file) ->
     $scope.bb.pageURL(file)
 
+  #TODO can this method be removed?
   $scope.setPageLoaded = () ->
-    $scope.setLoaded $scope
+    loader.setLoaded()
 
 
   $scope.setPageRoute = (route) =>
@@ -1319,11 +1322,12 @@ angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location, $rootS
 
 
   # TODO: Get rid of these 'scope loading' methods when they are no longer
+  # TODO can this method be removed?
   # called from the scopes
   $scope.setLoaded = (cscope) ->
     LoadingService.setLoaded(cscope)
 
-
+  #TODO can this method be removed?
   $scope.setLoadedAndShowError = (scope, err, error_string) ->
     LoadingService.setLoadedAndShowError(scope, err, error_string)
 
@@ -1334,6 +1338,7 @@ angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location, $rootS
     LoadingService.areScopesLoaded(cscope)
 
   #set scope not loaded...
+  #TODO can this method be removed?
   $scope.notLoaded = (cscope) ->
     LoadingService.notLoaded(cscope)
 

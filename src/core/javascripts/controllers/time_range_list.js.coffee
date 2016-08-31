@@ -440,7 +440,7 @@ angular.module('BB.Controllers').controller 'TimeRangeList', ($scope, $element,
     duration = $scope.bb.current_item.min_duration if $scope.bb.current_item.min_duration
 
     if $scope.data_source and $scope.data_source.days_link
-      $scope.notLoaded $scope
+      loader.notLoaded()
       loc = null
       loc = ",,,," + $scope.bb.postcode + "," if $scope.bb.postcode
 
@@ -510,14 +510,14 @@ angular.module('BB.Controllers').controller 'TimeRangeList', ($scope, $element,
         if err.status == 404  && err.data && err.data.error && err.data.error == "No bookable events found"
           if $scope.data_source && $scope.data_source.person
             AlertService.warning(ErrorService.getError('NOT_BOOKABLE_PERSON'))
-            $scope.setLoaded $scope
+            loader.setLoaded()
           else if  $scope.data_source && $scope.data_source.resource
             AlertService.warning(ErrorService.getError('NOT_BOOKABLE_RESOURCE'))
-            $scope.setLoaded $scope
+            loader.setLoaded()
           else
-          $scope.setLoadedAndShowError($scope, err, 'Sorry, something went wrong')
+          loader.setLoadedAndShowError(err, 'Sorry, something went wrong')
         else
-          $scope.setLoadedAndShowError($scope, err, 'Sorry, something went wrong')
+          loader.setLoadedAndShowError(err, 'Sorry, something went wrong')
     else
       loader.setLoaded()
 

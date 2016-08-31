@@ -78,7 +78,7 @@ angular.module('BBAdminBooking').controller 'adminBookingClients', ($scope,
       order_by_reverse: params.order_by_reverse
       page: params.page or 1
 
-    $scope.notLoaded $scope
+    loader.notLoaded()
 
     BBModel.Admin.Client.$query($scope.params).then (result) ->
 

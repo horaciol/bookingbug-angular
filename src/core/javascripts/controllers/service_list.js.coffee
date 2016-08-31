@@ -189,7 +189,7 @@ angular.module('BB.Controllers').controller 'ServiceList',($scope, $rootScope, $
         loader.setLoadedAndShowError($scope, err, 'Sorry, something went wrong')
 
     $q.all(all_loaded).then () ->
-      $scope.setLoaded($scope)
+      loader.setLoaded()
 
 
   setServicesDisplayName = (items)->
