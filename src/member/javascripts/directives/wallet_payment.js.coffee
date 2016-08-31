@@ -1,5 +1,5 @@
 angular.module("BB.Directives").directive "bbWalletPayment", ($sce, $rootScope,
-  $window, $location, SettingsService, AlertService) ->
+  $window, $location, SettingsService, AlertService, LoadingService) ->
 
   restrict: 'A'
   controller: 'Wallet'
@@ -7,6 +7,8 @@ angular.module("BB.Directives").directive "bbWalletPayment", ($sce, $rootScope,
   replace: true
   require: '^?bbWallet'
   link: (scope, element, attrs, ctrl) ->
+
+    loader = LoadingService.$loader(scope)
 
     one_pound = 100
     scope.wallet_payment_options = scope.$eval(attrs.bbWalletPayment) or {}
@@ -78,7 +80,7 @@ angular.module("BB.Directives").directive "bbWalletPayment", ($sce, $rootScope,
 
       # load iframe using payment link
       if wallet.$has('new_payment')
-        scope.notLoaded scope
+        loader.notLoaded()
         if band
           scope.amount = band.actual_amount
         scope.wallet_payment_url = $sce.trustAsResourceUrl(wallet.$href("new_payment"))
@@ -88,7 +90,7 @@ angular.module("BB.Directives").directive "bbWalletPayment", ($sce, $rootScope,
           origin = getHost(url)
           sendLoadEvent(element, origin, scope)
           scope.$apply ->
-            scope.setLoaded scope
+            loader.setLoaded()
 
 
     # register iframe message listener
@@ -101,10 +103,10 @@ angular.module("BB.Directives").directive "bbWalletPayment", ($sce, $rootScope,
         if data
           switch data.type
             when "submitting"
-              scope.notLoaded scope
+              loader.notLoaded()
             when "error"
               $rootScope.$broadcast "wallet:topup_failed"
-              scope.notLoaded scope
+              loader.notLoaded()
               # reload the payment iframe
               document.getElementsByTagName("iframe")[0].src += ''
               AlertService.raise('PAYMENT_FAILED')

@@ -80,6 +80,7 @@ angular.module('BB.Directives').directive 'bbPaypalExpressButton', ($compile,
     paypalOptions = scope.paypalOptions
     scope.href = new UriTemplate(total.$link('paypal_express').href).fillFromObject(paypalOptions)
 
+    #TODO should it use LoadingService?
     scope.showLoader = () ->
       scope.notLoaded scope if scope.notLoaded
 

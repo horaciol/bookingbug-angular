@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('BBAdminBooking').directive 'bbAdminMoveBooking', ($log,
-  $compile, $q, PathSvc, $templateCache, $http, BBModel, $rootScope) ->
+  $compile, $q, PathSvc, $templateCache, $http, BBModel, $rootScope, LoadingService) ->
 
   getTemplate = (template) ->
     partial = if template then template else 'main'
@@ -22,6 +22,8 @@ angular.module('BBAdminBooking').directive 'bbAdminMoveBooking', ($log,
 
 
   link = (scope, element, attrs) ->
+
+    loader = LoadingService.$loader(scope);
 
     config = scope.$eval attrs.bbAdminMoveBooking
     config ||= {}
@@ -58,10 +60,10 @@ angular.module('BBAdminBooking').directive 'bbAdminMoveBooking', ($log,
 
           $q.all(proms).then () ->
             $rootScope.$broadcast "booking:move"
-            scope.setLoaded scope
+            loader.setLoaded()
             renderTemplate(scope, element, config.design_mode, config.template)
           , (err) ->
-            scope.setLoaded scope
+            loader.setLoaded()
             failMsg()
 
 

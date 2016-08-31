@@ -1,11 +1,13 @@
 'use strict'
 
 angular.module("BB.Directives").directive "bbFbLogin", (LoginService,
-    $rootScope, AlertService, $window) ->
+    $rootScope, AlertService, LoadingService) ->
 
   restrict: 'A'
   scope: true
   link: (scope, element, attrs) ->
+
+    loader = LoadingService.$loader(scope)
 
     options = scope.$eval(attrs.bbFbLogin) or {}
     $rootScope.connection_started.then ->
@@ -36,7 +38,7 @@ angular.module("BB.Directives").directive "bbFbLogin", (LoginService,
         if scope.bb.destination
           scope.redirectTo(scope.bb.destination)
         else
-          scope.setLoaded scope
+          loader.setLoaded()
           scope.decideNextPage()
       , (err) ->
         if err.data.error == "FACEBOOK-LOGIN-MEMBER-NOT-FOUND"
