@@ -53,7 +53,7 @@ angular.module('BBAdminDashboard.config-iframe', [
         controller: 'ConfigIframeEventSettingsPageCtrl'
         deepStateRedirect: {
           default: {
-            state: 'config.event-settings.page'
+            state: 'config-iframe.event-settings.page'
             params: {
               path: 'sessions/courses'
             }
@@ -70,7 +70,7 @@ angular.module('BBAdminDashboard.config-iframe', [
         controller: 'ConfigIframePromotionsPageCtrl'
         deepStateRedirect: {
           default: {
-            state: 'config.promotions.page'
+            state: 'config-iframe.promotions.page'
             params: {
               path: 'price/deal/summary'
             }
@@ -87,7 +87,7 @@ angular.module('BBAdminDashboard.config-iframe', [
         controller: 'ConfigIframeBookingSettingsPageCtrl'
         deepStateRedirect: {
           default: {
-            state: 'config.booking-settings.page'
+            state: 'config-iframe.booking-settings.page'
             params: {
               path: 'detail_type'
             }
