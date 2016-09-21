@@ -33,6 +33,7 @@ BBAdminDashboardDependencies = [
   'BBAdminDashboard.dashboard-iframe',
   'BBAdminDashboard.members-iframe',
   'BBAdminDashboard.settings-iframe',
+  # 'BBAdminDashboard.config',
   'BBAdminDashboard.config-iframe',
   'BBAdminDashboard.publish-iframe'
 ]
@@ -90,3 +91,4 @@ adminBookingApp = angular.module('BBAdminDashboard', BBAdminDashboardDependencie
 .config ($logProvider, $httpProvider) ->
   $logProvider.debugEnabled(true)
   $httpProvider.defaults.withCredentials = true
+

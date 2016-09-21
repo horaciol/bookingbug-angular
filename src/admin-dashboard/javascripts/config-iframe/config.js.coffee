@@ -16,38 +16,38 @@ angular.module('BBAdminDashboard.config-iframe', [
   if AdminConfigIframeOptions.use_default_states
 
     RuntimeStates
-      .state 'config',
+      .state 'config-iframe',
         parent: AdminConfigIframeOptions.parent_state
         url: 'config'
         templateUrl: 'config-iframe/index.html'
         controller: 'ConfigIframePageCtrl'
         deepStateRedirect: {
           default: {
-            state: 'config.business.page'
+            state: 'config-iframe.business.page'
             params: {
               path: 'person'
             }
           }
         }
 
-      .state 'config.business',
+      .state 'config-iframe.business',
         url: '/business'
         templateUrl: 'core/tabbed-substates-page.html'
         controller: 'ConfigIframeBusinessPageCtrl'
         deepStateRedirect: {
           default: {
-            state: 'config.business.page'
+            state: 'config-iframe.business.page'
             params: {
               path: 'person'
             }
           }
         }
-      .state 'config.business.page',
+      .state 'config-iframe.business.page',
         url: '/page/:path'
         templateUrl: 'core/iframe-page.html'
         controller: 'ConfigSubIframePageCtrl'
 
-      .state 'config.event-settings',
+      .state 'config-iframe.event-settings',
         url: '/event-settings'
         templateUrl: 'core/tabbed-substates-page.html'
         controller: 'ConfigIframeEventSettingsPageCtrl'
@@ -59,12 +59,12 @@ angular.module('BBAdminDashboard.config-iframe', [
             }
           }
         }
-      .state 'config.event-settings.page',
+      .state 'config-iframe.event-settings.page',
         url: '/page/:path'
         templateUrl: 'core/iframe-page.html'
         controller: 'ConfigSubIframePageCtrl'
 
-      .state 'config.promotions',
+      .state 'config-iframe.promotions',
         url: '/promotions'
         templateUrl: 'core/tabbed-substates-page.html'
         controller: 'ConfigIframePromotionsPageCtrl'
@@ -76,12 +76,12 @@ angular.module('BBAdminDashboard.config-iframe', [
             }
           }
         }
-      .state 'config.promotions.page',
+      .state 'config-iframe.promotions.page',
         url: '/page/:path'
         templateUrl: 'core/iframe-page.html'
         controller: 'ConfigSubIframePageCtrl'
 
-      .state 'config.booking-settings',
+      .state 'config-iframe.booking-settings',
         url: '/booking-settings'
         templateUrl: 'core/tabbed-substates-page.html'
         controller: 'ConfigIframeBookingSettingsPageCtrl'
@@ -93,7 +93,7 @@ angular.module('BBAdminDashboard.config-iframe', [
             }
           }
         }
-      .state 'config.booking-settings.page',
+      .state 'config-iframe.booking-settings.page',
         url: '/page/:path'
         templateUrl: 'core/iframe-page.html'
         controller: 'ConfigSubIframePageCtrl'

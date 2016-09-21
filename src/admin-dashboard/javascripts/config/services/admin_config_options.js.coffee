@@ -2,7 +2,7 @@
 
 ###
 * @ngdoc service
-* @name BBAdminDashboard.config-iframe.services.service:AdminConfigIframeOptions
+* @name BBAdminDashboard.config.services.service:AdminConfigOptions
 *
 * @description
 * Returns a set of admin calendar configuration options
@@ -10,19 +10,19 @@
 
 ###
 * @ngdoc service
-* @name BBAdminDashboard.config-iframe.services.service:AdminConfigIframeOptionsProvider
+* @name BBAdminDashboard.config.services.service:AdminConfigOptionsProvider
 *
 * @description
 * Provider
 *
 * @example
   <example>
-  angular.module('ExampleModule').config ['AdminConfigIframeOptionsProvider', (AdminConfigIframeOptionsProvider) ->
-    AdminConfigIframeOptionsProvider.setOption('option', 'value')
+  angular.module('ExampleModule').config ['AdminConfigOptionsProvider', (AdminConfigOptionsProvider) ->
+    AdminConfigOptionsProvider.setOption('option', 'value')
   ]
   </example>
 ###
-angular.module('BBAdminDashboard.config-iframe.services').provider 'AdminConfigIframeOptions', [ ->
+angular.module('BBAdminDashboard.config.services').provider 'AdminConfigOptions', [ ->
   # This list of options is meant to grow
   options = {
     use_default_states : true
