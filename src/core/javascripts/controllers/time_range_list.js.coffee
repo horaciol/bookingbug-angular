@@ -57,7 +57,7 @@ angular.module('BB.Directives').directive 'bbTimeRanges', ($q, $templateCache, $
 
 angular.module('BB.Controllers').controller 'TimeRangeList', ($scope, $element,
   $attrs, $rootScope, $q, AlertService, LoadingService, BBModel,
-  FormDataStoreService, DateTimeUtilitiesService, SlotDates, ViewportSize) ->
+  FormDataStoreService, DateTimeUtilitiesService, SlotDates, ViewportSize, SettingsService) ->
 
   $scope.controller = "public.controllers.TimeRangeList"
 
@@ -469,11 +469,17 @@ angular.module('BB.Controllers').controller 'TimeRangeList', ($scope, $element,
         else
           $scope.no_slots_in_week = false
 
-        # sort time slots to be in chronological order
+        utc = moment().utc()
+        utcHours = utc.format('H')
+        utcMinutes = utc.format('m')
+        utcSeconds = utc.format('s')
+
+    # sort time slots to be in chronological order
         for pair in _.sortBy(_.pairs(datetime_arr), (pair) -> pair[0])
           d = pair[0]
           time_slots = pair[1]
-          day = {date: moment(d), slots: time_slots}
+          #day = {date: moment(d), slots: time_slots}
+          day = {date: moment(d).add(utcHours, 'hours').add(utcMinutes, 'minutes').add(utcSeconds, 'seconds'), slots: time_slots}
           $scope.days.push(day)
 
           if time_slots.length > 0
