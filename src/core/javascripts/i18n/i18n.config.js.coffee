@@ -1,7 +1,9 @@
 'use strict'
 
-angular.module('BB.i18n').config (tmhDynamicLocaleProvider, $translateProvider, TranslationOptionsProvider) ->
+angular.module('BB.i18n').config (tmhDynamicLocaleProvider, $translateProvider, TranslationOptionsProvider, bbLocaleProvider) ->
   'ngInject'
+
+  bbLocaleProvider.determineLocale()
 
   $translateProvider.useSanitizeValueStrategy('sanitizeParameters'); # TODO use sanitize strategy once it's reliable: https://angular-translate.github.io/docs/#/guide/19_security
 

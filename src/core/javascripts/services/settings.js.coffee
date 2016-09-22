@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('BB.Services').factory 'SettingsService', ($uibModalStack) ->
+angular.module('BB.Services').factory 'SettingsService', ($uibModalStack, bbLocale) ->
   i18n = false
   scroll_offset = 0
   country_code = null
@@ -24,8 +24,15 @@ angular.module('BB.Services').factory 'SettingsService', ($uibModalStack) ->
     return scroll_offset
 
   setCountryCode: (value) ->
+
     country_code = value
-    moment.locale 'en-' + country_code if country_code and country_code.match /^(gb|au)$/
+
+    if country_code and country_code.match /^(gb|au)$/
+      locale = 'en-' + country_code
+      bbLocale.setLocale locale
+
+    return
+
 
   getCountryCode: () ->
     return country_code
