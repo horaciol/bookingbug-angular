@@ -201,7 +201,7 @@ angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location, $rootS
   $sce, $element, $compile, $sniffer, $uibModal, $log, BBModel, BBWidget, SSOService,
   ErrorService, AppConfig, QueryStringService, QuestionService,
   PurchaseService, $sessionStorage, $bbug, SettingsService, UriTemplate, LoadingService,
-  $anchorScroll, $localStorage, $document, bbLocale) ->
+  $anchorScroll, $localStorage, $document) ->
 
   # dont change the cid as we use it in the app to identify this as the widget
   # root scope

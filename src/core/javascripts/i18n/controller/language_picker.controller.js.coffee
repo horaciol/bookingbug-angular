@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('BB.i18n').controller 'languagePickerController', (bbLocale, $locale, $rootScope, tmhDynamicLocale, $translate,
-  TranslationOptions, $scope) ->
+angular.module('BB.i18n').controller 'bbLanguagePickerController', (bbLocale, $locale, $rootScope, tmhDynamicLocale, $translate,
+  bbi18nOptions, $scope) ->
   'ngInject'
 
   ###jshint validthis: true ###
@@ -19,7 +19,7 @@ angular.module('BB.i18n').controller 'languagePickerController', (bbLocale, $loc
     return
 
   seAvailableLanguages = () ->
-    angular.forEach TranslationOptions.available_languages, (languageKey) ->
+    angular.forEach bbi18nOptions.available_languages, (languageKey) ->
       vm.availableLanguages.push(createLanguage(languageKey))
     return
 
@@ -34,7 +34,7 @@ angular.module('BB.i18n').controller 'languagePickerController', (bbLocale, $loc
     if languageKey isnt $locale.id
       pickLanguage(languageKey)
 
-    bbLocale.setLocale(languageKey, 'bbLanguagePicker set current language')
+    bbLocale.setLocale(languageKey, 'bbLanguagePicker.setCurrentLnguage')
 
     return
 
@@ -54,7 +54,7 @@ angular.module('BB.i18n').controller 'languagePickerController', (bbLocale, $loc
     tmhDynamicLocale.set(languageKey).then () ->
       $translate.use languageKey
       $rootScope.$broadcast 'BBLanguagePicker:languageChanged'
-      bbLocale.setLocale(languageKey, 'bbLanguagePicker language changed')
+      bbLocale.setLocale(languageKey, 'bbLanguagePicker.pickLanguage')
       return
     return
 
