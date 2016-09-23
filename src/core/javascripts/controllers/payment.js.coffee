@@ -41,7 +41,15 @@ angular.module('BB.Directives').directive 'bbPayment', ($window, $location,
       referrer = $location.protocol() + "://" + $location.host()
       if $location.port()
         referrer += ":" + $location.port()
-      custom_stylesheet = scope.payment_options.custom_stylesheet if scope.payment_options.custom_stylesheet
+
+      if scope.payment_options.custom_stylesheet
+        if custom_stylesheet.match(/http/)
+          # custom stylesheet as an absolute url, for ex. "http://bespoke.bookingbug.com/staging/custom-booking-widget.css"
+          custom_stylesheet = scope.payment_options.custom_stylesheet
+        else
+          # custom stylesheet as a file, for ex. "custom-booking-widget.css"
+          custom_stylesheet = $location.absUrl().match(/.+(?=#)/) + scope.payment_options.custom_stylesheet
+
       payload = JSON.stringify({
         'type': 'load',
         'message': referrer,
