@@ -121,6 +121,10 @@ angular.module('BBAdminDashboard.calendar.services').factory 'CalendarEventSourc
 
               booking.className = 'status_external'
               booking.type      = 'external'
+              booking.editable  = false
+              booking.startEditable  = false
+              booking.durationEditable  = false
+              booking.resourceEditable  = false
 
             deferred.resolve bookings
           else

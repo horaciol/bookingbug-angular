@@ -56,7 +56,7 @@ angular.module('BB.Services').factory 'ModalForm', ($uibModal, $document, $log, 
     if $scope.model.$has('edit')
       $scope.model.$get('edit', params).then (schema) =>
         $scope.form = _.reject schema.form, (x) -> x.type == 'submit'
-        model_type = model.constructor.name
+        model_type = functionName(model.constructor)
         if FormTransform['edit'][model_type]
           $scope.form = FormTransform['edit'][model_type]($scope.form)
         $scope.schema = checkSchema(schema.schema)
@@ -64,6 +64,14 @@ angular.module('BB.Services').factory 'ModalForm', ($uibModal, $document, $log, 
         $scope.loading = false
     else
       $log.warn("model does not have 'edit' rel")
+
+
+    functionName = (func) ->
+      result = /^function\s+([\w\$]+)\s*\(/.exec( func.toString() )
+      if result 
+         result[ 1 ]
+      else
+         ''
 
     $scope.submit = (form) ->
       $scope.$broadcast('schemaFormValidate')
@@ -121,13 +129,13 @@ angular.module('BB.Services').factory 'ModalForm', ($uibModal, $document, $log, 
       else
         question = null;
         if type is 'appointment'
-          question = $translate.instant('MODAL.CANCEL_BOOKING.QUESTION', {type: type})
+          question = $translate.instant('CORE.MODAL.CANCEL_BOOKING.QUESTION', {type: type})
         else
-          question = $translate.instant('MODAL.CANCEL_BOOKING.APPOINTMENT_QUESTION')
+          question = $translate.instant('CORE.MODAL.CANCEL_BOOKING.APPOINTMENT_QUESTION')
 
         Dialog.confirm
           model: model,
-          title: $translate.instant('MODAL.CANCEL_BOOKING.HEADER')
+          title: $translate.instant('CORE.MODAL.CANCEL_BOOKING.HEADER')
           body: question
           success: (model) ->
             model.$del('self').then (response) ->

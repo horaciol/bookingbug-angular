@@ -108,7 +108,7 @@ angular.module('BBAdminDashboard.calendar.directives').directive 'bbResourceCale
           event.oldResourceIds = event.resourceIds
         eventDrop: (event, delta, revertFunc) ->
           # we need a full move cal if either it has a person and resource, or they've dragged over multiple days
-          if event.person_id && event.resource_id || delta.days() > 0
+          if false && event.person_id && event.resource_id || delta.days() > 0
             start = event.start
             end = event.end
             item_defaults =

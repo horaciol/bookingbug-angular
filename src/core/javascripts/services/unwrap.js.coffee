@@ -18,7 +18,7 @@ angular.module('BB.Services').factory "UnwrapService", ($q, BBModel) ->
       , (err) =>
         deferred.reject(err)
     else
-      defer.reject()
+      deferred.reject()
 
     deferred.promise
 
@@ -127,7 +127,7 @@ angular.module('BB.Services').factory "BB.Service.clients", ($q, BBModel, Unwrap
 
 angular.module('BB.Services').factory "BB.Service.questions", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
-    unwrapCollection(BBModel.Question, 'questions', resource)
+    UnwrapService.unwrapCollection(BBModel.Question, 'questions', resource)
 
 angular.module('BB.Services').factory "BB.Service.question", ($q, BBModel, UnwrapService) ->
   unwrap: (resource) ->
@@ -240,12 +240,12 @@ angular.module('BB.Services').factory "BB.Service.purchase_item", ($q, BBModel, 
 angular.module('BB.Services').factory "BB.Service.purchase_items", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollection(BBModel.PurchaseItem, 'purchase_items', resource)
+    UnwrapService.unwrapCollection(BBModel.PurchaseItem, 'purchase_items', resource)
 
 angular.module('BB.Services').factory "BB.Service.events", ($q, BBModel, UnwrapService) ->
   promise: true
   unwrap: (resource) ->
-    unwrapCollection(BModel.Event, 'events', resource)
+    UnwrapService.unwrapCollection(BBModel.Event, 'events', resource)
 
 angular.module('BB.Services').factory "BB.Service.all_children", ($q, BBModel, UnwrapService) ->
   promise: true
