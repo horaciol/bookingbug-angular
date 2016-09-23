@@ -21,9 +21,8 @@ angular.module('BB.i18n').service 'bbLocale', (bbi18nOptions, $log, $translate, 
 
     else if bbi18nOptions.use_browser_language
       browserLocale = $translate.negotiateLocale($translate.resolveClientLocale()) #browserLocale = $window.navigator.language;
-      if bbi18nOptions.available_languages.indexOf(browserLocale) isnt -1
-        setLocale(browserLocale, 'browser locale')
-        $translate.preferredLanguage getLocale()
+      setLocale(browserLocale, 'browser locale')
+      $translate.preferredLanguage getLocale()
 
     return
 
@@ -32,9 +31,13 @@ angular.module('BB.i18n').service 'bbLocale', (bbi18nOptions, $log, $translate, 
   # @param {String} setWith
   ###
   setLocale = (locale, setWith = '') ->
+    if bbi18nOptions.available_languages.indexOf(locale) is -1
+      return
+
     _locale = locale
-    moment.locale locale # TODO we need angular wrapper for moment
-    $log.info('bbLocale.locale = ', _locale, ', set with: ', setWith)
+    moment.locale _locale # TODO we need angular wrapper for moment
+    $translate.use _locale
+    console.info('bbLocale.locale = ', _locale, ', set with: ', setWith)
     return
 
   ###
