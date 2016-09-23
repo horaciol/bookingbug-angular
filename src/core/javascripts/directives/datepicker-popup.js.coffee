@@ -34,7 +34,7 @@ angular.module('BB.Directives').directive 'bbDatepickerPopup', ($parse, $documen
       else
         attrs.uibDatepickerPopup = format.date_uk
 
-    dateFormat = if !!attrs.bbDatepickerPopup then attrs.bbDatepickerPopup else 'DD/MM/YYYY'
+    dateFormat = if attrs.bbDatepickerPopup then attrs.bbDatepickerPopup else 'DD/MM/YYYY'
     yearNow = moment(new Date()).year()
     getter = $parse attrs.ngModel
     timeRangeScope = scope

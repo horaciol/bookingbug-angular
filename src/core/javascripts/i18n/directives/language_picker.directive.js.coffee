@@ -20,7 +20,7 @@ angular.module('BB.i18n').directive 'bbLanguagePicker', () ->
     return;
 
   return {
-    controller  : 'languagePickerController'
+    controller  : 'bbLanguagePickerController'
     controllerAs: 'vm'
     link        : link
     restrict    : 'A'

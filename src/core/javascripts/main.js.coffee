@@ -24,8 +24,8 @@ app = angular.module('BB', [
   'pascalprecht.translate',
   'vcRecaptcha',
   'ui.select',
-
-  'BB.i18n'
+  'BB.i18n',
+  'angular-carousel'
 ])
 
 

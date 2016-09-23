@@ -199,7 +199,7 @@ angular.module('BB.Controllers').controller 'bbContentController', ($scope) ->
 angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location, $rootScope,
   halClient, $window, $http, $q, $timeout, BasketService, LoginService, AlertService,
   $sce, $element, $compile, $sniffer, $uibModal, $log, BBModel, BBWidget, SSOService,
-  ErrorService, AppConfig, QueryStringService, QuestionService, LocaleService,
+  ErrorService, AppConfig, QueryStringService, QuestionService,
   PurchaseService, $sessionStorage, $bbug, SettingsService, UriTemplate, LoadingService,
   $anchorScroll, $localStorage, $document) ->
 
@@ -239,7 +239,6 @@ angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location, $rootS
   $rootScope.connection_started = con_started.promise
   widget_started = $q.defer()
   $rootScope.widget_started = widget_started.promise
-  moment.locale([LocaleService, "en"])
 
   $rootScope.Route =
     Company: 0
@@ -380,9 +379,6 @@ angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location, $rootS
       # do we need to call anything else before continuing...
       if $scope.bb_route_init
         $scope.bb_route_init()
-
-    if prms.locale
-      moment.locale(prms.locale)
 
     if prms.use_local_time_zone
       SettingsService.setUseLocalTimeZone(prms.use_local_time_zone)
