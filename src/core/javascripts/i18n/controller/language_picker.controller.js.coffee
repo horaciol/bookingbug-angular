@@ -34,7 +34,7 @@ angular.module('BB.i18n').controller 'languagePickerController', (bbLocale, $loc
     if languageKey isnt $locale.id
       pickLanguage(languageKey)
 
-    bbLocale.setLocale(languageKey)
+    bbLocale.setLocale(languageKey, 'bbLanguagePicker set current language')
 
     return
 
@@ -54,7 +54,7 @@ angular.module('BB.i18n').controller 'languagePickerController', (bbLocale, $loc
     tmhDynamicLocale.set(languageKey).then () ->
       $translate.use languageKey
       $rootScope.$broadcast 'BBLanguagePicker:languageChanged'
-      bbLocale.setLocale(languageKey)
+      bbLocale.setLocale(languageKey, 'bbLanguagePicker language changed')
       return
     return
 

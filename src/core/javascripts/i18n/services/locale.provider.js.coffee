@@ -1,49 +1,62 @@
 'use strict'
 
-###
-# NOTE locale from widget parameters is not in use anymore - use this provider in bespoke project instead
-# @TODO use company country code to set locale - it cannot be done BBCtrl as it
-###
 angular.module('BB.i18n').provider 'bbLocale', ($windowProvider) ->
   'ngInject'
 
-  locale = 'en' # US a default locale
-  localeCompanyUsed = false
+  _locale = 'en' # moment defaults to en-US
+  _localeCompanyUsed = false
 
   determineLocale = () ->
     $window = $windowProvider.$get()
     localeURIParam = $window.getURIparam('locale')
     localeBrowser = $window.navigator.language;
 
+    calledWith = 'default'
     if localeURIParam
-      setLocale(localeURIParam)
+      _locale = localeURIParam
+      calledWith = 'URIParam locale'
     else if localeBrowser
-      setLocale(localeBrowser)
+      _locale = localeBrowser
+      calledWith = 'browser locale'
+
+    setLocale(_locale, calledWith)
     return
 
-  setLocale = (localeParam, isDeterminedOfCompanyCountryCode = false) ->
-
-    if isDeterminedOfCompanyCountryCode && localeCompanyUsed
-      return # you can set company provider only once
-    else
-      localeCompanyUsed = true
-
-    console.info('locale set to', localeParam)
-    locale = localeParam
-    moment.locale localeParam
-
-    #moment.locale 'en-' + country_code if country_code and country_code.match /^(gb|au)$/ #TODO that's hacky way to use comapany country code
+  ###
+  # @param {String} locale
+  # @param {String} calledWith
+  ###
+  setLocale = (locale, calledWith = '') ->
+    _locale = locale
+    moment.locale locale
+    console.info('bbLocale.locale = ', _locale, ', called with: ', calledWith)
+    console.log $windowProvider.$get()
     return
 
   getLocale = () ->
-    return locale
+    return _locale
 
   $get = () ->
     'ngInject'
 
+    ###
+    # It's a hacky way to map country code to specific locale.
+    # @param {String} countryCode
+    ###
+    setLocaleUsingCountryCode = (countryCode) ->
+      if _localeCompanyUsed
+        return #can be set only once
+      _localeCompanyUsed = true
+
+      if countryCode and countryCode.match /^(gb|au)$/
+        locale = 'en-' + countryCode
+        setLocale locale, 'countryCode'
+      return
+
     return {
       getLocale: getLocale
       setLocale: setLocale
+      setLocaleUsingCountryCode: setLocaleUsingCountryCode
     }
 
   return {
@@ -52,9 +65,3 @@ angular.module('BB.i18n').provider 'bbLocale', ($windowProvider) ->
     setLocale: setLocale
     $get: $get
   }
-
-
-
-
-
-

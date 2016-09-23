@@ -26,10 +26,7 @@ angular.module('BB.Services').factory 'SettingsService', ($uibModalStack, bbLoca
   setCountryCode: (value) ->
 
     country_code = value
-
-    if country_code and country_code.match /^(gb|au)$/
-      locale = 'en-' + country_code
-      bbLocale.setLocale locale
+    bbLocale.setLocaleUsingCountryCode(country_code)
 
     return
 
