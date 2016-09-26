@@ -52,8 +52,9 @@ angular.module('BB.i18n').controller 'bbLanguagePickerController', (bbLocale, $l
   ###
   pickLanguage = (languageKey) ->
     tmhDynamicLocale.set(languageKey).then () ->
-      bbLocale.setLocale(languageKey, 'bbLanguagePicker.pickLanguage')
+      $translate.use languageKey
       $rootScope.$broadcast 'BBLanguagePicker:languageChanged'
+      bbLocale.setLocale(languageKey, 'bbLanguagePicker.pickLanguage')
 
       return
     return
