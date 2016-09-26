@@ -63,9 +63,6 @@ angular.module('BB.Services').factory "TimeService", ($q, BBModel, halClient,
       # if we have an event - the the company link - so we don't add in extra params
       item_link = prms.company if extra.event_id
 
-      extraWithNoCache = angular.copy(extra)
-      extraWithNoCache.no_cache = true
-
       item_link.$get('times', extra).then (results) =>
 
         if results.$has('date_links')
@@ -86,7 +83,7 @@ angular.module('BB.Services').factory "TimeService", ($q, BBModel, halClient,
 
                 if day.$has('event_links')
 
-                  day.$get('event_links', extraWithNoCache).then (all_events) =>
+                  day.$get('event_links').then (all_events) =>
                     times = @merge_times(all_events, prms.cItem.service, prms.cItem, day.date)
                     times = _.filter(times, (t) -> t.avail >= prms.available) if prms.available
                     day.elink.resolve(times)
