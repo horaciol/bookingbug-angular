@@ -6,23 +6,23 @@ angular.module('BB.i18n').service 'bbLocale', (bbi18nOptions, $log, $translate, 
   _locale = null
   _localeCompanyUsed = false
 
-  init = () ->
-    defaultLocale = bbi18nOptions.default_language
-    setLocale(defaultLocale, 'default locale')
-    $translate.preferredLanguage getLocale()
-    return
-
   determineLocale = () ->
 
-    URIParamLocale = $window.getURIparam('locale')
-    if URIParamLocale
-      setLocale(URIParamLocale, 'URIParam locale')
-      $translate.preferredLanguage getLocale()
-
-    else if bbi18nOptions.use_browser_language
+    if $translate.use() isnt 'undefined' && angular.isDefined($translate.use())
+      setLocale($translate.use(), '$translate.use()')
+    else
       browserLocale = $translate.negotiateLocale($translate.resolveClientLocale()) #browserLocale = $window.navigator.language;
-      setLocale(browserLocale, 'browser locale')
-      $translate.preferredLanguage getLocale()
+      defaultLocale = bbi18nOptions.default_language
+      URIParamLocale = $window.getURIparam('locale')
+
+      if URIParamLocale and isAvailable(URIParamLocale)
+        setLocale(URIParamLocale, 'URIParam locale')
+      else if bbi18nOptions.use_browser_language and isAvailable(browserLocale)
+        setLocale(browserLocale, 'browser locale')
+      else
+        setLocale(defaultLocale, 'default locale')
+
+    $translate.preferredLanguage getLocale()
 
     return
 
@@ -31,13 +31,21 @@ angular.module('BB.i18n').service 'bbLocale', (bbi18nOptions, $log, $translate, 
   # @param {String} setWith
   ###
   setLocale = (locale, setWith = '') ->
-    if bbi18nOptions.available_languages.indexOf(locale) is -1
+    if !isAvailable(locale)
       return
 
     _locale = locale
     moment.locale _locale # TODO we need angular wrapper for moment
+    $translate.use(_locale)
     console.info('bbLocale.locale = ', _locale, ', set with: ', setWith)
+
     return
+
+  ###
+  # {String} locale
+  ###
+  isAvailable = (locale) ->
+    return bbi18nOptions.available_languages.indexOf(locale) isnt -1
 
   ###
   # @returns {String}
@@ -58,8 +66,6 @@ angular.module('BB.i18n').service 'bbLocale', (bbi18nOptions, $log, $translate, 
       locale = 'en-' + countryCode
       setLocale locale, 'countryCode'
     return
-
-  init()
 
   return {
     determineLocale: determineLocale

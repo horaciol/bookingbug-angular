@@ -24,17 +24,8 @@ angular.module('BB.i18n').controller 'bbLanguagePickerController', (bbLocale, $l
     return
 
   setCurrentLanguage = () ->
-    languageKey = $translate.use()
-    if languageKey is 'undefined'
-      languageKey = $translate.preferredLanguage()
-
     vm.language =
-      selected: createLanguage(languageKey)
-
-    if languageKey isnt $locale.id
-      pickLanguage(languageKey)
-
-    bbLocale.setLocale(languageKey, 'bbLanguagePicker.setCurrentLnguage')
+      selected: createLanguage(bbLocale.getLocale())
 
     return
 
