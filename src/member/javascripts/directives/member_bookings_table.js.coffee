@@ -66,8 +66,17 @@ angular.module('BBMember').directive 'memberBookingsTable', ($uibModal, $log, Mo
         start_time : $scope.startTime.format('HH:mm') if $scope.startTime
         end_date   : $scope.endDate.format('YYYY-MM-DD') if $scope.endDate
         end_time   : $scope.endTime.format('HH:mm') if $scope.endTime
-      BBModel.Admin.Booking.$query(params).then (bookings) ->
-        $scope.booking_models = bookings.items
+      BBModel.Member.Booking.$query(member, params).then (bookings) ->
+        now = moment.unix()
+        if $scope.period && $scope.period == "past"
+          $scope.booking_models = _.filter bookings.items, (x) ->
+            x.datetime.unix() < now 
+        if $scope.period && $scope.period == "future"
+          $scope.booking_models = _.filter bookings.items, (x) ->
+            x.datetime.unix() > now 
+        else
+          $scope.booking_models = bookings.items
+
         $scope.setRows()
         $scope.loading = false
       , (err) ->
@@ -79,7 +88,7 @@ angular.module('BBMember').directive 'memberBookingsTable', ($uibModal, $log, Mo
     $scope.orderBy = $scope.defaultOrder
     if not $scope.orderBy?
       $scope.orderBy = 'date_order'
-
+ 
     $scope.now = moment()
 
     getBookings($scope, $scope.member) if $scope.member
@@ -96,4 +105,5 @@ angular.module('BBMember').directive 'memberBookingsTable', ($uibModal, $log, Mo
       endDate:      '=?'
       endTime:      '=?'
       defaultOrder: '=?'
+      period:       '=?'
   }

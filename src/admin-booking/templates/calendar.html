@@ -47,24 +47,32 @@
 
             <div ng-if="best_earlier || best_later">
               <div ng-if="step_mismatch">
-                <p ng-if="allow_overbook">It looks like the booking step that service was configured for don't allow that time. You can select an alternative time, or you can try and booking the requested time anyway</p>
-                <p ng-if="!allow_overbook">It looks like the booking step that service was configured for don't allow that time. You can select an alternative time, or you can try and booking the requested time anyway, however making double bookings is not allowed by your business configuration settings</p>
-                <div class="row ">
-                  <div class="col-md-3 col-sm-4"><button class="btn btn-primary" ng-click="pickTime(best_earlier)"><i class="fa fa-calendar-check-o"></i> <span>Closest Earlier</span>: {{best_earlier.datetime.format("LT")}}</button></div>
-                  <div class="col-md-3 col-sm-4"><button class="btn btn-warning" ng-click="overBook()" ><i class="fa fa-calendar-times-o"></i> <span>Requested Time</span>: {{bb.current_item.defaults.datetime.format("LT")}}</button></div>
-                  <div class="col-md-3 col-sm-4"><button class="btn btn-primary"  ng-click="pickTime(best_later)" ><i class="fa fa-calendar-check-o"></i> <span>Closest Later</span>: {{best_later.datetime.format("LT")}}</button></div>
-                  <div class="col-md-3 col-sm-4"><button class="btn btn-primary" ng-click="pickOtherTime()"><i class="fa fa-calendar-o"></i> <span>Find another time</span></button></div>
+                <p ng-if="allow_overbook">It looks like the booking step that service was configured for doesn't allow that time. You can select an alternative time, or you can try and booking the requested time anyway</p>
+                <p ng-if="!allow_overbook">It looks like the booking step that service was configured for doesn't allow that time. You can select an alternative time, or you can try and booking the requested time anyway, however making double bookings is not allowed by your business configuration settings</p>
+                <div class="btn-group btn-group-justified "  role="group">
+                  <div class="btn-group" role="group"><button class="btn btn-primary" ng-click="pickTime(best_earlier)"><i class="fa fa-calendar-check-o"></i> <span>Closest Earlier</span>: {{best_earlier.datetime.format("LT")}}</button></div>
+                  <div class="btn-group" role="group"><button class="btn btn-warning" ng-click="overBook()" ><i class="fa fa-calendar-times-o"></i> <span>Requested Time</span>: {{bb.current_item.defaults.datetime.format("LT")}}</button></div>
+                  <div class="btn-group" role="group"><button class="btn btn-primary"  ng-click="pickTime(best_later)" ><i class="fa fa-calendar-check-o"></i> <span>Closest Later</span>: {{best_later.datetime.format("LT")}}</button></div>
+                  <div class="btn-group" role="group"><button class="btn btn-primary" ng-click="pickOtherTime()"><i class="fa fa-calendar-o"></i> <span>Find another time</span></button></div>
                 </div>
               </div>
               <div ng-if="!step_mismatch">
-                <p ng-if="allow_overbook">Looks like that time wasn't available. This could just be because it would autside of their normal schedule. This was the closest time I found. You can select an alternative time, or you can try and booking the requested time anyway</p>
-                <p ng-if="!allow_overbook">Looks like that time wasn't available. This could just be because it would autside of their normal schedule. This was the closest time I found. You can select an alternative time, or you can try and booking the requested time anyway, however double bookings aren't allowed by your company configuration settings</p>
-                <div class="row">
-                  <div class="col-md-3 col-sm-4" ng-if="best_earlier"><button  class="btn btn-primary" ng-click="pickTime(best_earlier)"><i class="fa fa-calendar-check-o"></i> <span>Closest Earlier</span>: {{best_earlier.datetime.format("LT")}}</button></div>
-                  <div class="col-md-3 col-sm-4"><button  class="btn btn-warning" ng-click="overBook()"><i class="fa fa-calendar-times-o"></i> <span>Requested Time</span>: {{bb.current_item.defaults.datetime.format("LT")}}</button></div>
-                  <div class="col-md-3 col-sm-4" ng-if="best_later"><button  class="btn btn-primary" ng-click="pickTime(best_later)"><i class="fa fa-calendar-check-o"></i> <span>Closest Later</span>: {{best_later.datetime.format("LT")}}</button></div>
-                  <div class="col-md-3 col-sm-4"><button class="btn btn-primary" ng-click="pickOtherTime()"><i class="fa fa-calendar-o"></i> <span>Find another time</span></button></div>
+                <p ng-if="allow_overbook">Looks like that time wasn't available. This could just be because it would outside of their normal schedule. This was the closest time I found. You can select an alternative time, or you can try and booking the requested time anyway</p>
+                <p ng-if="!allow_overbook">Looks like that time wasn't available. This could just be because it would outside of their normal schedule. This was the closest time I found. You can select an alternative time, or you can try and booking the requested time anyway, however double bookings aren't allowed by your company configuration settings</p>
+                <div class="btn-group btn-group-justified"  role="group">
+                  <div class="btn-group" role="group" ng-if="best_earlier"><button  class="btn btn-primary" ng-click="pickTime(best_earlier)"><i class="fa fa-calendar-check-o"></i> <span>Closest Earlier</span>: {{best_earlier.datetime.format("LT")}}</button></div>
+                  <div class="btn-group" role="group"><button  class="btn btn-warning" ng-click="overBook()"><i class="fa fa-calendar-times-o"></i> <span>Requested Time</span>: {{bb.current_item.defaults.datetime.format("LT")}}</button></div>
+                  <div class="btn-group" role="group" ng-if="best_later"><button  class="btn btn-primary" ng-click="pickTime(best_later)"><i class="fa fa-calendar-check-o"></i> <span>Closest Later</span>: {{best_later.datetime.format("LT")}}</button></div>
+                  <div class="btn-group" role="group"><button class="btn btn-primary" ng-click="pickOtherTime()"><i class="fa fa-calendar-o"></i> <span>Find another time</span></button></div>
                 </div>
+              </div>
+            </div>
+            <div ng-if="!best_earlier && !best_later">
+              <p ng-if="allow_overbook">It looks like the booking step that service was configured for doesn't allow that time. You can select an alternative time, or you can try and booking the requested time anyway</p>
+              <p ng-if="!allow_overbook">It looks like the booking step that service was configured for doesn't allow that time. You can select an alternative time, or you can try and booking the requested time anyway, however making double bookings is not allowed by your business configuration settings</p>
+              <div class="btn-group btn-group-justified "  role="group">
+                <div class="btn-group" role="group"><button class="btn btn-warning" ng-click="overBook()" ><i class="fa fa-calendar-times-o"></i> <span>Requested Time</span>: {{bb.current_item.defaults.datetime.format("LT")}}</button></div>
+                <div class="btn-group" role="group"><button class="btn btn-primary" ng-click="pickOtherTime()"><i class="fa fa-calendar-o"></i> <span>Find another time</span></button></div>
               </div>
             </div>
           </div>

@@ -41,9 +41,27 @@
             </li>
           </ul>
 
+          <ul ng-show="total.bookings[0].address.lat" class="confirmation-summary">         
+
+            <div class="confirmation-summary-address">
+              <div><span class='fa fa-map-marker'></span> {{total.bookings[0].address | address_single_line}}</div>
+              <div> <span class='fa fa-phone'></span> {{total.bookings[0].address.phone | local_phone_number}}</div>
+            </div>
+
+          </ul>
+ 
+          <div bb-custom-confirmation-text class="bb-message">
+            <div ng-repeat="msg in messages" ng-bind-html="msg"></div>
+          </div>
+
           <div class="row hidden-print pull-right print-row">
             <button type="button" class="btn btn-link" onclick="window.print()"><span class="fa fa-print fa-2x"></span> Print</button>
           </div>
+
+
+          <div class="row" style="margin-top: 10px" ng-click="cancel()" ng-if="cancel">
+            <button type="button" class="btn btn-primary pull-right">Close</button>
+          </div> 
 
         </div>
 

@@ -19,12 +19,13 @@ angular.module('BBAdminDashboard.clients.directives').controller 'TabletClients'
   $scope.clients = []
 
   $scope.getClients = (currentPage, filterBy, filterByFields, orderBy, orderByReverse) ->
-    if filterByFields.name?
-      filterByFields.name = filterByFields.name.replace(/\s/g, '')
-    if filterByFields.mobile?
-      mobile = filterByFields.mobile
+    fields = angular.copy(filterByFields)
+ #   if fields.name?
+  #    fields.name = fields.name.replace(/\s/g, '')
+    if fields.mobile?
+      mobile = fields.mobile
       if mobile.indexOf('0') == 0
-        filterByFields.mobile = mobile.substring(1)
+        fields.mobile = mobile.substring(1)
 
     clientDef = $q.defer()
 
@@ -33,7 +34,7 @@ angular.module('BBAdminDashboard.clients.directives').controller 'TabletClients'
       per_page: $scope.per_page
       page: currentPage + 1
       filter_by: filterBy
-      filter_by_fields: filterByFields
+      filter_by_fields: fields
       order_by: orderBy
       order_by_reverse: orderByReverse
     BBModel.Admin.Client.$query(params).then (clients) =>

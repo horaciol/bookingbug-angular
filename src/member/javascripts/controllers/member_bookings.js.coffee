@@ -67,7 +67,7 @@ angular.module('BBMember').controller 'MemberBookings', ($scope, $uibModal,
     return false if index is -1
     $scope.upcoming_bookings.splice(index, 1)
     AlertService.raise('BOOKING_CANCELLED')
-    $scope.booking.$del('self').then () ->
+    booking.$del('self').then () ->
       $rootScope.$broadcast("booking:cancelled")
       # does a removeBooking method exist in the scope chain?
       $scope.removeBooking(booking) if $scope.removeBooking
