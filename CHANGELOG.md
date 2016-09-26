@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file using [CHANG
 
 ## [Unreleased]
 ### Changed
+
+- SDK has been refactored so bbLocale service is the only one place to call setter moment.locale 
+
 - SDK build process does not flatten template files anymore in order to avoid naming conflicts.
   Bespoke projects that refer|override any of the following templates should be updated so they have proper directory structure.  
   ADMIN
@@ -19,6 +22,7 @@ All notable changes to this project will be documented in this file using [CHANG
   Before change $templateCache would register 'login/admin_login.html' template as 'admin_login.html'.
   After change $templateCache registers 'login/admin_login.html' template as 'login/admin_login.html'.
 - Month picker now works with angular carousel (removed angular slick from month picker)
+
 
 <a name="2.0.0-alpha"></a>
 # 2.0.0-alpha (2015-11-21)
