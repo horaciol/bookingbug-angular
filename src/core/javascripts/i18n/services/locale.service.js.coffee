@@ -36,7 +36,7 @@ angular.module('BB.i18n').service 'bbLocale', (bbi18nOptions, $log, $translate, 
     moment.locale(locale) # TODO we need angular wrapper for moment
     $translate.use(locale)
 
-    console.info('bbLocale.locale = ', locale, ', set with: ', setWith)
+    #console.info('bbLocale.locale = ', locale, ', set with: ', setWith)
 
     if locale isnt moment.locale() || locale isnt $translate.use()
       console.error('could not set locale properly, preferredLocale = ' + locale + ', moment.locale() = ', moment.locale(), '$translate.use() = ', $translate.use())
