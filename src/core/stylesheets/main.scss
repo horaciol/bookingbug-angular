@@ -70,3 +70,12 @@ div.loader {
 
 .bb-display-mode {position: fixed}
 
+
+.bb-project-version {
+  bottom: 20px;
+  left: 20px;
+  position: absolute;
+  z-index: 10000;
+  color: red;
+  pointer-events: none;
+}
