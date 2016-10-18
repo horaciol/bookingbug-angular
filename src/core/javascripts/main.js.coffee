@@ -55,7 +55,9 @@ app.config (uiGmapGoogleMapApiProvider) ->
     v: '3.20',
     libraries: 'weather,geometry,visualization'
   })
-app.config ($locationProvider, $httpProvider, $provide, ie8HttpBackendProvider) ->
+app.config ($locationProvider, $httpProvider, $provide, ie8HttpBackendProvider, bbConfig) ->
+
+  console.log('sdk', bbConfig)
 
   $httpProvider.defaults.headers.common =
     'App-Id': 'f6b16c23',

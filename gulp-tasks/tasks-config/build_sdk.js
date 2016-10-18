@@ -95,6 +95,10 @@
             return bbGulp.templates('core', srcPath, destPath);
         });
 
+        gulp.task('build-sdk:core:config', function () {
+            return bbGulp.config('core', srcPath, destPath);
+        });
+
         gulp.task('build-sdk:core:bower', function () {
             return bbGulp.bower('core', srcPath, destPath);
         });
@@ -103,6 +107,7 @@
             'build-sdk:core:javascripts',
             'build-sdk:core:stylesheets',
             'build-sdk:core:templates',
+            'build-sdk:core:config',
             'build-sdk:core:bower'
         ]);
 
