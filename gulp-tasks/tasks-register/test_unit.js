@@ -1,9 +1,9 @@
 (function () {
     'use strict';
 
-    var runSequence = require('run-sequence');
-
     module.exports = function (gulp, configuration) {
+
+        var runSequence = require('run-sequence').use(gulp);
 
         gulp.task('test-unit', function (cb) {
             runSequence('test-unit-bower-prepare', 'test-unit-bower-install', 'test-unit-start-karma', cb);

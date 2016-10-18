@@ -1,12 +1,14 @@
 {
-  "credentials": {
-    "app": {
-      "id": "f6b16c23",
-      "key": "f0bc4f65f4fbfe7b4b3b7264b655f5eb"
-    },
-    "airbrake": {
-      "id": "122836",
-      "key": "e6d6710b2cf00be965e8452d6a384d37"
+  "core": {
+    "credentials": {
+      "app": {
+        "id": "f6b16c23",
+        "key": "f0bc4f65f4fbfe7b4b3b7264b655f5eb"
+      },
+      "airbrake": {
+        "id": "122836",
+        "key": "e6d6710b2cf00be965e8452d6a384d37"
+      }
     }
   }
 }
