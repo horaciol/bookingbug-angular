@@ -1,0 +1,12 @@
+{
+  "cache_control_max_age": "10",
+  "local_sdk": false,
+  "uglify": true,
+  "show_version": true,
+  "deploy_version": "v0.0.0",
+  "app_name": "demo2",
+  "default_html": "/new_booking.html",
+  "googlemaps_api_key": "somekey",
+  "server_port": 8000,
+  "company_id": "12345"
+}

@@ -117,6 +117,8 @@ angular.module('BB.Directives', [])
 angular.module('BB.Filters', [])
 angular.module('BB.Models', [])
 
+angular.module('BB.Services').constant('bbConfig', {}) #for backward compatibility we define empty bbConfig constant on BB.Services module. Bespoke project gulp task will generate proper bbConfig constant directly on 'BB' module (and override previously created empty one. Please remove with SDK 3.0.0 release.)
+
 window.bookingbug =
   logout: (options) ->
     options ||= {}
