@@ -168,19 +168,42 @@ angular.module('BBAdminDashboard.calendar.services').service 'CalendarEventSourc
       else
         overAllAvailabilities = []
 
-        angular.forEach availabilities, (availability, index)->
-          dayAvailability = _.filter overAllAvailabilities, (overAllAvailability)->
-            if moment(overAllAvailability.start).dayOfYear() == moment(availability.start).dayOfYear()
-              return true
-            return false
+     
+        for avail in availabilities
+          avail.unix_start = moment(avail.start).unix()
+          avail.unix_end = moment(avail.end).unix()
+          avail.delete_me = false
 
-          if dayAvailability.length > 0
-            if moment(availability.start).unix() < moment(dayAvailability[0].start).unix()
-              dayAvailability[0].start = availability.start
 
-            if moment(availability.end).unix() > moment(dayAvailability[0].end).unix()
-              dayAvailability[0].end = availability.end
+        sorted = _.sortBy availabilities, (x) -> moment(x.start).unix()
+
+        id = 0
+        test_id = 1
+
+        while test_id < (sorted.length)
+          src = sorted[id]
+          test = sorted[test_id]
+          console.log(id, test_id, src)
+          if !src.delete_me
+            if test.unix_end > src.unix_end && test.unix_start < src.unix_end
+              src.end = test.end
+              src.unix_end = test.unix_end
+              test.delete_me = true
+              test_id += 1
+            else if test.unix_end <= src.unix_end 
+              # it's inside - just delete it
+              test.delete_me = true
+              test_id +=1
+            else
+              id +=1
+              test_id +=1
           else
+            id +=1
+            test_id = id+1
+
+
+        for availability in sorted
+          if !availability.delete_me
             overAllAvailabilities.push {
               start: availability.start
               end: availability.end
@@ -188,6 +211,11 @@ angular.module('BBAdminDashboard.calendar.services').service 'CalendarEventSourc
               title: "Joined availability " + moment(availability.start).format('YYYY-MM-DD')
               allDay: if options.calendarView == 'month' then true else false
             }
+
+
+        console.log overAllAvailabilities
+
+
         deferred.resolve overAllAvailabilities
     , (err)->
       deferred.reject err

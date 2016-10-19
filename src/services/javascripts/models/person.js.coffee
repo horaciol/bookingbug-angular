@@ -27,14 +27,15 @@ angular.module('BB.Models').factory "AdminPersonModel", ($q,
     * @name setAttendance
     * @methodOf BB.Models:AdminPerson
     * @param {string} status The status of attendance
+    * @param {string} duration The estimated duration
     * @description
     * Set attendance in according of the status parameter
     *
     * @returns {Promise} Returns a promise that rezolve the attendance
     ###
-    setAttendance: (status) ->
+    setAttendance: (status, duration) ->
       defer = $q.defer()
-      @$put('attendance', {}, {status: status}).then  (p) =>
+      @$put('attendance', {}, {status: status, estimated_duration: duration}).then  (p) =>
         @updateModel(p)
         defer.resolve(@)
       , (err) =>
@@ -187,3 +188,12 @@ angular.module('BB.Models').factory "AdminPersonModel", ($q,
     @$signup: (user, data) ->
       AdminPersonService.signup(user, data)
 
+    $refetch: () ->
+      defer = $q.defer()
+      @$flush('self')
+      @$get('self').then (res) =>
+        @constructor(res)
+        defer.resolve(@)
+      , (err) ->
+        defer.reject(err)
+      defer.promise
