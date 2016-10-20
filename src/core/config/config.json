@@ -1,5 +1,6 @@
 {
   "core": {
+    "api_url": null,
     "credentials": {
       "app": {
         "id": "f6b16c23",
@@ -8,6 +9,9 @@
       "airbrake": {
         "id": "122836",
         "key": "e6d6710b2cf00be965e8452d6a384d37"
+      },
+      "googlemaps": {
+        "key": null
       }
     }
   }
