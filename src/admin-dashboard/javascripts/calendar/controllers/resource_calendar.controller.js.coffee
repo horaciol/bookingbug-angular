@@ -186,7 +186,9 @@ angular.module('BBAdminDashboard.calendar.controllers').controller 'bbResourceCa
     event.oldResourceIds = event.resourceIds
 
   fcEventDrop = (event, delta, revertFunc) -> # we need a full move cal if either it has a person and resource, or they've dragged over multiple days
-    if  event.person_id && event.resource_id || delta.days() > 0
+
+    # not blocked and is a change in person/resource, or over multiple days
+    if event.status !=3 && (event.person_id && event.resource_id || delta.days() > 0)
       start = event.start
       end = event.end
       item_defaults =
@@ -401,11 +403,12 @@ angular.module('BBAdminDashboard.calendar.controllers').controller 'bbResourceCa
     return
 
   updateBooking = (booking) ->
-    newAssetId = booking.resourceId.substring(0, booking.resourceId.indexOf('_'))
-    if booking.resourceId.indexOf('_p') > -1
-      booking.person_id = newAssetId
-    else if booking.resourceId.indexOf('_r') > -1
-      booking.resource_id = newAssetId
+    if booking.resourceId
+      newAssetId = booking.resourceId.substring(0, booking.resourceId.indexOf('_'))
+      if booking.resourceId.indexOf('_p') > -1
+        booking.person_id = newAssetId
+      else if booking.resourceId.indexOf('_r') > -1
+        booking.resource_id = newAssetId
 
     booking.$update().then (response) ->
       booking.resourceIds = []

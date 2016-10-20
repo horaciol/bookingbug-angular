@@ -72,8 +72,8 @@ angular
 
     if ($sessionStorage.getItem('auth_token'))
       shared_header.set('auth_token', $sessionStorage.getItem('auth_token'), $sessionStorage)
-    else if ($cookies['Auth-Token'] && !shared_header.has('auth_token')){
-      shared_header.set('auth_token', $cookies['Auth-Token'], $sessionStorage)
+    else if ($cookies.get('Auth-Token') && !shared_header.has('auth_token')){
+      shared_header.set('auth_token', $cookies.get('Auth-Token'), $sessionStorage)
     }
 
     return {

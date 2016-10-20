@@ -2,7 +2,7 @@
 
 angular.module('BBMember').controller 'MemberBookings', ($scope, $uibModal,
   $document, $log, $q, ModalForm, $rootScope, AlertService, PurchaseService,
-  LoadingService) ->
+  LoadingService, BBModel) ->
 
   loader = LoadingService.$loader($scope)
 
@@ -65,8 +65,8 @@ angular.module('BBMember').controller 'MemberBookings', ($scope, $uibModal,
   $scope.cancelBooking = (booking) ->
     index = _.indexOf($scope.upcoming_bookings, booking)
     _.without($scope.upcoming_bookings, booking)
-    AlertService.raise('BOOKING_CANCELLED')
-    booking.$del('self').then () ->
+    BBModel.Member.Booking.$cancel($scope.member, booking).then () ->
+      AlertService.raise('BOOKING_CANCELLED')
       $rootScope.$broadcast("booking:cancelled")
       # does a removeBooking method exist in the scope chain?
       $scope.removeBooking(booking) if $scope.removeBooking
@@ -173,4 +173,3 @@ angular.module('BBMember').controller 'MemberBookings', ($scope, $uibModal,
       purchase_id: booking.purchase_ref
     PurchaseService.query(params).then (total) ->
       openPaymentModal(booking, total)
-
