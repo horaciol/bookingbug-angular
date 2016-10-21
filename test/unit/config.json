@@ -1,12 +1,22 @@
 {
-  "cache_control_max_age": "10",
-  "local_sdk": false,
-  "uglify": true,
-  "show_version": true,
-  "deploy_version": "v0.0.0",
-  "app_name": "demo2",
-  "default_html": "/new_booking.html",
-  "googlemaps_api_key": "somekey",
-  "server_port": 8000,
-  "company_id": "12345"
+  "build": {
+    "app_name": "demo2",
+    "cache_control_max_age": "10",
+    "default_html": "/new_booking.html",
+    "deploy_version": "v0.0.0",
+    "local_sdk": false,
+    "uglify": true,
+    "show_version": true,
+    "server_port": 8000
+  },
+  "core": {
+    "credentials": {
+      "googlemaps": {
+        "key": "some_key"
+      }
+    }
+  },
+  "public_booking": {
+    "company_id": "12345"
+  }
 }
