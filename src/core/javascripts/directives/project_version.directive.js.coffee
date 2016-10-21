@@ -5,7 +5,7 @@ angular.module('BB').directive 'bbProjectVersion', () ->
 
   return {
     controller: 'BbProjectVersionController'
-    controllerAs: 'vmProjectVersion'
+    controllerAs: 'vm_project_version'
     restrict: 'A'
     templateUrl: 'core/project_version.html'
   }
