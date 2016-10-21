@@ -103,12 +103,17 @@ app.run ($bbug, bbConfig, DebugUtilsService, FormDataStoreService, $log, $rootSc
     document.createElement('footer')
 
   exposeVersions = () ->
-    $window.BB =
-      SDK_VERSION: bbConfig.BUILD.SDK_VERSION
-      PROJECT_DEPLOY_VERSION: bbConfig.BUILD.DEPLOY_VERSION
+    sdk_version = bbConfig.BUILD.SDK_VERSION
+    if sdk_version is null
+      sdk_version = 'unreleased version'
 
-    if $window.BB.SDK_VERSION is null
-      $window.BB.SDK_VERSION = 'unreleased version'
+    project_deploy_version = bbConfig.BUILD.DEPLOY_VERSION
+    if project_deploy_version is null
+      project_deploy_version = 'unreleased version'
+
+    $window.BB =
+      SDK_VERSION: sdk_version
+      PROJECT_DEPLOY_VERSION: project_deploy_version
 
     return
 
