@@ -105,7 +105,7 @@ app.run ($bbug, bbConfig, DebugUtilsService, FormDataStoreService, $log, $rootSc
   exposeVersions = () ->
     $window.BB =
       SDK_VERSION: bbConfig.BUILD.SDK_VERSION
-      PROJECT_VERSION: bbConfig.BUILD.DEPLOY_VERSION
+      PROJECT_DEPLOY_VERSION: bbConfig.BUILD.DEPLOY_VERSION
     return
 
   init()
