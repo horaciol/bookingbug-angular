@@ -106,6 +106,10 @@ app.run ($bbug, bbConfig, DebugUtilsService, FormDataStoreService, $log, $rootSc
     $window.BB =
       SDK_VERSION: bbConfig.BUILD.SDK_VERSION
       PROJECT_DEPLOY_VERSION: bbConfig.BUILD.DEPLOY_VERSION
+
+    if $window.BB.SDK_VERSION is null
+      $window.BB.SDK_VERSION = 'unreleased version'
+
     return
 
   init()
