@@ -9,17 +9,18 @@ angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location, $rootS
 
   # dont change the cid as we use it in the app to identify this as the widget
   # root scope
-  $scope.cid = "BBCtrl"
-  $scope.controller = "public.controllers.BBCtrl"
-  $scope.bb = new BBWidget()
-  AppConfig.uid = $scope.bb.uid
-  $scope.qs = QueryStringService
-  $scope.company_api_path = '/api/v1/company/{company_id}{?embed,category_id}'
+  $scope.cid                    = "BBCtrl"
+  $scope.controller             = "public.controllers.BBCtrl"
+  $scope.bb                     = new BBWidget()
+  AppConfig.uid                 = $scope.bb.uid
+  $scope.qs                     = QueryStringService
+  $scope.company_api_path       = '/api/v1/company/{company_id}{?embed,category_id}'
   $scope.company_admin_api_path = '/api/v1/admin/{company_id}/company{?embed,category_id}'
 
   if $scope.apiUrl
     $scope.bb ||= {}
     $scope.bb.api_url = $scope.apiUrl
+  
   if $rootScope.bb && $rootScope.bb.api_url
     $scope.bb.api_url = $rootScope.bb.api_url
     unless $rootScope.bb.partial_url
@@ -36,13 +37,12 @@ angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location, $rootS
     #$scope.bb.partial_url ||= $location.protocol() + "://" + $location.host() + '/angular/'
 
 
-  $scope.bb.stacked_items = []
-  # $scope.hide_page = false
-  first_call = true
-  con_started = $q.defer()
+  $scope.bb.stacked_items       = []
+  first_call                    = true
+  con_started                   = $q.defer()
   $rootScope.connection_started = con_started.promise
-  widget_started = $q.defer()
-  $rootScope.widget_started = widget_started.promise
+  widget_started                = $q.defer()
+  $rootScope.widget_started     = widget_started.promise
 
   $rootScope.Route =
     Company: 0
@@ -68,9 +68,6 @@ angular.module('BB.Controllers').controller 'BBCtrl', ($scope, $location, $rootS
   $compile("<span bb-display-mode></span>") $scope, (cloned, scope) =>
     $bbug($element).append(cloned)
 
-  # legacy (already!) delete by Feb 2014 ;-)
-  $scope.set_company = (prms) =>
-    $scope.initWidget(prms)
 
   $scope.initWidget = (prms = {}) =>
 
