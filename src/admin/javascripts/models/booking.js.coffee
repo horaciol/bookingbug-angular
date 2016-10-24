@@ -59,6 +59,7 @@ angular.module('BB.Models').factory "AdminBookingModel", ($q, BBModel,
       data.person_id = @person_id
       data.resource_id = @resource_id
       data.child_client_ids = @child_client_ids
+      data.people_ids = @people_ids
       if @questions
         data.questions = (q.getPostData() for q in @questions)
       data
