@@ -17,7 +17,7 @@ angular.module('BBAdminDashboard.check-in.directives').controller 'CheckinsContr
     $scope.getAppointments(null, null, null, null, null  ,true)
 
 
-  $scope.getAppointments = (currentPage, filterBy, filterByFields, orderBy, orderByReverse, skipCache = false) ->
+  $scope.getAppointments = (currentPage, filterBy, filterByFields, orderBy, orderByReverse, skipCache = true) ->
     if filterByFields && filterByFields.name?
       filterByFields.name = filterByFields.name.replace(/\s/g, '')
     if filterByFields && filterByFields.mobile?
@@ -35,6 +35,7 @@ angular.module('BBAdminDashboard.check-in.directives').controller 'CheckinsContr
     params.filter_by_fields = filterByFields if filterByFields
     params.order_by = orderBy if orderBy
     params.order_by_reverse = orderByReverse if orderByReverse
+
     BBModel.Admin.Booking.$query(params).then (res) =>
       $scope.booking_collection = res
       $scope.bookings = []

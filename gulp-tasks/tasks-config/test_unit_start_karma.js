@@ -17,17 +17,17 @@
                 }
             });
             projectFiles = [
-                'src/core/javascripts/main.js.coffee',
+                'src/*/javascripts/**/*.module.js.coffee',
                 'src/*/javascripts/main.js.coffee',
                 'src/*/javascripts/core/config.js.coffee',
-                'src/*/javascripts/**/*.module.js.coffee',
                 'src/*/templates/**/*.html',
                 'src/*/templates/*.html',
                 'src/core/javascripts/collections/*.coffee',
                 'src/*/javascripts/*.coffee',
                 'src/*/javascripts/*.js',
                 'src/*/javascripts/**/*.coffee',
-                'src/*/javascripts/**/*.js'
+                'src/*/javascripts/**/*.js',
+                path.join(configuration.rootPath, '/test/unit/tmp/config.constants.js')
             ];
             return bowerFiles.concat(projectFiles);
         };

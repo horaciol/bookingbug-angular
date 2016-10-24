@@ -56,7 +56,6 @@ app.config (uiGmapGoogleMapApiProvider) ->
     libraries: 'weather,geometry,visualization'
   })
 app.config ($locationProvider, $httpProvider, $provide, ie8HttpBackendProvider) ->
-
   $httpProvider.defaults.headers.common =
     'App-Id': 'f6b16c23',
     'App-Key': 'f0bc4f65f4fbfe7b4b3b7264b655f5eb'
@@ -84,8 +83,11 @@ app.config ($locationProvider, $httpProvider, $provide, ie8HttpBackendProvider) 
 
   moment.fn.toISODate ||= -> this.locale('en').format('YYYY-MM-DD')
 
+app.run ($bbug, bbConfig, DebugUtilsService, FormDataStoreService, $log, $rootScope, $sessionStorage, $window) ->
+  init = () ->
+    exposeVersions()
+    return
 
-app.run ($rootScope, $log, DebugUtilsService, FormDataStoreService, $bbug, $document, $sessionStorage, AppConfig) ->
   # add methods to the rootscope if they are applicable to whole app
   $rootScope.$log = $log
   $rootScope.$setIfUndefined = FormDataStoreService.setIfUndefined
@@ -99,6 +101,25 @@ app.run ($rootScope, $log, DebugUtilsService, FormDataStoreService, $bbug, $docu
     document.createElement('nav')
     document.createElement('section')
     document.createElement('footer')
+
+  exposeVersions = () ->
+    sdk_version = bbConfig.BUILD.SDK_VERSION
+    if sdk_version is null
+      sdk_version = 'unreleased version'
+
+    project_deploy_version = bbConfig.BUILD.DEPLOY_VERSION
+    if project_deploy_version is false
+      project_deploy_version = 'unreleased version'
+
+    $window.BB =
+      SDK_VERSION: sdk_version
+      PROJECT_DEPLOY_VERSION: project_deploy_version
+
+    return
+
+  init()
+
+  return
 
 
 angular.module('BB.Services', [
@@ -124,7 +145,7 @@ window.bookingbug =
       app_key: 'f0bc4f65f4fbfe7b4b3b7264b655f5eb'
     logout_opts.root = options.root if options.root
     angular.injector(['BB.Services', 'BB.Models', 'ng'])
-           .get('LoginService').logout(logout_opts)
+    .get('LoginService').logout(logout_opts)
     window.location.reload() if options.reload
 
 # String::includes polyfill

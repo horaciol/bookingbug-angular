@@ -1,9 +1,9 @@
 (function () {
     'use strict';
 
-    var runSequence = require('run-sequence');
-
     module.exports = function (gulp, configuration) {
+
+        var runSequence = require('run-sequence').use(gulp);
 
         gulp.task('build-widget', function (cb) {
             runSequence(

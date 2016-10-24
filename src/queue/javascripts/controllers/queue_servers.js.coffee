@@ -19,9 +19,9 @@ angular.module('BBQueue').controller 'bbQueueServers', ($scope, $log,
 
 
 
-  $scope.setAttendance = (person, status) ->
+  $scope.setAttendance = (person, status, estimated_duration) ->
     $scope.loading = true
-    person.setAttendance(status).then (person) ->
+    person.setAttendance(status, estimated_duration).then (person) ->
       $scope.loading = false
     , (err) ->
       $log.error err.data

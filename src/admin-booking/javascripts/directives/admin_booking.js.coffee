@@ -1,6 +1,5 @@
 
-angular.module('BBAdminBooking').directive 'bbAdminBooking', (
-  BBModel, $log, $compile, $q, PathSvc, $templateCache, $http) ->
+angular.module('BBAdminBooking').directive 'bbAdminBooking', (BBModel, $log, $compile, $q, PathSvc, $templateCache, $http) ->
 
   getTemplate = (template) ->
     partial = if template then template else 'main'

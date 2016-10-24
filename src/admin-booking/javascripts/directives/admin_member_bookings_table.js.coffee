@@ -84,6 +84,8 @@ angular.module('BBAdminBooking').directive 'bbAdminMemberBookingsTable', ($uibMo
         company    : $rootScope.bb.company
         url        : $rootScope.bb.api_url
         client_id  : member.id
+        skip_cache : true
+
 
       BBModel.Admin.Booking.$query(params).then (bookings) ->
         now = moment().unix()

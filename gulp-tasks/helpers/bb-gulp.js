@@ -67,6 +67,12 @@
             return gulp.src(srcpath + '/' + module + '/stylesheets/**')
                 .pipe(gulp.dest(releasepath + '/' + module + '/src/stylesheets'))
         },
+        config: function (module, srcpath, releasepath) {
+            srcpath || (srcpath = './src');
+            releasepath || (releasepath = './build');
+            return gulp.src(srcpath + '/' + module + '/config/**')
+                .pipe(gulp.dest(releasepath + '/' + module + '/config'))
+        },
         images: function (module, srcpath, releasepath) {
             srcpath || (srcpath = './src');
             releasepath || (releasepath = './build');

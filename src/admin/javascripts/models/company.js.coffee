@@ -1,7 +1,6 @@
 'use strict'
 
-angular.module('BB.Models').factory "AdminCompanyModel", (CompanyModel,
-  AdminCompanyService, BookingCollections, $q, BBModel) ->
+angular.module('BB.Models').factory "AdminCompanyModel", (CompanyModel, AdminCompanyService, BookingCollections, $q, BBModel) ->
 
   class Admin_Company extends CompanyModel
 
