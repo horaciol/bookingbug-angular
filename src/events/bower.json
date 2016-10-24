@@ -8,8 +8,7 @@
   ],
   "main": [
     "bookingbug-angular-events.js",
-    "bookingbug-angular-events-templates.js",
-    "config/*"
+    "bookingbug-angular-events-templates.js"
   ],
   "license": "MIT",
   "ignore": [

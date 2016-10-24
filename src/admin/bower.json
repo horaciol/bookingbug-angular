@@ -8,8 +8,7 @@
   ],
   "main": [
     "bookingbug-angular-admin.js",
-    "bookingbug-angular-admin-templates.js",
-    "config/*"
+    "bookingbug-angular-admin-templates.js"
   ],
   "license": "MIT",
   "ignore": [

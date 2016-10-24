@@ -26,8 +26,7 @@
                 'src/*/javascripts/*.coffee',
                 'src/*/javascripts/*.js',
                 'src/*/javascripts/**/*.coffee',
-                'src/*/javascripts/**/*.js',
-                path.join(configuration.rootPath, '/test/unit/tmp/config.constants.js')
+                'src/*/javascripts/**/*.js'
             ];
             return bowerFiles.concat(projectFiles);
         };

@@ -11,8 +11,7 @@
     "bookingbug-angular-admin-dashboard.js",
     "bookingbug-angular-admin-dashboard-templates.js",
     "bookingbug-angular-admin-dashboard.css",
-    "src/stylesheets/*",
-    "config/*"
+    "src/stylesheets/*"
   ],
   "license": "MIT",
   "ignore": [

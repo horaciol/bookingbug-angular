@@ -85,7 +85,7 @@ app.config ($locationProvider, $httpProvider, $provide, ie8HttpBackendProvider) 
 
 app.run ($bbug, DebugUtilsService, FormDataStoreService, $log, $rootScope, $sessionStorage) ->
 
-  # add methods to the rootscope if they are applicable to whole app
+# add methods to the rootscope if they are applicable to whole app
   $rootScope.$log = $log
   $rootScope.$setIfUndefined = FormDataStoreService.setIfUndefined
 

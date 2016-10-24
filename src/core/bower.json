@@ -10,8 +10,7 @@
     "bookingbug-angular-core.js",
     "bookingbug-angular-core-templates.js",
     "bookingbug-angular-core.css",
-    "src/stylesheets/*",
-    "config/*"
+    "src/stylesheets/*"
   ],
   "license": "MIT",
   "ignore": [
