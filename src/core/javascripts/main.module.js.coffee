@@ -83,10 +83,7 @@ app.config ($locationProvider, $httpProvider, $provide, ie8HttpBackendProvider) 
 
   moment.fn.toISODate ||= -> this.locale('en').format('YYYY-MM-DD')
 
-app.run ($bbug, bbConfig, DebugUtilsService, FormDataStoreService, $log, $rootScope, $sessionStorage, $window) ->
-  init = () ->
-    exposeVersions()
-    return
+app.run ($bbug, DebugUtilsService, FormDataStoreService, $log, $rootScope, $sessionStorage) ->
 
   # add methods to the rootscope if they are applicable to whole app
   $rootScope.$log = $log
@@ -102,25 +99,7 @@ app.run ($bbug, bbConfig, DebugUtilsService, FormDataStoreService, $log, $rootSc
     document.createElement('section')
     document.createElement('footer')
 
-  exposeVersions = () ->
-    sdk_version = bbConfig.BUILD.SDK_VERSION
-    if sdk_version is null
-      sdk_version = 'unreleased version'
-
-    project_deploy_version = bbConfig.BUILD.DEPLOY_VERSION
-    if project_deploy_version is false
-      project_deploy_version = 'unreleased version'
-
-    $window.BB =
-      SDK_VERSION: sdk_version
-      PROJECT_DEPLOY_VERSION: project_deploy_version
-
-    return
-
-  init()
-
   return
-
 
 angular.module('BB.Services', [
   'ngResource'

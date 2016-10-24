@@ -22,4 +22,3 @@ build/booking-widget/*
 /gulp-tasks-old/
 
 /test/projects/*/release/
-/test/unit/tmp/

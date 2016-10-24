@@ -29,10 +29,6 @@
             return bbGulp.templates('admin', srcPath, destPath);
         });
 
-        gulp.task('build-sdk:admin:config', function () {
-            return bbGulp.config('admin', srcPath, destPath);
-        });
-
         gulp.task('build-sdk:admin:bower', function () {
             return bbGulp.bower('admin', srcPath, destPath);
         });
@@ -43,7 +39,6 @@
             'build-sdk:admin:stylesheets',
             'build-sdk:admin:images',
             'build-sdk:admin:fonts',
-            'build-sdk:admin:config',
             'build-sdk:admin:bower'
         ]);
 
@@ -67,10 +62,6 @@
             return bbGulp.fonts('admin-booking', srcPath, destPath);
         });
 
-        gulp.task('build-sdk:admin-booking:config', function () {
-            return bbGulp.config('admin-booking', srcPath, destPath);
-        });
-
         gulp.task('build-sdk:admin-booking:bower', function () {
             return bbGulp.bower('admin-booking', srcPath, destPath, 'BBAdminBooking');
         });
@@ -81,7 +72,6 @@
             'build-sdk:admin-booking:stylesheets',
             'build-sdk:admin-booking:images',
             'build-sdk:admin-booking:fonts',
-            'build-sdk:admin-booking:config',
             'build-sdk:admin-booking:bower'
         ]);
 
@@ -105,10 +95,6 @@
             return bbGulp.fonts('admin-dashboard', srcPath, destPath);
         });
 
-        gulp.task('build-sdk:admin-dashboard:config', function () {
-            return bbGulp.config('admin-dashboard', srcPath, destPath);
-        });
-
         gulp.task('build-sdk:admin-dashboard:bower', function () {
             return bbGulp.bower('admin-dashboard', srcPath, destPath);
         });
@@ -119,7 +105,6 @@
             'build-sdk:admin-dashboard:stylesheets',
             'build-sdk:admin-dashboard:images',
             'build-sdk:admin-dashboard:fonts',
-            'build-sdk:admin-dashboard:config',
             'build-sdk:admin-dashboard:bower'
         ]);
 
@@ -143,10 +128,6 @@
             return bbGulp.fonts('core', srcPath, destPath);
         });
 
-        gulp.task('build-sdk:core:config', function () {
-            return bbGulp.config('core', srcPath, destPath);
-        });
-
         gulp.task('build-sdk:core:bower', function () {
             return bbGulp.bower('core', srcPath, destPath);
         });
@@ -157,7 +138,6 @@
             'build-sdk:core:stylesheets',
             'build-sdk:core:images',
             'build-sdk:core:fonts',
-            'build-sdk:core:config',
             'build-sdk:core:bower'
         ]);
 
@@ -181,10 +161,6 @@
             return bbGulp.fonts('events', srcPath, destPath);
         });
 
-        gulp.task('build-sdk:events:config', function () {
-            return bbGulp.config('events', srcPath, destPath);
-        });
-
         gulp.task('build-sdk:events:bower', function () {
             return bbGulp.bower('events', srcPath, destPath);
         });
@@ -195,7 +171,6 @@
             'build-sdk:events:stylesheets',
             'build-sdk:events:images',
             'build-sdk:events:fonts',
-            'build-sdk:events:config',
             'build-sdk:events:bower'
         ]);
 
@@ -219,10 +194,6 @@
             return bbGulp.fonts('member', srcPath, destPath);
         });
 
-        gulp.task('build-sdk:member:config', function () {
-            return bbGulp.config('member', srcPath, destPath);
-        });
-
         gulp.task('build-sdk:member:bower', function () {
             return bbGulp.bower('member', srcPath, destPath);
         });
@@ -233,7 +204,6 @@
             'build-sdk:member:stylesheets',
             'build-sdk:member:images',
             'build-sdk:member:fonts',
-            'build-sdk:member:config',
             'build-sdk:member:bower'
         ]);
 
@@ -257,10 +227,6 @@
             return bbGulp.templates('public-booking', srcPath, destPath);
         });
 
-        gulp.task('build-sdk:public-booking:config', function () {
-            return bbGulp.config('public-booking', srcPath, destPath);
-        });
-
         gulp.task('build-sdk:public-booking:bower', function () {
             return bbGulp.bower('public-booking', srcPath, destPath);
         });
@@ -271,7 +237,6 @@
             'build-sdk:public-booking:stylesheets',
             'build-sdk:public-booking:images',
             'build-sdk:public-booking:fonts',
-            'build-sdk:public-booking:config',
             'build-sdk:public-booking:bower'
         ]);
 
@@ -295,10 +260,6 @@
             return bbGulp.fonts('queue', srcPath, destPath);
         });
 
-        gulp.task('build-sdk:queue:config', function () {
-            return bbGulp.config('queue', srcPath, destPath);
-        });
-
         gulp.task('build-sdk:queue:bower', function () {
             return bbGulp.bower('queue', srcPath, destPath);
         });
@@ -309,7 +270,6 @@
             'build-sdk:queue:stylesheets',
             'build-sdk:queue:images',
             'build-sdk:queue:fonts',
-            'build-sdk:queue:config',
             'build-sdk:queue:bower'
         ]);
 
@@ -333,10 +293,6 @@
             return bbGulp.fonts('services', srcPath, destPath);
         });
 
-        gulp.task('build-sdk:services:config', function () {
-            return bbGulp.config('services', srcPath, destPath);
-        });
-
         gulp.task('build-sdk:services:bower', function () {
             return bbGulp.bower('services', srcPath, destPath);
         });
@@ -347,7 +303,6 @@
             'build-sdk:services:stylesheets',
             'build-sdk:services:images',
             'build-sdk:services:fonts',
-            'build-sdk:services:config',
             'build-sdk:services:bower'
         ]);
 
@@ -371,10 +326,6 @@
             return bbGulp.fonts('settings', srcPath, destPath);
         });
 
-        gulp.task('build-sdk:settings:config', function () {
-            return bbGulp.config('settings', srcPath, destPath);
-        });
-
         gulp.task('build-sdk:settings:bower', function () {
             return bbGulp.bower('settings', srcPath, destPath);
         });
@@ -385,7 +336,6 @@
             'build-sdk:settings:stylesheets',
             'build-sdk:settings:images',
             'build-sdk:settings:fonts',
-            'build-sdk:settings:config',
             'build-sdk:settings:bower'
         ]);
     };
