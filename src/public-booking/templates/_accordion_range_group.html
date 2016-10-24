@@ -15,13 +15,13 @@
               translate-interpolation="messageformat">
         </span>
       </div>
-      <span class="period-detail selected-time" ng-show="is_selected && !is_open">{{selected_slot.time_moment | datetime: 'LT'}}</span>
+      <span class="period-detail selected-time" ng-show="is_selected && !is_open">{{selected_slot.datetime | datetime: 'LT'}}</span>
     </div>
   </div>
 
   <ul class="time-slots" ng-show="has_availability">
     <li class="time-slot" ng-class="{'selected': slot.selected, 'disabled': slot.disabled}" ng-disabled="slot.disabled" ng-click="selectSlot(slot, day)" ng-repeat="slot in accordion_slots">
-      <span>{{slot.time_moment | datetime: 'LT'}}</span>
+      <span>{{slot.datetime | datetime: 'LT'}}</span>
     </li>
   </ul>
 
