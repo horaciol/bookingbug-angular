@@ -14,13 +14,7 @@
           <span ng-show="!bb.moving_booking">Continue</span>
         </button>
 
-        <div bb-move-booking ng-show="bb.moving_booking">
-
-          <button ng-show="bb.moving_booking" type="button" class="btn btn-primary btn-block" ng-click="confirmMove('purchase')" bb-debounce ng-disabled="!bb.current_item.time">
-            <span>>Move booking</span>
-          </button>
-
-        </div>
+        <div bb-move-booking ng-show="bb.moving_booking"></div>
       </div>
       <div class="col-sm-2 col-sm-pull-10 text-left">    
         <button type="button" class="btn btn-default btn-block" bb-debounce ng-click="loadPreviousStep()" ng-show="!bb.moving_booking">Back</button>

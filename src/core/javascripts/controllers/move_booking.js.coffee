@@ -2,6 +2,7 @@ angular.module('BB.Directives').directive 'bbMoveBooking', ($q, $templateCache, 
   restrict: 'AE'
   replace: true
   scope : true
+  templateUrl: '_move_booking.html'
   controller : 'MoveBooking'
 
 angular.module('BB.Controllers').controller 'MoveBooking', ($scope, $attrs, $rootScope,
