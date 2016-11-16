@@ -12,7 +12,7 @@ angular.module('BB.Directives').directive 'bbPurchase', () ->
 angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
   PurchaseService, $uibModal, $location, $timeout, BBModel, $q, QueryStringService,
   SSOService, AlertService, LoginService, $window, $sessionStorage, LoadingService,
-  GeneralOptions, $translate, ReasonService, $document) ->
+  AppService, $translate, ReasonService, $document) ->
 
   $scope.controller = "Purchase"
   $scope.is_waitlist = false
@@ -20,6 +20,7 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
   loader = LoadingService.$loader($scope)
 
   setPurchaseCompany = (company) ->
+
     $scope.bb.company_id = company.id
     $scope.bb.company = new BBModel.Company(company)
     $scope.company = $scope.bb.company
@@ -30,17 +31,15 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
 
 
   failMsg = () ->
+
     if $scope.fail_msg
       AlertService.danger({msg:$scope.fail_msg})
     else
-      if GeneralOptions.use_i18n
-        $translate('ERROR.GENERIC', {}).then (translated_text) ->
-          AlertService.add("danger", { msg: translated_text })
-      else
-        AlertService.raise('GENERIC')
+      AlertService.add("danger", {msg: $translate.instant('PUBLIC_BOOKING.ALERTS.GENERIC')})
 
 
   $scope.init = (options) ->
+
     options = {} if !options
 
     loader.notLoaded()
@@ -69,6 +68,7 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
         $scope.load()
 
   getPurchase = (params) ->
+
     deferred = $q.defer()
     PurchaseService.query(params).then (purchase) ->
       deferred.resolve(purchase)
@@ -90,6 +90,7 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
     return deferred.promise
 
   getBookings = (purchase) ->
+
     $scope.purchase.$getBookings().then (bookings) ->
       $scope.bookings = bookings
 
@@ -124,6 +125,7 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
       $scope.messages = messages
 
   $scope.load = (id) ->
+
     loader.notLoaded()
 
     id = getPurchaseID() if !id
@@ -151,6 +153,7 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
 
 
   checkIfMoveBooking = (bookings) ->
+
     matches = /^.*(?:\?|&)move_booking=(.*?)(?:&|$)/.exec($location.absUrl())
     id = parseInt(matches[1]) if matches
     if id
@@ -158,21 +161,25 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
       $scope.move(move_booking[0]) if move_booking.length > 0 && $scope.isMovable(bookings[0])
 
   checkIfWaitlistBookings = (bookings) ->
+
     $scope.waitlist_bookings = (booking for booking in bookings when (booking.on_waitlist && booking.settings.sent_waitlist == 1))
 
 
   loginRequired = () =>
+
     if !$scope.bb.login_required
       window.location = window.location.href + "&login=true"
 
 
   getCompanyID = () ->
+
     matches = /^.*(?:\?|&)company_id=(.*?)(?:&|$)/.exec($location.absUrl())
     company_id = matches[1] if matches
     company_id
 
 
   getPurchaseID = () ->
+
     matches = /^.*(?:\?|&)id=(.*?)(?:&|$)/.exec($location.absUrl())
     unless matches
       matches = /^.*print_purchase\/(.*?)(?:\?|$)/.exec($location.absUrl())
@@ -198,6 +205,7 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
     $timeout () =>
       $rootScope.connection_started.then () =>
         proms = []
+        AppService.moving_booking = booking
         $scope.bb.moving_booking = booking
         $scope.quickEmptybasket()
         new_item = new BBModel.BasketItem(booking, $scope.bb)
@@ -219,6 +227,7 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
 
   # potentially move all of the items in booking - move the whole lot to a basket
   $scope.moveAll = (route, options = {}) ->
+
     route ||= $scope.move_route
     loader.notLoaded()
     $scope.initWidget({company_id: $scope.bookings[0].company_id, no_route: true})
@@ -255,6 +264,7 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
 
 
   $scope.bookWaitlistItem = (booking) ->
+
     loader.notLoaded()
 
     params =
@@ -280,6 +290,7 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
 
   # delete a single booking
   $scope.delete = (booking) ->
+
     modalInstance = $uibModal.open
       templateUrl: $scope.getPartial "_cancel_modal"
       controller: ModalDelete
@@ -298,6 +309,7 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
 
   # delete all bookings assoicated to the purchase
   $scope.deleteAll = () ->
+
     modalInstance = $uibModal.open
       templateUrl: $scope.getPartial "_cancel_modal"
       controller: ModalDeleteAll
@@ -311,17 +323,20 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
 
 
   $scope.isMovable = (booking) ->
+
     if booking.min_cancellation_time
       return moment().isBefore(booking.min_cancellation_time)
     booking.datetime.isAfter(moment())
 
   $scope.createBasketItem = (booking) ->
+
     item = new BBModel.BasketItem(booking, $scope.bb)
     item.setSrcBooking(booking)
     return item
 
 
   $scope.checkAnswer = (answer) ->
+
     typeof answer.value == 'boolean' || typeof answer.value == 'string' || typeof answer.value == "number"
 
 
@@ -329,6 +344,7 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
     $scope.moveAll(route)
 
   getReasons = (company) ->
+
     ReasonService.query(company).then (reasons) ->
       $scope.company_reasons = reasons
       $scope.company_reasons
@@ -336,17 +352,21 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
       loader.setLoadedAndShowError(err, 'Sorry, something went wrong retrieving reasons')
 
   setCancelReasons = () ->
+
     $scope.cancel_reasons = _.filter($scope.company_reasons, (r) -> r.reason_type == 3)
     $scope.cancel_reasons
 
   setMoveReasons = () ->
+
     $scope.move_reasons = _.filter($scope.company_reasons, (r) -> r.reason_type == 5)
     $scope.move_reasons
 
   setMoveReasonsToBB = () ->
+
     $scope.bb.move_reasons = $scope.move_reasons if $scope.move_reasons
 
   setCancelReasonsToBB = () ->
+    
     $scope.bb.cancel_reasons = $scope.cancel_reasons if $scope.cancel_reasons
 
 

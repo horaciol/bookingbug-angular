@@ -195,7 +195,7 @@ angular.module('BB.Controllers').controller 'ItemDetails', ($scope, $attrs, $roo
     return if !ValidatorService.validateForm(form)
     # we need to validate the question information has been correctly entered here
     if $scope.bb.moving_booking
-      return $scope.confirm_move(form, route)
+      return $scope.confirmMove(form, route)
 
     $scope.item.setAskedQuestions()
 
@@ -226,74 +226,6 @@ angular.module('BB.Controllers').controller 'ItemDetails', ($scope, $attrs, $roo
     else
       return true
 
-  ###**
-  * @ngdoc method
-  * @name confirm_move
-  * @methodOf BB.Directives:bbItemDetails
-  * @description
-  * Confirm move question information has been correctly entered here
-  *
-  * @param {string=} route A specific route to load
-  ###
-  $scope.confirm_move = (route) ->
-
-    confirming = true
-    $scope.item ||= $scope.bb.current_item
-    $scope.item.moved_booking = false
-    # we need to validate the question information has been correctly entered here
-    $scope.item.setAskedQuestions()
-    if $scope.item.ready
-      loader.notLoaded()
-      if $scope.bb.moving_purchase
-        params =
-          purchase: $scope.bb.moving_purchase
-          bookings: $scope.bb.basket.items
-        if $scope.bb.current_item.move_reason
-          params.move_reason = $scope.bb.current_item.move_reason
-        PurchaseService.update(params).then (purchase) ->
-          $scope.bb.purchase = purchase
-          $scope.bb.purchase.$getBookings().then (bookings)->
-            $scope.purchase = purchase
-            loader.setLoaded()
-            $scope.item.move_done = true
-            $scope.item.moved_booking = true
-            $rootScope.$broadcast "booking:moved"
-            $scope.decideNextPage(route)
-            $scope.showMoveMessage(bookings[0].datetime)
-
-
-        , (err) ->
-           loader.setLoaded()
-           AlertService.add("danger", { msg: "Failed to move booking. Please try again." })
-      else
-        if $scope.bb.current_item.move_reason
-          $scope.item.move_reason = $scope.bb.current_item.move_reason
-        PurchaseBookingService.update($scope.item).then (booking) ->
-          b = new BBModel.Purchase.Booking(booking)
-
-          if $scope.bb.purchase
-            for oldb, _i in $scope.bb.purchase.bookings
-              $scope.bb.purchase.bookings[_i] = b if oldb.id == b.id
-
-          loader.setLoaded()
-          $scope.bb.moved_booking = booking
-          $scope.item.move_done = true
-          $rootScope.$broadcast "booking:moved"
-          $scope.decideNextPage(route)
-          $scope.showMoveMessage(b.datetime)
-         , (err) =>
-          loader.setLoaded()
-          AlertService.add("danger", { msg: "Failed to move booking. Please try again." })
-    else
-      $scope.decideNextPage(route)
-
-  $scope.showMoveMessage = (datetime) ->
-    # TODO remove whem translate enabled by default
-    if GeneralOptions.use_i18n 
-      $translate('MOVE_BOOKINGS_MSG', { datetime:datetime.format('LLLL') }).then (translated_text) ->
-        AlertService.add("info", { msg: translated_text })
-    else
-      AlertService.add("info", { msg: "Your booking has been moved to #{datetime.format('LLLL')}" })
 
 
   ###**
