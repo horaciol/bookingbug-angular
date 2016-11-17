@@ -241,7 +241,7 @@ angular.module('BB.Controllers').controller 'Purchase', ($scope,  $rootScope,
 
         if _.every(_.map($scope.bookings, (b) -> b.event_id),
                    (event_id) -> event_id == $scope.bookings[0].event_id)
-          $scope.bb.moving_purchase = $scope.purchase
+          AppService.moving_purchase = $scope.purchase
 
         $scope.quickEmptybasket()
         for booking in $scope.bookings
