@@ -11,10 +11,16 @@
     <div class="row">
       <div class="col-sm-offset-7 col-sm-3 col-sm-push-2 text-right">       
         <button ng-show="!bb.moving_booking" type="button" class="btn btn-primary btn-block" ng-click="checkReady() && routeReady()" bb-debounce ng-disabled="!bb.current_item.time">
-          <span>>Continue</span>
+          <span>Continue</span>
         </button>
 
-        <div bb-move-booking ng-show="bb.moving_booking"></div>
+        <div 
+          bb-move-booking 
+          booking="bb.current_item" 
+          bookings="bb.basket.items" 
+          ng-show="bb.moving_booking">
+        </div>
+        
       </div>
       <div class="col-sm-2 col-sm-pull-10 text-left">    
         <button type="button" class="btn btn-default btn-block" bb-debounce ng-click="loadPreviousStep()" ng-show="!bb.moving_booking">Back</button>
