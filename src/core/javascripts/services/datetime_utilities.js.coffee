@@ -16,7 +16,7 @@ angular.module('BB.Services').factory "DateTimeUtilitiesService", (GeneralOption
     # if user timezone different than company timezone
     if GeneralOptions.display_time_zone != CompanyStoreService.time_zone
       datetime = datetime.tz(CompanyStoreService.time_zone)
-    val = parseInt(time_slot.time)
+    val = if time_slot.time then parseInt(time_slot.time) else parseInt(time_slot)
     hours = parseInt(val / 60)
     mins = val % 60
     datetime.hour(hours)
